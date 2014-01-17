@@ -21,4 +21,11 @@ subprojects {
                  attributes 'OptigraAds': 'OptigraAds project', 'ADS': version
         }
     }
+    
+    test {
+        testLogging {
+		// Show that tests are run in the command-line output
+			events 'started', 'passed', 'failed', 'skipped'
+		}
+    }
 }
