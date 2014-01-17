@@ -6,5 +6,5 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"org.optigra.ads"})
+@ComponentScan(basePackages = {"org.optigra.ads.rest"})
 public class WebConfig { }

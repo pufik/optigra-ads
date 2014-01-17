@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class BaseController {
 
-	
+
 	private static final String HELLO_WORLD = "Hello World";
 
 	@RequestMapping(value = "/")
@@ -15,5 +15,4 @@ public class BaseController {
 	public String example() {
 		return HELLO_WORLD;
 	}
-	
 }
