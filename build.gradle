@@ -2,8 +2,9 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
 
-    apply plugin: 'java'
-    apply plugin: 'eclipse'
+    apply plugin: 'checkstyle'
+    apply plugin: 'pmd'
+    apply plugin: 'findbugs'
 
     sourceCompatibility = 1.7
     version = '1.0'
@@ -28,4 +29,16 @@ subprojects {
 			events 'started', 'passed', 'failed', 'skipped'
 		}
     }
+
+   checkstyle {
+        configFile = new File(rootDir, "tools/checkstyle/checkstyle.xml")
+        reportsDir = new File(rootDir, "build/reports/checkstyle")
+        //TODO: IP - Remove after the rules will be fixed
+        ignoreFailures = true
+   }
+
+   findbugs {
+   //TODO: IP - Remove after the rules will be fixed
+            ignoreFailures = true
+   }
 }
