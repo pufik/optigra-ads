@@ -1,0 +1,37 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+
+version = '1.0'
+
+jar {
+    manifest {
+        attributes 'optigra': 'ads', 'service': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':optigra-ads-dao')
+    compile project(':optigra-ads-content')
+    compile project(':optigra-ads-search-engine')
+    compile project(':optigra-ads-common')
+
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
