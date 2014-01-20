@@ -30,15 +30,23 @@ subprojects {
 		}
     }
 
+    sourceSets {
+      main {
+         java {
+            srcDir 'src/main/java'
+         }
+      }
+   }
+
    checkstyle {
         configFile = new File(rootDir, "tools/checkstyle/checkstyle.xml")
         reportsDir = new File(rootDir, "build/reports/checkstyle")
-        //TODO: IP - Remove after the rules will be fixed
-        ignoreFailures = true
+        sourceSets = [sourceSets.main]
+        showViolations = true
    }
 
    findbugs {
    //TODO: IP - Remove after the rules will be fixed
-            ignoreFailures = true
+            //ignoreFailures = true
    }
 }

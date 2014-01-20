@@ -1,15 +1,21 @@
 package org.optigra.ads.common;
 
 import java.math.BigDecimal;
+
 /**
+ * Temporary class.
  *
- * @author iurii
- *
+ * @author Iurii Parfeniuk
  */
 public class Common {
 
-	public int getZero() {
-		return BigDecimal.ZERO.intValue();
-	}
+    /**
+     * Method returns zero.
+     *
+     * @return zero
+     */
+    public int getZero() {
+        return BigDecimal.ZERO.intValue();
+    }
 
 }
