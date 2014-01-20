@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Class for Spring Application Context configuration.
  *
- * @author Iurii Parfeniuk
+ * @author Ivan Ursul
  */
 
 @Configuration

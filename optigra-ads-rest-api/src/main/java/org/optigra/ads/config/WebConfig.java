@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 /**
  * Class for Spring Dispatcher servlet.
  *
- * @author Iurii Parfeniuk
+ * @author Ivan Ursul
  */
 @Configuration
 @EnableWebMvc

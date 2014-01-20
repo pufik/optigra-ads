@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Base Controller.
  *
- * @author Iurii Parfeniuk
+ * @author Ivan Ursul
  */
 @Controller
 public class BaseController {
