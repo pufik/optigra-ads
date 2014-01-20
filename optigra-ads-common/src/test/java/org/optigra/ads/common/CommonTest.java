@@ -10,6 +10,5 @@ public class CommonTest {
 	public void testGetZero() {
 
 		assertEquals(0, new Common().getZero());
-
 	}
 }
