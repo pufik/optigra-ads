@@ -22,7 +22,8 @@ public class BaseController {
     @ResponseBody
     public User example() {
     	User user = new User();
-    	user.setId(10L);
+    	long id = 10L;
+		user.setId(id);
         return user;
     }
 }
