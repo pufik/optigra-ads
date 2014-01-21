@@ -55,7 +55,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
      * @return supported media types
      */
     @Bean
-    private List<MediaType> mediaTypes() {
+    public List<MediaType> mediaTypes() {
         return Arrays.asList(MediaType.APPLICATION_JSON);
     }
 }
