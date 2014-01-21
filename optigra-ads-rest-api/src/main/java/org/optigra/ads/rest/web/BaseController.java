@@ -17,7 +17,9 @@ public class BaseController {
     /**
      * Temporary end-point.
      *
-     * @return "Hello World"
+     * @param userId
+     *            - request parameter
+     * @return user json
      */
     @RequestMapping(value = "/")
     @ResponseBody

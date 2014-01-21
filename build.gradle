@@ -1,6 +1,6 @@
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'eclipse-wpt'
+    apply plugin: 'eclipse-wtp'
 
     apply plugin: 'checkstyle'
     apply plugin: 'pmd'
