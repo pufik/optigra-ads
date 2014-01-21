@@ -14,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 /**
  * Class for Spring Dispatcher servlet.
- *
  * @author Ivan Ursul
  */
 @Configuration
@@ -22,38 +21,41 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @ComponentScan(basePackages = { "org.optigra.ads.rest" })
 public class WebConfig extends WebMvcConfigurationSupport {
 
-	/**
-	 * Method, that is configuting message converters
-	 * @date Jan 21, 2014
+    /**
+     * Method, that is configuring message converters.
+     * @param converters Converters, that will be configured
+     * @date Jan 21, 2014
      * @author ivanursul
-	 */
-	@Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+     */
+    @Override
+    public void configureMessageConverters(
+            final List<HttpMessageConverter<?>> converters) {
         converters.add(converter());
         addDefaultHttpMessageConverters(converters);
     }
 
-	/**
-	 * Jackson Message Converter
-	 * @date Jan 21, 2014
-	 * @author ivanursul
-	 * @return default converter
-	 */
+    /**
+     * Jackson Message Converter.
+     * @date Jan 21, 2014
+     * @author ivanursul
+     * @return default converter
+     */
     @Bean
     public MappingJacksonHttpMessageConverter converter() {
-        MappingJacksonHttpMessageConverter converter = new MappingJacksonHttpMessageConverter();
+        MappingJacksonHttpMessageConverter converter;
+        converter = new MappingJacksonHttpMessageConverter();
         converter.setSupportedMediaTypes(mediaTypes());
         return converter;
     }
 
     /**
-     * Supported media types
+     * Supported media types.
      * @date Jan 21, 2014
      * @author ivanursul
      * @return supported media types
      */
     @Bean
-	private List<MediaType> mediaTypes() {
-		return Arrays.asList(MediaType.APPLICATION_JSON);
-	}
+    private List<MediaType> mediaTypes() {
+        return Arrays.asList(MediaType.APPLICATION_JSON);
+    }
 }
