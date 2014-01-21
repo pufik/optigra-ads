@@ -21,13 +21,24 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @EnableWebMvc
 @ComponentScan(basePackages = { "org.optigra.ads.rest" })
 public class WebConfig extends WebMvcConfigurationSupport {
-	
+
+	/**
+	 * Method, that is configuting message converters
+	 * @date Jan 21, 2014
+     * @author ivanursul
+	 */
 	@Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(converter());
         addDefaultHttpMessageConverters(converters);
     }
 
+	/**
+	 * Jackson Message Converter
+	 * @date Jan 21, 2014
+	 * @author ivanursul
+	 * @return default converter
+	 */
     @Bean
     public MappingJacksonHttpMessageConverter converter() {
         MappingJacksonHttpMessageConverter converter = new MappingJacksonHttpMessageConverter();
@@ -35,6 +46,12 @@ public class WebConfig extends WebMvcConfigurationSupport {
         return converter;
     }
 
+    /**
+     * Supported media types
+     * @date Jan 21, 2014
+     * @author ivanursul
+     * @return supported media types
+     */
     @Bean
 	private List<MediaType> mediaTypes() {
 		return Arrays.asList(MediaType.APPLICATION_JSON);
