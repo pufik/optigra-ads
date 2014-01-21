@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class BaseController {
 
-    private static final String HELLO_PARALLEL_WORLD = "Hello Parallel world";
+    private static final String HELLO_WORLD = "Hello World";
 
-	/**
+    /**
      * Temporary end-point.
      *
      * @return "Hello World"
@@ -22,6 +22,6 @@ public class BaseController {
     @RequestMapping(value = "/")
     @ResponseBody
     public String example() {
-        return HELLO_PARALLEL_WORLD;
+        return HELLO_WORLD;
     }
 }

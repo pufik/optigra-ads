@@ -31,7 +31,12 @@ public class WebConfig extends WebMvcConfigurationSupport {
     @Bean
     public MappingJacksonHttpMessageConverter converter() {
         MappingJacksonHttpMessageConverter converter = new MappingJacksonHttpMessageConverter();
-        converter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
+        converter.setSupportedMediaTypes(mediaTypes());
         return converter;
     }
+
+    @Bean
+	private List<MediaType> mediaTypes() {
+		return Arrays.asList(MediaType.APPLICATION_JSON);
+	}
 }
