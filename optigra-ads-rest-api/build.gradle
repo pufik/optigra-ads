@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'war'
-apply plugin: 'eclipse-wtp'
 
 war {
   archiveName "${baseName}.${extension}" 
@@ -11,6 +10,10 @@ repositories {
 }
 
 dependencies {
+	compile project(':optigra-ads-facade')
+	compile project(':optigra-ads-common')
+	compile project(':optigra-ads-model')
+	
 	compile 'javax.servlet:servlet-api:2.5'
 	
 	compile 'org.springframework:spring-webmvc:3.2.2.RELEASE'
@@ -24,9 +27,6 @@ dependencies {
 	compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
 	
 	runtime 'javax.servlet:jstl:1.1.2'
-	compile project(':optigra-ads-facade')
-	compile project(':optigra-ads-common')
-	compile project(':optigra-ads-model')
 	
 	testCompile group: 'junit', name: 'junit', version: '4.+'
 	testCompile(group: 'org.mockito', name: 'mockito-all', version: '1.+')

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 /**
  * Class for Spring Dispatcher servlet.
+ *
  * @author Ivan Ursul
  */
 @Configuration
@@ -23,19 +24,21 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     /**
      * Method, that is configuring message converters.
-     * @param converters Converters, that will be configured
+     *
+     * @param converters
+     *            Converters, that will be configured
      * @date Jan 21, 2014
      * @author ivanursul
      */
     @Override
-    public void configureMessageConverters(
-            final List<HttpMessageConverter<?>> converters) {
+    public void configureMessageConverters(final List<HttpMessageConverter<?>> converters) {
         converters.add(converter());
         addDefaultHttpMessageConverters(converters);
     }
 
     /**
      * Jackson Message Converter.
+     *
      * @date Jan 21, 2014
      * @author ivanursul
      * @return default converter
@@ -50,6 +53,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     /**
      * Supported media types.
+     *
      * @date Jan 21, 2014
      * @author ivanursul
      * @return supported media types
