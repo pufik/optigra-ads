@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class BaseController {
 
-
     /**
      * Temporary end-point.
      *
@@ -24,7 +23,6 @@ public class BaseController {
     public User example() {
     	User user = new User();
     	user.setId(10L);
-    	
         return user;
     }
 }
