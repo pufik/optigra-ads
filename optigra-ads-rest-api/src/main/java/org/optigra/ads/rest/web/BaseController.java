@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class BaseController {
 
-    /**
+    private static final long ID = 10L;
+
+	/**
      * Temporary end-point.
      *
      * @return "Hello World"
@@ -22,8 +24,7 @@ public class BaseController {
     @ResponseBody
     public User example() {
     	User user = new User();
-    	long id = 10L;
-		user.setId(id);
+		user.setId(ID);
         return user;
     }
 }
