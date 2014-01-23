@@ -1,21 +1,41 @@
 package org.optigra.ads.dao;
 
-import java.math.BigDecimal;
 
 /**
- * Temporary class for initial configuration.
- *
- * @author Iurii Parfeniuk
+ * Basic CRUD interface with basic operations.
+ * @date Jan 23, 2014
+ * @author ivanursul
+ * @param <E> Entity
+ * @param <K> Unique Identifier.
  */
-public class Dao {
-
+public interface Dao<E, K> {
     /**
-     * Method returns zero.
-     *
-     * @return zero
+     * Method, that will return entity.
+     * @date Jan 23, 2014
+     * @author ivanursul
+     * @param key Unique identifier
+     * @return Entity, that will be returned
      */
-    public int getZero() {
-        return BigDecimal.ZERO.intValue();
-    }
-
+    E findById(K key);
+    /**
+     * Saving entity.
+     * @date Jan 23, 2014
+     * @author ivanursul
+     * @param entity Entity to be saved.
+     */
+    void persist(E entity);
+    /**
+     * Removing entity.
+     * @date Jan 23, 2014
+     * @author ivanursul
+     * @param entity Entity to be removed.
+     */
+    void remove(E entity);
+    /**
+     * Updating entity.
+     * @date Jan 23, 2014
+     * @author ivanursul
+     * @param entity Entity to be updated.
+     */
+    void update(E entity);
 }
