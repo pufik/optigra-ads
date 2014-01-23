@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(MockitoJUnitRunner.class)
 public class BaseControllerTest {
 
-	private BaseController unit = new BaseController();
+	private final BaseController unit = new BaseController();
 	
     private MockMvc mockMvc;
     
@@ -28,7 +28,7 @@ public class BaseControllerTest {
     @Test
     public void testGetUser() throws Exception {
     	// When
-    	mockMvc.perform(get("/"))
+    	mockMvc.perform(get("/api"))
     		.andExpect(status().isOk());
     }
 }

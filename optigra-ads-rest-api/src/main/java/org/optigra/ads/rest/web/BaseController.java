@@ -21,7 +21,7 @@ public class BaseController {
      *            - request parameter
      * @return user json
      */
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/api")
     @ResponseBody
     public User example(@RequestParam(value = "userId", defaultValue = "10") final Long userId) {
         User user = new User();
