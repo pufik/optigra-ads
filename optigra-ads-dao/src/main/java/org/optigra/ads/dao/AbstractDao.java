@@ -1,7 +1,5 @@
 package org.optigra.ads.dao;
 
-import java.lang.reflect.ParameterizedType;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,22 +15,18 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
 
     @PersistenceContext
     private EntityManager entityManager;
-    private Class<E> entityClass;
 
     /**
-     * Base constructor.
-     * @date Jan 23, 2014
+     * Entity class method.
+     * @date Jan 24, 2014
      * @author ivanursul
+     * @return entity class for custom dao.
      */
-    @SuppressWarnings("unchecked")
-    public AbstractDao() {
-        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-        this.entityClass = (Class<E>) genericSuperclass.getActualTypeArguments()[0];
-    }
+    protected abstract Class<E> getEntityClass();
 
     @Override
     public E findById(final K key) {
-        return entityManager.find(entityClass, key);
+        return entityManager.find(getEntityClass(), key);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.optigra.ads.dao;
+package org.optigra.ads.dao.user;
 
 
 import static org.junit.Assert.assertEquals;
@@ -16,11 +16,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.dao.user.DefaultUserDao;
 import org.optigra.ads.model.User;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserDaoTest {
+public class DefaultUserDaoTest {
 
     @Captor
     private ArgumentCaptor<User> userCaptor;
@@ -29,7 +30,7 @@ public class UserDaoTest {
     private EntityManager entityManager;
     
     @InjectMocks
-    private UserDao unit = new UserDao();
+    private DefaultUserDao unit = new DefaultUserDao();
     
     @Test
     public void testFindById() {
