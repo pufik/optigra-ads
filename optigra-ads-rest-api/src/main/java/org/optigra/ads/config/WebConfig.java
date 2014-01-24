@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -44,10 +44,11 @@ public class WebConfig extends WebMvcConfigurationSupport {
      * @return default converter
      */
     @Bean
-    public MappingJacksonHttpMessageConverter converter() {
-        MappingJacksonHttpMessageConverter converter;
-        converter = new MappingJacksonHttpMessageConverter();
+    public MappingJackson2HttpMessageConverter converter() {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setSupportedMediaTypes(mediaTypes());
+        converter.setPrettyPrint(Boolean.TRUE);
+
         return converter;
     }
 

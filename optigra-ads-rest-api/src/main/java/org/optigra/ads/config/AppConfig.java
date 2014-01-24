@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
-@ComponentScan(basePackages = "org.optigra.ads")
+@ComponentScan(basePackages = { "org.optigra.ads.dao", "org.optigra.ads.service", "org.optigra.ads.facade" })
 public class AppConfig {
 
 }
