@@ -38,7 +38,7 @@ public class AdvertisingControllerTest {
         resource.setUid(BigDecimal.ZERO.longValue());
         resource.setTitle("Simple advertising example");
         resource.setDescription("Advertising description");
-        resource.setDescription("http://company.com");
+        resource.setDestinationUrl("http://company.com");
         resource.setImageUrl("/api/content/advertising/" + resource.getUid());
         resource.setLogoUrl("/api/content/advertising/logo/" + resource.getUid());
 

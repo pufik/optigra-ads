@@ -39,7 +39,7 @@ public class AdvertisingController extends BaseController {
         resource.setUid(BigDecimal.ZERO.longValue());
         resource.setTitle(SIMPLE_ADVERTISING_EXAMPLE);
         resource.setDescription(ADVERTISING_DESCRIPTION);
-        resource.setDescription(HTTP_COMPANY_COM);
+        resource.setDestinationUrl(HTTP_COMPANY_COM);
         resource.setImageUrl(API_CONTENT_ADVERTISING + resource.getUid());
         resource.setLogoUrl(API_CONTENT_ADVERTISING_LOGO + resource.getUid());
 
