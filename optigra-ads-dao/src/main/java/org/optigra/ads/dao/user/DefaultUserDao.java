@@ -1,7 +1,7 @@
 package org.optigra.ads.dao.user;
 
 import org.optigra.ads.dao.AbstractDao;
-import org.optigra.ads.model.User;
+import org.optigra.ads.model.user.User;
 
 /**
  * Dao clas for user entity.

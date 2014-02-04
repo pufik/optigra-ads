@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Controller for system stuff.
- *
  * @author Iurii Parfeniuk
  */
+
 @Controller
 public class SystemController {
 
@@ -18,7 +18,6 @@ public class SystemController {
 
     /**
      * Method returns REST API details.
-     *
      * @date Jan 24, 2014
      * @author Iurii Parfeniuk
      * @return details about REST API {@link ApiDetailsResource}

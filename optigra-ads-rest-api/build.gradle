@@ -12,16 +12,12 @@ repositories {
 dependencies {
 	compile project(':optigra-ads-facade')
 	compile project(':optigra-ads-common')
-	compile project(':optigra-ads-model')
-	
+        compile project(':optigra-ads-security')
+
 	compile 'javax.servlet:servlet-api:2.5'
 	
-	compile 'org.springframework:spring-webmvc:3.2.2.RELEASE'
-	compile 'org.springframework:spring-web:3.2.2.RELEASE'
-	compile 'org.springframework:spring-core:3.2.2.RELEASE'
-	compile 'org.springframework:spring-beans:3.2.2.RELEASE'
-	compile 'org.springframework:spring-context:3.2.2.RELEASE'
-	compile 'org.springframework:spring-test:3.2.2.RELEASE'
+	compile 'org.springframework:spring-webmvc:3.2.6.RELEASE'
+	compile 'org.springframework:spring-web:3.2.6.RELEASE'
 	
 	compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
 	compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.0'

@@ -17,7 +17,7 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.optigra.ads.dao.user.DefaultUserDao;
-import org.optigra.ads.model.User;
+import org.optigra.ads.model.user.User;
 
 
 @RunWith(MockitoJUnitRunner.class)

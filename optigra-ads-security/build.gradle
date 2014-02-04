@@ -1,0 +1,37 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.7
+
+version = '1.0'
+
+jar {
+    manifest {
+        attributes 'optigra': 'ads', 'security': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':optigra-ads-service')
+    compile project(':optigra-ads-model')
+
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+    compile 'org.springframework.security:spring-security-config:3.2.0.RELEASE'
+    compile 'org.springframework.security:spring-security-web:3.2.0.RELEASE'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
