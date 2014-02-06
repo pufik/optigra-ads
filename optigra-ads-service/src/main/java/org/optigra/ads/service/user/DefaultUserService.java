@@ -18,13 +18,13 @@ import org.springframework.stereotype.Service;
 public class DefaultUserService implements UserService {
 
 	@Override
-	public User getUserById(Long userId) {
+	public User getUserById(final Long userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public User getUserByLoginAndPassword(String login, String password) {
+	public User getUserByLoginAndPassword(final String login, final String password) {
 		User user = new User();
 		user.setId(BigDecimal.ONE.longValue());
 		user.setRole(UserRole.ADMIN);

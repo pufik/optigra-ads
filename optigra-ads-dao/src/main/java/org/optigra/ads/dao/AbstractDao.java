@@ -1,5 +1,7 @@
 package org.optigra.ads.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -12,6 +14,8 @@ import javax.persistence.PersistenceContext;
  * @param <K> Unique Identifier.
  */
 public abstract class AbstractDao<E, K> implements Dao<E, K> {
+    
+    private static final String SELECT_ALL = "from %s";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -42,5 +46,15 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
     @Override
     public void update(final E entity) {
         entityManager.merge(entity);
+    }
+    
+    @Override
+    public List<E> find(final int start, final int length) {
+        Class<E> cls = getEntityClass();
+        String query = String.format(SELECT_ALL, cls.getSimpleName());
+        return entityManager.createQuery(query, cls)
+                .setFirstResult(start)
+                .setMaxResults(length)
+                .getResultList();
     }
 }

@@ -20,7 +20,7 @@ dependencies {
     compile project(':optigra-ads-content')
     compile project(':optigra-ads-search-engine')
     compile project(':optigra-ads-common')
-
+    
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 

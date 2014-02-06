@@ -1,5 +1,10 @@
 package org.optigra.ads.dao.user;
 
+import java.util.List;
+
+import org.optigra.ads.model.user.User;
+
+
 /**
  * Interface, that will declare API for User Dao.
  * @date Jan 24, 2014
@@ -7,5 +12,5 @@ package org.optigra.ads.dao.user;
  *
  */
 public interface UserDao {
-
+    List<User> getUsers(int start, int length);
 }
