@@ -60,21 +60,23 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
      * @return List of entities
      */
     protected PagedResult<E> search(final PagedSearch search) {
-        TypedQuery<E> query = entityManager.createNamedQuery(search.getNamedQuery(), getEntityClass());
-
-        Map<String, Object> parameters = search.getParameters();
-        for (String key : parameters.keySet()) {
-            query.setParameter(key, parameters.get(key));
-        }
-
+        TypedQuery<E> query = createNamedQuery(search.getNamedQuery(), search.getParameters());
         query.setFirstResult(search.getStart());
         query.setMaxResults(search.getOffset());
 
-        String querySql = String.format(COUNT_QUERY, getEntityClass().getSimpleName());
-        Integer count = (Integer) entityManager.createQuery(querySql).getSingleResult();
+        //TODO: IP - BUG: is not applicable for all queries
+        Integer count = getEntityCoount();
 
         PagedResult<E> result = new PagedResult<>(search.getStart(), search.getOffset(), count, query.getResultList());
+
         return result;
+    }
+
+    private Integer getEntityCoount() {
+        String querySql = String.format(COUNT_QUERY, getEntityClass().getSimpleName());
+        TypedQuery<Integer> countQuery = entityManager.createQuery(querySql, Integer.class);
+
+        return countQuery.getSingleResult();
     }
 
     /**
@@ -86,11 +88,7 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
      * @return List of entities
      */
     protected List<E> executeNamedQuery(final String queryName, final Map<String, Object> parameters) {
-        TypedQuery<E> query = entityManager.createNamedQuery(queryName, getEntityClass());
-
-        for (String key : parameters.keySet()) {
-            query.setParameter(key, parameters.get(key));
-        }
+        TypedQuery<E> query = createNamedQuery(queryName, parameters);
 
         return query.getResultList();
     }
@@ -115,5 +113,15 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
         entity = query.getSingleResult();
 
         return entity;
+    }
+
+    private TypedQuery<E> createNamedQuery(final String queryName, final Map<String, Object> parameters) {
+        TypedQuery<E> query = entityManager.createNamedQuery(queryName, getEntityClass());
+
+        for (String key : parameters.keySet()) {
+            query.setParameter(key, parameters.get(key));
+        }
+
+        return query;
     }
 }
