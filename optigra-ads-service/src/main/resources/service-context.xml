@@ -11,6 +11,8 @@
 	
 	<context:component-scan base-package="org.optigra.ads.service" />
 	
+	<context:property-placeholder location="classpath:application.properties"/>
+	
 	<task:annotation-driven executor="taskExecutor" />
 	
 	<bean id="taskExecutor" class="java.util.concurrent.Executors" factory-method="newFixedThreadPool">
