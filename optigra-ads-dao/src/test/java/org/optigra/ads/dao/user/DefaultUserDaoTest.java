@@ -2,14 +2,9 @@ package org.optigra.ads.dao.user;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -103,31 +98,5 @@ public class DefaultUserDaoTest {
         
         // Then
         assertEquals(expected, userCaptor.getValue());
-    }
-    
-    @Test
-    public void testGetUsers() {
-        // Given
-        String query = "from User";
-        long userId = 1;
-        User user = new User();
-        user.setId(userId);
-        List<User> expecteds = Arrays.asList(user);
-        int start = 1;
-        int length = 20;
-        
-        // When
-        when(entityManager.createQuery(anyString(), Matchers.<Class<User>>any())).thenReturn(typedQuery);
-        when(typedQuery.setFirstResult(anyInt())).thenReturn(typedQuery);
-        when(typedQuery.setMaxResults(anyInt())).thenReturn(typedQuery);
-        when(typedQuery.getResultList()).thenReturn(expecteds);
-        List<User> actuals = unit.getUsers(start, length); 
-        
-        // Then
-        verify(entityManager).createQuery(query, User.class);
-        verify(typedQuery).setMaxResults(length);
-        verify(typedQuery).setFirstResult(start);
-        verify(typedQuery).getResultList();
-        assertEquals(expecteds, actuals);
     }
 }

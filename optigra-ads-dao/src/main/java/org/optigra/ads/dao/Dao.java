@@ -1,6 +1,5 @@
 package org.optigra.ads.dao;
 
-import java.util.List;
 
 
 
@@ -20,15 +19,6 @@ public interface Dao<E, K> {
      * @return Entity, that will be returned
      */
     E findById(K key);
-    /**
-     * Finding multiple entities
-     * @date Feb 6, 2014
-     * @author ivanursul
-     * @param start start position
-     * @param length length
-     * @return List of entities
-     */
-    List<E> find(int start, int length);
     /**
      * Saving entity.
      * @date Jan 23, 2014

@@ -1,8 +1,5 @@
 package org.optigra.ads.dao.user;
 
-import java.util.List;
-
-import org.optigra.ads.model.user.User;
 
 
 /**
@@ -12,5 +9,4 @@ import org.optigra.ads.model.user.User;
  *
  */
 public interface UserDao {
-    List<User> getUsers(int start, int length);
 }
