@@ -9,6 +9,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath*:service-context.xml
+			classpath*:facade-context.xml
 			classpath*:dao-context.xml
 			classpath*:security-context.xml
 		</param-value>

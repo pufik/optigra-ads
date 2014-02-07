@@ -1,9 +1,9 @@
 package org.optigra.ads.service.user;
 
-import java.math.BigDecimal;
+import javax.annotation.Resource;
 
+import org.optigra.ads.dao.user.UserDao;
 import org.optigra.ads.model.user.User;
-import org.optigra.ads.model.user.UserRole;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,18 +17,16 @@ import org.springframework.stereotype.Service;
 @Service("userService")
 public class DefaultUserService implements UserService {
 
+    @Resource
+    private UserDao defaultUserDao;
+    
 	@Override
 	public User getUserById(final Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return defaultUserDao.getUserById(userId);
 	}
 
 	@Override
 	public User getUserByLoginAndPassword(final String login, final String password) {
-		User user = new User();
-		user.setId(BigDecimal.ONE.longValue());
-		user.setRole(UserRole.ADMIN);
-
-		return user;
+		return defaultUserDao.getUserByLoginAndPassword(login, password);
 	}
 }
