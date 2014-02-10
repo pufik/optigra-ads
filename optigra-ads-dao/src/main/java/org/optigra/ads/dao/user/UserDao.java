@@ -33,5 +33,4 @@ public interface UserDao {
      * @return user - {@link User}
      */
     User getUserByLoginAndPassword(String login, String password);
-
 }
