@@ -19,7 +19,7 @@ import org.optigra.ads.dao.pagination.PagedSearch;
  * @param <K> Unique Identifier.
  */
 public abstract class AbstractDao<E, K> implements Dao<E, K> {
-    private static final String COUNT_QUERY = "select count(*) from %s";
+    private static final String COUNT_QUERY = "SELECT COUNT(subQuery.*) FROM (%s) subQuery";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -60,33 +60,32 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
      * @return List of entities
      */
     protected PagedResult<E> search(final PagedSearch search) {
-        TypedQuery<E> query = createNamedQuery(search.getNamedQuery(), search.getParameters());
+        TypedQuery<E> query = createNamedQuery(search.getQuery().getQueryName(), search.getParameters());
         query.setFirstResult(search.getStart());
         query.setMaxResults(search.getOffset());
 
-        //TODO: IP - BUG: is not applicable for all queries
-        Integer count = getEntityCoount();
+        Integer count = getQueryCount(search);
 
         PagedResult<E> result = new PagedResult<>(search.getStart(), search.getOffset(), count, query.getResultList());
 
         return result;
     }
 
-    private Integer getEntityCoount() {
-        String querySql = String.format(COUNT_QUERY, getEntityClass().getSimpleName());
-        TypedQuery<Integer> countQuery = entityManager.createQuery(querySql, Integer.class);
+    /**
+     * Method, that will return count of rows in query.
+     * @date Feb 10, 2014
+     * @author ivanursul
+     * @param search
+     * @return count of rows.
+     */
+    private Integer getQueryCount(final PagedSearch search) {
+        String querySql = String.format(COUNT_QUERY, search.getQuery().getQuery());
+        TypedQuery<Integer> countQuery = createQuery(querySql, search.getParameters());
 
         return countQuery.getSingleResult();
     }
 
-    /**
-     * Method List of entities for named query.
-     * @date Feb 6, 2014
-     * @author ivanursul
-     * @param queryName NamedQuery name
-     * @param parameters query parameters
-     * @return List of entities
-     */
+
     protected List<E> executeNamedQuery(final String queryName, final Map<String, Object> parameters) {
         TypedQuery<E> query = createNamedQuery(queryName, parameters);
 
@@ -123,5 +122,15 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
         }
 
         return query;
+    }
+
+    private TypedQuery<Integer> createQuery(final String querySql, final Map<String, Object> parameters) {
+        TypedQuery<Integer> countQuery = entityManager.createQuery(querySql, Integer.class);
+        
+        for(String key : parameters.keySet()) {
+            countQuery.setParameter(key, parameters.get(key));
+        }
+    
+        return countQuery;
     }
 }
