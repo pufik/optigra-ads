@@ -11,15 +11,23 @@ define([
 
         var App = new Backbone.Marionette.Application();
 
+        App.isOffline = function() {
+            return true;
+        };
+
         /* Add application regions here */
         App.addRegions({});
 
         /* Add initializers here */
         App.addInitializer(function() {
-            document.body.innerHTML = welcomeTmpl({
-                success: "CONGRATS!"
-            });
-            Communicator.mediator.trigger("APP:START");
+            if (App.isOffline()) {
+                Communicator.mediator.trigger("APP:LOGIN");
+            } else {
+                Communicator.mediator.trigger("APP:START");
+                document.body.innerHTML = welcomeTmpl({
+                    success: "CONGRATS!"
+                });
+            }
         });
 
         return App;
