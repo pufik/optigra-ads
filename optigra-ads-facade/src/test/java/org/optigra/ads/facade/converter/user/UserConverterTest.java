@@ -1,4 +1,4 @@
-package org.optigra.ads.facade.converter;
+package org.optigra.ads.facade.converter.user;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.facade.converter.Converter;
+import org.optigra.ads.facade.converter.user.UserConverter;
 import org.optigra.ads.facade.dto.UserResource;
 import org.optigra.ads.model.user.User;
 

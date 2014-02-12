@@ -4,6 +4,7 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         
         <class>org.optigra.ads.model.user.User</class>
+        <class>org.optigra.ads.model.application.Application</class>
         
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

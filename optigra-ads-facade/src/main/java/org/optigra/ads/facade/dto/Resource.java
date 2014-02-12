@@ -1,5 +1,6 @@
 package org.optigra.ads.facade.dto;
 
+
 /**
  * Base Resource.
  *

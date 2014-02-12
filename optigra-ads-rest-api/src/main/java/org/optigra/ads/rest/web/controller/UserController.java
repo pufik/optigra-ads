@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  */
 @Controller
-@RequestMapping(value = ResourceUri.USERS)
+@RequestMapping(value = ResourceUri.USER)
 public class UserController extends BaseController {
 
     @Resource

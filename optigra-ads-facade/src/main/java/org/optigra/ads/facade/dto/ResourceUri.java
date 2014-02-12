@@ -16,7 +16,8 @@ public final class ResourceUri {
      * Advertising resource base URI.
      */
     public static final String ADVERTISING = "/advertising";
-    public static final String USERS = "/users";
+    public static final String APPLICATION = "/application";
+    public static final String USER = "/user";
 
     /**
      * Default constructor.
