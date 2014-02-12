@@ -1,7 +1,9 @@
 package org.optigra.ads.rest.web.controller;
 
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -11,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.optigra.ads.facade.application.ApplicationFacade;
+import org.optigra.ads.facade.dto.MessageResource;
+import org.optigra.ads.facade.dto.MessageType;
 import org.optigra.ads.facade.dto.ResourceUri;
 import org.optigra.ads.facade.dto.application.ApplicationResource;
 import org.optigra.ads.model.application.ApplicationStatus;
@@ -67,15 +71,26 @@ public class ApplicationControllerTest {
         resource.setApplicationId(applicationId);
         resource.setStatus(ApplicationStatus.PENDING);
         resource.setUrl(url);
-        
-        System.out.println(objectMapper.writeValueAsString(resource));
+        MessageResource messageResource = new MessageResource(MessageType.INFO, "Application created");
         
         // Then
         mockMvc.perform(post(ResourceUri.APPLICATION)
                 .content(objectMapper.writeValueAsString(resource))
                 .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+            .andExpect(status().isOk())
+            .andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
         
         verify(facade).createApplication(resource);
+    }
+    
+    @Test
+    public void testGetApplications() throws Exception {
+        // Given
+        
+        // When
+        
+        // Then
+        mockMvc.perform(get(ResourceUri.APPLICATION))
+            .andExpect(status().isOk());
     }
 }

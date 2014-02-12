@@ -7,21 +7,26 @@ import org.springframework.stereotype.Component;
 
 /**
  * Converter for User-UserResource relation.
+ * 
  * @date Feb 7, 2014
  * @author ivanursul
- *
+ * 
  */
-@Component
+@Component("userConverter")
 public class UserConverter extends AbstractConverter<User, UserResource> {
 
     @Override
     public UserResource convert(final User user) {
-        UserResource resource = new UserResource();
-        
-        resource.setId(user.getId());
-        resource.setLogin(user.getLogin());
-        
-        return resource;
+        return convert(user, new UserResource());
+    }
+
+    @Override
+    public UserResource convert(final User user, final UserResource target) {
+
+        target.setId(user.getId());
+        target.setLogin(user.getLogin());
+
+        return target;
     }
 
 }

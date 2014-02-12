@@ -6,7 +6,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import org.optigra.ads.common.Queries;
 
 /**
  * Application entity.
@@ -16,6 +20,9 @@ import javax.persistence.Table;
  */
 @Table
 @Entity
+@NamedQueries({
+    @NamedQuery(name = Queries.FIND_APPLICATIONS_QUERY_NAME, query = Queries.FIND_APPLICATIONS_QUERY)
+})
 public class Application {
     
     @Id

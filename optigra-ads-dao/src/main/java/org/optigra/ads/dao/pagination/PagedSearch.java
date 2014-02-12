@@ -17,6 +17,23 @@ public class PagedSearch {
     private Queries query;
     private Map<String, Object> parameters;
     
+    /**
+     *  Constructor with parameters.
+     * @date Feb 12, 2014
+     * @author ivanursul
+     * @param start
+     * @param offset
+     * @param query
+     * @param parameters
+     */
+    public PagedSearch(final int start, final int offset, final Queries query, final Map<String, Object> parameters) {
+        super();
+        this.start = start;
+        this.offset = offset;
+        this.query = query;
+        this.parameters = parameters;
+    }
+
     public int getStart() {
         return start;
     }

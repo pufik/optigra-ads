@@ -19,7 +19,9 @@ import org.optigra.ads.dao.pagination.PagedSearch;
  * @param <K> Unique Identifier.
  */
 public abstract class AbstractDao<E, K> implements Dao<E, K> {
-    private static final String COUNT_QUERY = "SELECT COUNT(subQuery.*) FROM (%s) subQuery";
+
+    private static final String TABLE_TOKEN = "$table";
+    private static final String COUNT_QUERY = "SELECT COUNT(*) FROM " + TABLE_TOKEN + " a WHERE a IN(%s) ";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -64,7 +66,7 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
         query.setFirstResult(search.getStart());
         query.setMaxResults(search.getOffset());
 
-        Integer count = getQueryCount(search);
+        Long count = getQueryCount(search);
 
         PagedResult<E> result = new PagedResult<>(search.getStart(), search.getOffset(), count, query.getResultList());
 
@@ -78,9 +80,9 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
      * @param search
      * @return count of rows.
      */
-    private Integer getQueryCount(final PagedSearch search) {
-        String querySql = String.format(COUNT_QUERY, search.getQuery().getQuery());
-        TypedQuery<Integer> countQuery = createQuery(querySql, search.getParameters());
+    private Long getQueryCount(final PagedSearch search) {
+        String querySql = String.format(COUNT_QUERY, search.getQuery().getQuery()).replace(TABLE_TOKEN, getEntityClass().getSimpleName());
+        TypedQuery<Long> countQuery = createQuery(querySql, search.getParameters());
 
         return countQuery.getSingleResult();
     }
@@ -124,9 +126,9 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
         return query;
     }
 
-    private TypedQuery<Integer> createQuery(final String querySql, final Map<String, Object> parameters) {
-        TypedQuery<Integer> countQuery = entityManager.createQuery(querySql, Integer.class);
-        
+    private TypedQuery<Long> createQuery(final String querySql, final Map<String, Object> parameters) {
+        TypedQuery<Long> countQuery = entityManager.createQuery(querySql, Long.class);
+
         for(String key : parameters.keySet()) {
             countQuery.setParameter(key, parameters.get(key));
         }
