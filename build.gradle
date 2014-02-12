@@ -37,9 +37,9 @@ subprojects {
         compile 'org.springframework:spring-core:3.2.6.RELEASE'
         compile 'org.springframework:spring-beans:3.2.6.RELEASE'
         compile 'org.springframework:spring-context:3.2.6.RELEASE'
-	compile 'org.springframework:spring-test:3.2.6.RELEASE'
-	compile 'org.springframework:spring-aspects:3.2.6.RELEASE'
-	compile 'org.springframework:spring-tx:3.2.6.RELEASE'
+        compile 'org.springframework:spring-test:3.2.6.RELEASE'
+	    compile 'org.springframework:spring-aspects:3.2.6.RELEASE'
+	    compile 'org.springframework:spring-tx:3.2.6.RELEASE'
 	    
         compile 'org.hibernate:hibernate-core:4.2.0.Final'
         compile 'org.hibernate:hibernate-entitymanager:4.2.0.Final'
@@ -47,6 +47,10 @@ subprojects {
         compile 'org.springframework:spring-orm:3.2.0.RELEASE'
         compile 'postgresql:postgresql:9.1-901.jdbc4'
         compile 'javax.annotation:jsr250-api:1.0'
+        
+        compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
+        compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.0'
+        compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
     }
 
     jar {

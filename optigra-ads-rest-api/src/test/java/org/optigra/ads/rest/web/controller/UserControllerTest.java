@@ -52,7 +52,7 @@ public class UserControllerTest {
         when(defaultUserFacade.getUserById(anyLong())).thenReturn(expectedResource);
         
         // Then
-        mockMvc.perform(get(ResourceUri.USERS + ResourceUri.SLASH + "{id}", userId))
+        mockMvc.perform(get(ResourceUri.USER + ResourceUri.SLASH + "{id}", userId))
             .andExpect(status().isOk())
             .andExpect(content().string(objectMapper.writeValueAsString(expectedResource)));
     }

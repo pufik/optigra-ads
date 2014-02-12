@@ -6,11 +6,17 @@ package org.optigra.ads.common;
  *
  */
 public class Queries {
-
+   
+    // Constants 
     public static final String USER_FIND_BY_LOGIN_AND_PASSWORD_QUERY_NAME = "User.findByLoginAndPassword";
     public static final String USER_FIND_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT u FROM User u WHERE login = :login AND password = :password";
     
+    public static final String FIND_APPLICATIONS_QUERY_NAME = "Application.findApplications";
+    public static final String FIND_APPLICATIONS_QUERY = "SELECT a FROM Application a";
+    
+    // Queries
     public static final Queries FIND_USER_BY_LOGIN_AND_PASS = new Queries(USER_FIND_BY_LOGIN_AND_PASSWORD_QUERY_NAME, USER_FIND_BY_LOGIN_AND_PASSWORD_QUERY);
+    public static final Queries FIND_APPLICATIONS = new Queries(FIND_APPLICATIONS_QUERY_NAME, FIND_APPLICATIONS_QUERY);
 
     private final String queryName;
     private final String query;

@@ -13,7 +13,7 @@ public class UserResource extends Resource {
     
     @Override
     public String getUri() {
-        return ResourceUri.USERS + ResourceUri.SLASH + id;
+        return ResourceUri.USER + ResourceUri.SLASH + id;
     }
 
     public Long getId() {
