@@ -1,7 +1,7 @@
 package org.optigra.ads.facade.application;
 
-import org.optigra.ads.facade.dto.PagedResultResource;
-import org.optigra.ads.facade.dto.application.ApplicationResource;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.application.ApplicationResource;
 
 /**
  * Facade layer for Application Domain Set.

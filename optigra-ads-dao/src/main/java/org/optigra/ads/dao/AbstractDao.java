@@ -40,7 +40,7 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
     }
 
     @Override
-    public void persist(final E entity) {
+    public void create(final E entity) {
         entityManager.persist(entity);
     }
 

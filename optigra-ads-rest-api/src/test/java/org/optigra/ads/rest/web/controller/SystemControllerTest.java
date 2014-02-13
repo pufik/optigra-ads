@@ -8,21 +8,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.facade.dto.ApiDetailsResource;
-import org.optigra.ads.facade.dto.ResourceUri;
+import org.optigra.ads.facade.resource.ApiDetailsResource;
+import org.optigra.ads.facade.resource.ResourceUri;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @RunWith(MockitoJUnitRunner.class)
-public class SystemControllerTest {
+public class SystemControllerTest extends AbstractControllerTest {
 
     private final SystemController unit = new SystemController();
 
     private MockMvc mockMvc;
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
     public void setup() {

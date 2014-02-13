@@ -1,6 +1,6 @@
 package org.optigra.ads.rest.web.controller;
 
-import org.optigra.ads.facade.dto.ApiDetailsResource;
+import org.optigra.ads.facade.resource.ApiDetailsResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

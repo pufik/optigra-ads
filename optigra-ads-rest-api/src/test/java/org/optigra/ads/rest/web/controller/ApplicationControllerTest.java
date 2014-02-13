@@ -19,20 +19,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.optigra.ads.facade.application.ApplicationFacade;
-import org.optigra.ads.facade.dto.MessageResource;
-import org.optigra.ads.facade.dto.MessageType;
-import org.optigra.ads.facade.dto.PagedResultResource;
-import org.optigra.ads.facade.dto.ResourceUri;
-import org.optigra.ads.facade.dto.application.ApplicationResource;
+import org.optigra.ads.facade.resource.MessageResource;
+import org.optigra.ads.facade.resource.MessageType;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.ResourceUri;
+import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.ApplicationStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @date Feb 11, 2014
@@ -40,7 +35,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ApplicationControllerTest {
+public class ApplicationControllerTest extends AbstractControllerTest {
 
     @Mock
     private ApplicationFacade facade;
@@ -50,27 +45,11 @@ public class ApplicationControllerTest {
 
     private MockMvc mockMvc;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
     @Before
     public void setup() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(unit).build();
     }
     
-    private void writeFromFields(final boolean flag) {
-        if(flag) {
-            objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES); 
-            
-            objectMapper.setVisibility(PropertyAccessor.ALL, Visibility.NONE);
-            objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-        } else {
-            objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            
-            objectMapper.setVisibility(PropertyAccessor.ALL, Visibility.NONE);
-            objectMapper.setVisibility(PropertyAccessor.GETTER, Visibility.ANY);
-        }
-    }
-
     @Test
     public void testAddAplication() throws Exception {
         writeFromFields(true);

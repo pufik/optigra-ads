@@ -1,7 +1,7 @@
 package org.optigra.ads.facade.converter.user;
 
 import org.optigra.ads.facade.converter.AbstractConverter;
-import org.optigra.ads.facade.dto.UserResource;
+import org.optigra.ads.facade.resource.user.UserResource;
 import org.optigra.ads.model.user.User;
 import org.springframework.stereotype.Component;
 

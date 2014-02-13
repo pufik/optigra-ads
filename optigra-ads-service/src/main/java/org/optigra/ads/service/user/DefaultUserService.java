@@ -17,16 +17,21 @@ import org.springframework.stereotype.Service;
 @Service("userService")
 public class DefaultUserService implements UserService {
 
-    @Resource
-    private UserDao defaultUserDao;
+    @Resource(name = "userDao")
+    private UserDao userDao;
     
 	@Override
 	public User getUserById(final Long userId) {
-		return defaultUserDao.getUserById(userId);
+		return userDao.getUserById(userId);
 	}
 
 	@Override
 	public User getUserByLoginAndPassword(final String login, final String password) {
-		return defaultUserDao.getUserByLoginAndPassword(login, password);
+		return userDao.getUserByLoginAndPassword(login, password);
 	}
+
+    @Override
+    public void createUser(final User user) {
+        userDao.createUser(user);
+    }
 }

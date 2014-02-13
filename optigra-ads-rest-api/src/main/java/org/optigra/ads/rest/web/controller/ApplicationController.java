@@ -3,11 +3,11 @@ package org.optigra.ads.rest.web.controller;
 import javax.annotation.Resource;
 
 import org.optigra.ads.facade.application.ApplicationFacade;
-import org.optigra.ads.facade.dto.MessageResource;
-import org.optigra.ads.facade.dto.MessageType;
-import org.optigra.ads.facade.dto.PagedResultResource;
-import org.optigra.ads.facade.dto.ResourceUri;
-import org.optigra.ads.facade.dto.application.ApplicationResource;
+import org.optigra.ads.facade.resource.MessageResource;
+import org.optigra.ads.facade.resource.MessageType;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.ResourceUri;
+import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

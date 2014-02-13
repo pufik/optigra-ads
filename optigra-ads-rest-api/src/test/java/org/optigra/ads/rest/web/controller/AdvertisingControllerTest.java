@@ -10,20 +10,16 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.optigra.ads.facade.dto.AdvertisingResource;
-import org.optigra.ads.facade.dto.ResourceUri;
+import org.optigra.ads.facade.resource.AdvertisingResource;
+import org.optigra.ads.facade.resource.ResourceUri;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-public class AdvertisingControllerTest {
+public class AdvertisingControllerTest extends AbstractControllerTest {
 
     private final AdvertisingController unit = new AdvertisingController();
 
     private MockMvc mockMvc;
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
     public void setup() {

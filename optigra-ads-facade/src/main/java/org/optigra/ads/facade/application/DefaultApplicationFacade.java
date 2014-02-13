@@ -6,9 +6,9 @@ import javax.annotation.Resource;
 
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.facade.converter.Converter;
-import org.optigra.ads.facade.dto.PagedResultResource;
-import org.optigra.ads.facade.dto.ResourceUri;
-import org.optigra.ads.facade.dto.application.ApplicationResource;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.ResourceUri;
+import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.service.application.ApplicationService;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     private Converter<ApplicationResource, Application> applicationDTOConverter;
     
     @Resource(name = "pagedSearchConverter")
-    private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.dto.Resource>> pagedSearchConverter;
+    private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
 
     @Resource(name = "applicationConverter")
     private Converter<Application, ApplicationResource> applicationConverter;

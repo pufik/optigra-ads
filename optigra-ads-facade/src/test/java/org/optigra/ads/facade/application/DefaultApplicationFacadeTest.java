@@ -20,10 +20,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.facade.converter.Converter;
-import org.optigra.ads.facade.dto.PagedResultResource;
-import org.optigra.ads.facade.dto.Resource;
-import org.optigra.ads.facade.dto.ResourceUri;
-import org.optigra.ads.facade.dto.application.ApplicationResource;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.Resource;
+import org.optigra.ads.facade.resource.ResourceUri;
+import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.service.application.ApplicationService;
 
@@ -44,7 +44,7 @@ public class DefaultApplicationFacadeTest {
     private Converter<Application, ApplicationResource> applicationConverter;
     
     @Mock
-    private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.dto.Resource>> pagedSearchConverter;
+    private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
 
     @Mock
     private Converter<ApplicationResource, Application> applicationDTOConverter;

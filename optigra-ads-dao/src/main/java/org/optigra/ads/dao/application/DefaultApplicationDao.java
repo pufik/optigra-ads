@@ -32,7 +32,7 @@ public class DefaultApplicationDao extends AbstractDao<Application, Long>
     @Override
     public void createApplication(final Application application) {
         Assert.isNull(application.getId());
-        persist(application);
+        create(application);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.optigra.ads.facade.dto;
+package org.optigra.ads.facade.resource;
 
 /**
  * Container for resource URI.

@@ -35,4 +35,14 @@ public interface UserService {
 	 */
 	User getUserByLoginAndPassword(String login, String password);
 
+    /**
+     * 
+     * Method for creating user.
+     * 
+     * @date Feb 13, 2014
+     * @author ivanursul
+     * @param user User to be saved
+     */
+    void createUser(User user);
+
 }
