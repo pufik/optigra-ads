@@ -2,15 +2,19 @@
   "name": "optigra-ads-web-client",
   "version": "0.0.0",
   "dependencies": {
-    "jquery": "~1.9.0",
-    "requirejs": "~2.1.5",
-    "requirejs-text": "~2.0.5",
-    "modernizr": "~2.6.2",
-    "marionette": "~1.6.2",
-    "bootstrap": "~3.1.0",
-    "underscore-amd": "~1.5.2",
-    "backbone-amd": "~1.1.0",
-    "require-handlebars-plugin": "~0.7.0"
+    "angular": "1.2.6",
+    "json3": "~3.2.6",
+    "es5-shim": "~2.1.0",
+    "jquery": "~1.10.2",
+    "bootstrap": "~3.0.3",
+    "angular-resource": "1.2.6",
+    "angular-cookies": "1.2.6",
+    "angular-sanitize": "1.2.6",
+    "angular-route": "1.2.6",
+    "font-awesome": "~4.0.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "angular-mocks": "1.2.6",
+    "angular-scenario": "1.2.6"
+  }
 }
