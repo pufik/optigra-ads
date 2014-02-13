@@ -1,4 +1,4 @@
-package org.optigra.ads.facade.dto;
+package org.optigra.ads.facade.resource;
 
 /**
  * Message resource.
@@ -38,7 +38,7 @@ public class MessageResource {
         this.type = type;
         this.message = message;
     }
-
+    
     public MessageType getType() {
         return type;
     }

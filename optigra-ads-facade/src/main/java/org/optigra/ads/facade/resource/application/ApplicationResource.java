@@ -1,9 +1,9 @@
-package org.optigra.ads.facade.dto.application;
+package org.optigra.ads.facade.resource.application;
 
 import java.io.Serializable;
 
-import org.optigra.ads.facade.dto.Resource;
-import org.optigra.ads.facade.dto.ResourceUri;
+import org.optigra.ads.facade.resource.Resource;
+import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.model.application.ApplicationStatus;
 
 /**

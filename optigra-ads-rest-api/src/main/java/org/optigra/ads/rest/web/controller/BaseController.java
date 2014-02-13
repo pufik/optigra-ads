@@ -1,7 +1,7 @@
 package org.optigra.ads.rest.web.controller;
 
-import org.optigra.ads.facade.dto.MessageResource;
-import org.optigra.ads.facade.dto.MessageType;
+import org.optigra.ads.facade.resource.MessageResource;
+import org.optigra.ads.facade.resource.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

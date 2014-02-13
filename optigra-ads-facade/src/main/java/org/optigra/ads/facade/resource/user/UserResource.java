@@ -1,15 +1,19 @@
-package org.optigra.ads.facade.dto;
+package org.optigra.ads.facade.resource.user;
+
+import org.optigra.ads.facade.resource.Resource;
+import org.optigra.ads.facade.resource.ResourceUri;
 
 /**
+ * 
  * @date Feb 7, 2014
  * @author ivanursul
  *
  */
 public class UserResource extends Resource {
 
-    private Long id;
+    protected Long id;
     
-    private String login;
+    protected String login;
     
     @Override
     public String getUri() {

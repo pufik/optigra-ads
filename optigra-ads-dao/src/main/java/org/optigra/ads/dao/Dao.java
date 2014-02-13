@@ -25,7 +25,7 @@ public interface Dao<E, K> {
      * @author ivanursul
      * @param entity Entity to be saved.
      */
-    void persist(E entity);
+    void create(E entity);
     /**
      * Removing entity.
      * @date Jan 23, 2014

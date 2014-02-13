@@ -1,7 +1,7 @@
 package org.optigra.ads.facade.application;
 
-import org.optigra.ads.facade.dto.PagedResultResource;
-import org.optigra.ads.facade.dto.application.ApplicationResource;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.application.ApplicationResource;
 
 /**
  * Facade layer for Application Domain Set.
@@ -34,4 +34,12 @@ public interface ApplicationFacade {
      * @return list of applications.
      */
     PagedResultResource<ApplicationResource> getApplications(int start, int offset);
+
+    /** Method, that will send status of application.
+     * @date Feb 13, 2014
+     * @author ivanursul
+     * @param applicationId App id 
+     * @return String status.
+     */
+    String getApplicationStatus(String applicationId);
 }

@@ -28,4 +28,13 @@ public interface ApplicationDao {
      */
     PagedResult<Application> getApplications(int start, int offset);
 
+    /**
+     * Getting application.
+     * @date Feb 13, 2014
+     * @author ivanursul
+     * @param applicationId
+     * @return application
+     */
+    Application getApplicationById(String applicationId);
+
 }

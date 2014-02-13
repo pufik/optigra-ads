@@ -12,6 +12,7 @@ import org.optigra.ads.model.user.User;
  *
  */
 public interface UserDao {
+    
     /**
      * Method provides user by his identifier
      * @date Feb 7, 2014
@@ -33,4 +34,14 @@ public interface UserDao {
      * @return user - {@link User}
      */
     User getUserByLoginAndPassword(String login, String password);
+
+    /**
+     * 
+     * Method creates user. 
+     * 
+     * @date Feb 13, 2014
+     * @author ivanursul
+     * @param user
+     */
+    void createUser(User user);
 }

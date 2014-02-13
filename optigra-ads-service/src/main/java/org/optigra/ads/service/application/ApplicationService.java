@@ -28,4 +28,12 @@ public interface ApplicationService {
      * @return
      */
     PagedResult<Application> getApplications(int start, int offset);
+
+    /** Method for getting application status.
+     * @date Feb 13, 2014
+     * @author ivanursul
+     * @param applicationId Id of application, whose status we need.
+     * @return Application status.
+     */
+    String getApplicationStatus(String applicationId);
 }

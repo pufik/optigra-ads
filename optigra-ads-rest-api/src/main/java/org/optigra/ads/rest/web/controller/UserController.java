@@ -1,13 +1,19 @@
 package org.optigra.ads.rest.web.controller;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
-import org.optigra.ads.facade.dto.ResourceUri;
-import org.optigra.ads.facade.dto.UserResource;
+import org.optigra.ads.facade.resource.MessageResource;
+import org.optigra.ads.facade.resource.MessageType;
+import org.optigra.ads.facade.resource.ResourceUri;
+import org.optigra.ads.facade.resource.user.UserDetailsResource;
+import org.optigra.ads.facade.resource.user.UserResource;
 import org.optigra.ads.facade.user.UserFacade;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -20,12 +26,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = ResourceUri.USER)
 public class UserController extends BaseController {
 
-    @Resource
-    private UserFacade defaultUserFacade;
+    @Resource(name = "userFacade")
+    private UserFacade userFacade;
     
-    @RequestMapping(value = "/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public UserResource getUser(@PathVariable("id") final Long id) {
-        return defaultUserFacade.getUserById(id);
+        return userFacade.getUserById(id);
+    }
+    
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public MessageResource createUser(@Valid @RequestBody final UserDetailsResource userResource) {
+        
+        userFacade.createUser(userResource);
+        
+        return new MessageResource(MessageType.INFO, "User successfully created");
     }
 }

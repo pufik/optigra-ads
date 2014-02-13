@@ -62,7 +62,7 @@ public class DefaultUserDaoTest {
         expected.setId(userId);
         
         // When
-        unit.persist(expected);
+        unit.create(expected);
 
         verify(entityManager).persist(userCaptor.capture());
         
@@ -140,5 +140,21 @@ public class DefaultUserDaoTest {
         verify(typedQuery).setParameter("password", password);
         verify(typedQuery).getSingleResult();
         assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testCreateUser() {
+        // Given
+        Long id = 1L;
+        User user = new User();
+        user.setId(id);
+        
+        // When
+        unit.createUser(user);
+
+        // Then
+        verify(entityManager).persist(userCaptor.capture());
+        
+        assertEquals(user, userCaptor.getValue());
     }
 }

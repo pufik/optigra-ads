@@ -28,4 +28,13 @@ public class DefaultApplicationService implements ApplicationService {
         return applicationDao.getApplications(start, offset);
     }
 
+    @Override
+    public String getApplicationStatus(final String applicationId) {
+        
+        Application application = applicationDao.getApplicationById(applicationId);
+        String status = application.getStatus().name();
+        
+        return status;
+    }
+
 }

@@ -2,8 +2,8 @@ package org.optigra.ads.facade.converter.search;
 
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.facade.converter.AbstractConverter;
-import org.optigra.ads.facade.dto.PagedResultResource;
-import org.optigra.ads.facade.dto.Resource;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.Resource;
 import org.springframework.stereotype.Component;
 
 /**

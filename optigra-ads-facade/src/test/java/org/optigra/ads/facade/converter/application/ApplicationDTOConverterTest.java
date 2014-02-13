@@ -3,7 +3,7 @@ package org.optigra.ads.facade.converter.application;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.optigra.ads.facade.dto.application.ApplicationResource;
+import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.model.application.ApplicationStatus;
 

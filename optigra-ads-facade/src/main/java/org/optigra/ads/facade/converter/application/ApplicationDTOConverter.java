@@ -1,7 +1,7 @@
 package org.optigra.ads.facade.converter.application;
 
 import org.optigra.ads.facade.converter.AbstractConverter;
-import org.optigra.ads.facade.dto.application.ApplicationResource;
+import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
 import org.springframework.stereotype.Component;
 

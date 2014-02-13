@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -19,10 +20,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.facade.converter.Converter;
-import org.optigra.ads.facade.dto.PagedResultResource;
-import org.optigra.ads.facade.dto.Resource;
-import org.optigra.ads.facade.dto.ResourceUri;
-import org.optigra.ads.facade.dto.application.ApplicationResource;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.Resource;
+import org.optigra.ads.facade.resource.ResourceUri;
+import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.service.application.ApplicationService;
 
@@ -43,7 +44,7 @@ public class DefaultApplicationFacadeTest {
     private Converter<Application, ApplicationResource> applicationConverter;
     
     @Mock
-    private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.dto.Resource>> pagedSearchConverter;
+    private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
 
     @Mock
     private Converter<ApplicationResource, Application> applicationDTOConverter;
@@ -102,6 +103,23 @@ public class DefaultApplicationFacadeTest {
         
         assertEquals(result, pagedResultCaptor.getValue());
         assertEquals(expecteds, actuals);
+    }
+    
+    @Test
+    public void testGetApplicationStatus() {
+        // Given
+        String applicationId = "ds4324kj23k5j23bn5";
+        String expected = null;
+        
+        // When
+        when(applicationService.getApplicationStatus(anyString())).thenReturn(expected);
+        
+        String actual = unit.getApplicationStatus(applicationId);
+        
+        // Then
+        verify(applicationService).getApplicationStatus(applicationId);
+        
+        assertEquals(expected, actual);
     }
     
 }

@@ -7,6 +7,7 @@ import org.optigra.ads.common.Queries;
 import org.optigra.ads.dao.AbstractDao;
 import org.optigra.ads.model.user.User;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 /**
  * Dao clas for user entity.
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author ivanursul
  *
  */
-@Repository
+@Repository("userDao")
 public class DefaultUserDao extends AbstractDao<User, Long> implements UserDao {
 
     @Override
@@ -34,6 +35,12 @@ public class DefaultUserDao extends AbstractDao<User, Long> implements UserDao {
         parameters.put("password", password);
         
         return executeSingleResultNamedQuery(Queries.FIND_USER_BY_LOGIN_AND_PASS.getQueryName(), parameters );
+    }
+
+    @Override
+    public void createUser(final User user) {
+        Assert.notNull(user);
+        create(user);
     }
 
 }
