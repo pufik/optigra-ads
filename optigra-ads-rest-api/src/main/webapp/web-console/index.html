@@ -44,7 +44,7 @@
 
         <div class='sign-in-form'>
           <form method="POST" onsubmit="return getContext().getUserController().login();">
-            <input type="email" name="userEmail" id="userEmail" required = "required" placeholder="Email" value="" class= "forms" onclick="getContext().getUserController().hideLoginError()">
+            <input type="text" name="userEmail" id="userEmail" required = "required" placeholder="Email" value="" class= "forms" onclick="getContext().getUserController().hideLoginError()">
             <input type="password" name="userPassword" id="userPassword" required = "required" placeholder="Password" value=""  class= "forms" onclick="getContext().getUserController().hideLoginError()">
             <input class="sign-in" type="submit" value="Sign In">
             <br />
