@@ -34,4 +34,12 @@ public interface ApplicationFacade {
      * @return list of applications.
      */
     PagedResultResource<ApplicationResource> getApplications(int start, int offset);
+
+    /** Method, that will send status of application.
+     * @date Feb 13, 2014
+     * @author ivanursul
+     * @param applicationId App id 
+     * @return String status.
+     */
+    String getApplicationStatus(String applicationId);
 }

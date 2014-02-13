@@ -38,7 +38,7 @@ public class MessageResource {
         this.type = type;
         this.message = message;
     }
-
+    
     public MessageType getType() {
         return type;
     }

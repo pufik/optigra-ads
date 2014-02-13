@@ -60,4 +60,12 @@ public class DefaultApplicationFacade implements ApplicationFacade {
         
         return pagedResult;
     }
+
+    @Override
+    public String getApplicationStatus(final String applicationId) {
+        
+        String applicationStatus = applicationService.getApplicationStatus(applicationId);
+        
+        return applicationStatus;
+    }
 }

@@ -1,6 +1,8 @@
 package org.optigra.ads.dao.application;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.optigra.ads.common.Queries;
 import org.optigra.ads.dao.AbstractDao;
@@ -40,5 +42,13 @@ public class DefaultApplicationDao extends AbstractDao<Application, Long>
         PagedSearch pagedSearch = new PagedSearch(start, offset, query, Collections.<String,Object>emptyMap());
         
         return search(pagedSearch);
+    }
+
+    @Override
+    public Application getApplicationById(final String applicationId) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("appId", applicationId);
+        
+        return executeSingleResultNamedQuery(Queries.FIND_APPLICATION_BY_ID.getQueryName(), parameters);
     }
 }

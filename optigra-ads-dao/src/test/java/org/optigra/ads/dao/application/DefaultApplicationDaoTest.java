@@ -108,4 +108,24 @@ public class DefaultApplicationDaoTest {
         
         assertEquals(expected, actual);
     }
+    
+    @Test
+    public void testGetApplicationById() {
+        // Given
+        String applicationId = "appId";
+        Application expected = new Application();
+        expected.setApplicationId(applicationId);
+        
+        // When
+        when(entityManager.createNamedQuery(anyString(), Matchers.<Class<Application>>any())).thenReturn(typedQuery);
+        when(typedQuery.getSingleResult()).thenReturn(expected);
+        
+        Application actual = unit.getApplicationById(applicationId);
+        
+        // Then
+        verify(entityManager).createNamedQuery(Queries.FIND_APPLICATION_BY_ID.getQueryName(), Application.class);
+        verify(typedQuery).setParameter("appId", applicationId);
+        
+        assertEquals(expected, actual);
+    }
 }

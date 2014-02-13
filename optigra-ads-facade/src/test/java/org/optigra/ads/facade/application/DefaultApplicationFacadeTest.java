@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -102,6 +103,23 @@ public class DefaultApplicationFacadeTest {
         
         assertEquals(result, pagedResultCaptor.getValue());
         assertEquals(expecteds, actuals);
+    }
+    
+    @Test
+    public void testGetApplicationStatus() {
+        // Given
+        String applicationId = "ds4324kj23k5j23bn5";
+        String expected = null;
+        
+        // When
+        when(applicationService.getApplicationStatus(anyString())).thenReturn(expected);
+        
+        String actual = unit.getApplicationStatus(applicationId);
+        
+        // Then
+        verify(applicationService).getApplicationStatus(applicationId);
+        
+        assertEquals(expected, actual);
     }
     
 }
