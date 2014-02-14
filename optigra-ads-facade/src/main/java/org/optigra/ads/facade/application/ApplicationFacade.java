@@ -42,4 +42,15 @@ public interface ApplicationFacade {
      * @return String status.
      */
     String getApplicationStatus(String applicationId);
+
+    /**
+     * 
+     * 
+     * 
+     * @date Feb 14, 2014
+     * @author ivanursul
+     * @param applicationId
+     * @return
+     */
+    ApplicationResource getApplication(String applicationId);
 }

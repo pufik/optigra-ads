@@ -37,4 +37,12 @@ public class DefaultApplicationService implements ApplicationService {
         return status;
     }
 
+    @Override
+    public Application getApplication(final String applicationId) {
+        
+        Application application = applicationDao.getApplicationById(applicationId);
+        
+        return application;
+    }
+
 }

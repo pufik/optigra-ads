@@ -138,4 +138,23 @@ public class ApplicationControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
     }
+    
+    @Test
+    public void testGetApplication() throws Exception {
+        // Given
+        String applicationId = "appId"; 
+        String name = "name";
+        ApplicationResource applicationResource = new ApplicationResource();
+        applicationResource.setApplicationId(applicationId);
+        applicationResource.setName(name);
+        applicationResource.setStatus(ApplicationStatus.PAID);
+        
+        // When
+        when(facade.getApplication(anyString())).thenReturn(applicationResource);
+        
+        // Then
+        mockMvc.perform(get("/application/{appId}", applicationId))
+            .andExpect(status().isOk())
+            .andExpect(content().string(objectMapper.writeValueAsString(applicationResource)));
+    }
 }

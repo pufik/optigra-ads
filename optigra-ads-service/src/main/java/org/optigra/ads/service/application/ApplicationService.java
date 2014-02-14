@@ -36,4 +36,15 @@ public interface ApplicationService {
      * @return Application status.
      */
     String getApplicationStatus(String applicationId);
+
+    /**
+     * 
+     * Gets application by App Id
+     * 
+     * @date Feb 14, 2014
+     * @author ivanursul
+     * @param applicationId
+     * @return
+     */
+    Application getApplication(String applicationId);
 }

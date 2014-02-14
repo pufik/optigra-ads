@@ -45,6 +45,13 @@ public class ApplicationController extends BaseController {
         return facade.getApplications(start, offset);
     }
     
+    @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.GET)
+    @ResponseBody
+    public ApplicationResource getApplication(@PathVariable("appId") final String applicationId) {
+        
+        return facade.getApplication(applicationId);
+    }
+    
     @RequestMapping(value = ResourceUri.APPLICATION_STATUS, method = RequestMethod.GET)
     @ResponseBody
     public MessageResource getApplicationStatus(@PathVariable("appId") final String applicationId) {

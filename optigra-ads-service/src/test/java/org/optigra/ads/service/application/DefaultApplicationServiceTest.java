@@ -1,7 +1,13 @@
 package org.optigra.ads.service.application;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +17,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.optigra.ads.dao.application.ApplicationDao;
+import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.application.ApplicationStatus;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultApplicationServiceTest {
@@ -39,5 +47,61 @@ public class DefaultApplicationServiceTest {
         
         // Then
         assertEquals(application, applicationCaptor.getValue());
+    }
+    
+    @Test
+    public void testGetApplications() {
+        // Given
+        int start = 0;
+        int offset = 20;
+        long count = 200;
+        Application entity1 = new Application();
+        List<Application> entities = Arrays.asList(entity1);
+        PagedResult<Application> expected = new PagedResult<Application>(start, offset, count, entities );
+        
+        // When
+        when(applicationDao.getApplications(anyInt(), anyInt())).thenReturn(expected);
+        
+        PagedResult<Application> actual = unit.getApplications(start, offset);
+        
+        // Then
+        verify(applicationDao).getApplications(start, offset);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testGetApplicationStatus() {
+        // Given
+        String applicationId = "appId";
+        Application application = new Application();
+        ApplicationStatus status = ApplicationStatus.PAID;
+        application.setStatus(status );
+        String expected = status.name();
+        
+        // When
+        when(applicationDao.getApplicationById(anyString())).thenReturn(application);
+        
+        String actual = unit.getApplicationStatus(applicationId);
+        
+        // Then
+        verify(applicationDao).getApplicationById(applicationId);
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testGetApplication() {
+        // Given
+        String applicationId = "appId";
+        Application expected = new Application();
+        expected.setApplicationId(applicationId);
+        
+        // When
+        when(applicationDao.getApplicationById(anyString())).thenReturn(expected);
+        
+        Application actual = unit.getApplication(applicationId);
+        
+        // Then
+        verify(applicationDao).getApplicationById(applicationId);
+        assertEquals(expected, actual);
     }
 }

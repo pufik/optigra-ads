@@ -68,4 +68,13 @@ public class DefaultApplicationFacade implements ApplicationFacade {
         
         return applicationStatus;
     }
+
+    @Override
+    public ApplicationResource getApplication(final String applicationId) {
+        
+        Application application = applicationService.getApplication(applicationId);
+        ApplicationResource resource = applicationConverter.convert(application);
+        
+        return resource;
+    }
 }

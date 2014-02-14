@@ -25,6 +25,7 @@ import org.optigra.ads.facade.resource.Resource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.application.ApplicationStatus;
 import org.optigra.ads.service.application.ApplicationService;
 
 
@@ -118,6 +119,41 @@ public class DefaultApplicationFacadeTest {
         
         // Then
         verify(applicationService).getApplicationStatus(applicationId);
+        
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testGetApplication() {
+        // Given
+        String applicationId = "appId";
+        Long id = 1L;
+        String name = "name";
+        String url = "www.vk.com/ios-kakashka";
+        
+        ApplicationResource expected = new ApplicationResource();
+        expected.setApplicationId(applicationId);
+        expected.setId(id);
+        expected.setName(name);
+        expected.setStatus(ApplicationStatus.PENDING);
+        expected.setUrl(url);
+        
+        Application application = new Application();
+        application.setApplicationId(applicationId);
+        application.setId(id);
+        application.setName(name);
+        application.setStatus(ApplicationStatus.PENDING);
+        application.setUrl(url);
+        
+        // When
+        when(applicationService.getApplication(anyString())).thenReturn(application);
+        when(applicationConverter.convert(any(Application.class))).thenReturn(expected);
+        
+        ApplicationResource actual = unit.getApplication(applicationId);
+        
+        // Then
+        verify(applicationService).getApplication(applicationId);
+        verify(applicationConverter).convert(application);
         
         assertEquals(expected, actual);
     }
