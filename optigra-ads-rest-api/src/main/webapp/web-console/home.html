@@ -7,104 +7,56 @@
     <meta name="author" content="">
 
     <title>Dashboard - Optigra Ads Mobile</title>
+	
+	<!-- Javascript -->
+	<script type="text/javascript" src="script/jquery/jquery-1.9.0.js"></script>
+        <script src="js/bootstrap.js"></script>
+	<script type="text/javascript" src="script/jquery/jquery-ui-1.10.3.custom.js"></script>
+	<script type="text/javascript" src="script/jquery/plugin/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="script/jquery/plugin/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="script/util/handlebars-1.0.rc.1.js"></script>
+    <script type="text/javascript" src="script/util/handlebars-extend.js"></script>  
+	
+	<script type="text/javascript" src="script/framework/application-context.js"></script>
+	<script type="text/javascript" src="script/framework/controller/user-controller.js"></script>
+	<script type="text/javascript" src="script/framework/controller/application-controller.js"></script>
+	
+	<script type="text/javascript" src="script/framework/data/user-dao.js"></script>
+	<script type="text/javascript" src="script/framework/data/application-dao.js"></script>
+	
+	<script type="text/javascript" src="script/framework/presenter/user-presenter.js"></script>
+	<script type="text/javascript" src="script/framework/presenter/application-presenter.js"></script>
+	
+	<script type="text/javascript" src="script/framework/view/template-provider.js"></script>
+    <script type="text/javascript" src="script/framework/data/ajax-data-provider.js"></script> 
 
+    <script src="js/tablesorter/jquery.tablesorter.js"></script>
+    <script src="js/tablesorter/tables.js"></script>
+    
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
-
+	
     <!-- Add custom CSS here -->
     <link href="css/sb-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-    <!-- Page Specific CSS -->
-    <link rel="stylesheet" href="http://cdn.oesmith.co.uk/morris-0.4.3.min.css">
+    
+    <script type="text/javascript">
+    //TODO: Implement general solution to define context path
+    var APPLICATION_CONTEXT = new ApplicationContext();
+	APPLICATION_CONTEXT.contextPath = "/optigra-ads-rest-api/api";
+	APPLICATION_CONTEXT.webConsoleContextPath = "/optigra-ads-rest-api/web-console";
+	
+    $(document).ready(function(){
+    	getContext().getUserController().getDashboard(); 	
+    });
+    </script>
   </head>
 
   <body>
 
     <div id="wrapper">
 
-      <!-- Sidebar -->
-      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">Optigra - Mobile Ad Network</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-          <ul class="nav navbar-nav side-nav">
-            <li class="active"><a href="index.html"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li><a href="#apps"><i class="fa fa-apple"></i> Apps</a></li>
-            <li><a href="#users"><i class="fa fa-users"></i> Users</a></li>
-            <li><a href="#reports"><i class="fa fa-bar-chart-o"></i> Reports</a></li>
-          </ul>
-
-          <ul class="nav navbar-nav navbar-right navbar-user">
-            <li class="dropdown messages-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-dollar"></i> Balance <span class="badge">$510.05</span> <b class="caret"></b></a>
-               <ul class="dropdown-menu">
-                <li><a href="#"><i class="fa fa-credit-card"></i> Purchase</a></li>
-                <li><a href="#"><i class="fa fa-bar-chart-o"></i>Transaction Log</a></li>
-              </ul>
-            </li>
-            
-            <li class="dropdown user-dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
-                <li><a href="#"><i class="fa fa-envelope"></i> Inbox <span class="badge">7</span></a></li>
-                <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
-                <li class="divider"></li>
-                <li><a href="#"><i class="fa fa-power-off"></i> Log Out</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div><!-- /.navbar-collapse -->
-      </nav>
-
-      <div id="page-wrapper">
-
-        <div class="row">
-          <div class="col-lg-12">
-            <h1>Dashboard <small>Statistics Overview</small></h1>
-            <ol class="breadcrumb">
-              <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
-            </ol>
-          </div>
-        </div><!-- /.row -->
-
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Traffic Statistics: January 1, 2014 - January 31, 2014</h3>
-              </div>
-              <div class="panel-body">
-                <div id="morris-chart-area"></div>
-              </div>
-            </div>
-          </div>
-        </div><!-- /.row -->
-
-      </div><!-- /#page-wrapper -->
 
     </div><!-- /#wrapper -->
-
-    <!-- JavaScript -->
-    <script src="js/jquery-1.10.2.js"></script>
-    <script src="js/bootstrap.js"></script>
-
-    <!-- Page Specific Plugins -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="http://cdn.oesmith.co.uk/morris-0.4.3.min.js"></script>
-    <script src="js/morris/chart-data-morris.js"></script>
-    <script src="js/tablesorter/jquery.tablesorter.js"></script>
-    <script src="js/tablesorter/tables.js"></script>
-
   </body>
 </html>

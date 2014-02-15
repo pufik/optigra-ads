@@ -1,6 +1,7 @@
 function UserDAO(context) {
 	
 	var userUrl = context.contextPath + "/user";
+	var userProfileUrl = context.contextPath + "/user";
 	var loginUrl = context.contextPath;
 	
 	var makeBaseAuth = function(user, password) {
@@ -35,5 +36,9 @@ function UserDAO(context) {
 	
 	this.register = function(responseHandler, user) {	
 		getDataByAjaxJSON({pageUrl : userUrl, handler : responseHandler, reqType: "POST", dataObject : user});
+	};
+	
+	this.getProfile = function(responseHandler) {		 
+		getDataByAjax({pageUrl : userProfileUrl, handler : responseHandler});
 	};
 }

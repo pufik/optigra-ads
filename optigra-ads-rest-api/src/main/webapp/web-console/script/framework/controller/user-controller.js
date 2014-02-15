@@ -40,4 +40,12 @@ function UserController(context) {
 		alert("We will do it ASAP ;)");
 		return false;
 	};
+	
+	this.getDashboard = function() {
+		userDao.getProfile(this.getProfileResponseHandler);
+	};
+
+	this.getProfileResponseHandler = function(profile) {
+		userPresenter.showDashboard(profile);
+	}
 }

@@ -19,6 +19,14 @@ function ApplicationContext(){
 		return controller.user;
 	};
 	
+	this.getApplicationController = function(){		
+		if(!controller.application){
+			controller.application = new ApplicationController(this);
+		}
+		
+		return controller.application;
+	};
+	
 	this.getCache = function(){
 		return cache;
 	};

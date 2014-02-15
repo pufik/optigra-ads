@@ -49,24 +49,8 @@ $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
 });
 
 function handleSessionExpired() {
-	$('#sessionExpiredDialog')
-			.dialog({
-				zIndex : 0,
-				closeOnEscape : false,
-				autoOpen : true,
-				modal : true,
-				width : 300,
-				draggable : false,
-				resizable : false,
-				buttons : {
-					'OK' : function() {
-						$(this).dialog("close");
-					}
-				},
-				close : function(event, ui) {
-					window.location.href = getContext().contextPath;
-				}
-			});
+	//TODO: IP - change to custom dialog
+	window.location.href = getContext().webConsoleContextPath;
 }
 
 function handleServerSideException(message) {
