@@ -7,7 +7,7 @@ function TemplateProvider(context){
 		templates[path] = template;
 		var html = template(context);
 		
-		handler(html);
+		handler(html, context);
 	}
 	
 	function getTemplateByAjax(path, context, handler){
@@ -34,7 +34,7 @@ function TemplateProvider(context){
 		var template = templates[path];
 		
 		if(template){
-			handler(template(context));
+			handler(template(context), context);
 		}else{
 			getTemplateByAjax(path, context, handler);
 		}
