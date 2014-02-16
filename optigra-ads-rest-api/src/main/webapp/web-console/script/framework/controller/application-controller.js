@@ -23,4 +23,26 @@ function ApplicationController(context) {
 				: search.count;
 		applicationPresenter.showApplications(search);
 	};
+	
+	this.createApplication = function() {
+		var application = {};
+		
+		application.name = $("#applicationName").val();
+		application.url = $("#applicationUrl").val();
+		application.status = "PENDING";
+		application.applicationId = new Date().getTime();
+		
+		applicationDao.create(application, this.createApplicationResponseHandler);
+	};
+	
+	this.createApplicationResponseHandler = function(message) {
+		if(message.type == "INFO"){
+			$('#addApplicationModal').modal('hide');
+			context.getApplicationController().getAll();
+		}else{
+			//TODO: Show error message
+		}
+		
+		
+	};
 }

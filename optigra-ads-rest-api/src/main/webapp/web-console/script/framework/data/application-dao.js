@@ -6,4 +6,8 @@ function ApplicationDAO(context) {
 		getDataByAjax({pageUrl : applicationUrl, reqData: search, handler : responseHandler});
 	};
 	
+	this.create = function(application, responseHandler) {		 
+		getDataByAjaxJSON({pageUrl : applicationUrl, reqType: "POST", dataObject: application, handler : responseHandler});
+	};
+	
 }
