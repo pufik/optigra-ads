@@ -33,6 +33,9 @@ function ApplicationController(context) {
 		application.applicationId = new Date().getTime();
 		
 		applicationDao.create(application, this.createApplicationResponseHandler);
+		
+		//Form restriction
+		return false;
 	};
 	
 	this.createApplicationResponseHandler = function(message) {

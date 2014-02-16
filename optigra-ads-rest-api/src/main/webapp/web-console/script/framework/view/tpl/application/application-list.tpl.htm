@@ -68,8 +68,6 @@
 			</div>
             </div>
           </div>
-        </div><!-- /.row -->
-
         
 <!-- Modal -->
 <div class="modal fade" id="addApplicationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -80,6 +78,7 @@
         <h4 class="modal-title" id="myModalLabel">Add new application</h4>
       </div>
       <div class="modal-body">
+      <form id="createApplicationForm" method="post" onsubmit="return getContext().getApplicationController().createApplication();">
         <div class="form-group">
                 <label>Application name:</label>
                 <input id="applicationName" required="required" class="form-control" placeholder="Enter name">
@@ -88,10 +87,11 @@
                 <label>URL:</label>
                 <input id="applicationUrl" required="required" class="form-control" placeholder="Enter url">
         </div>
+       </form> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="getContext().getApplicationController().createApplication()">Save changes</button>
+        <button type="button" class="btn btn-primary" onclick="$('#createApplicationForm').submit()">Save changes</button>
       </div>
     </div>
   </div>
