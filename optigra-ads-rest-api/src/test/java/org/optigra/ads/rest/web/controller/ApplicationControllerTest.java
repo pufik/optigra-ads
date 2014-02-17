@@ -128,7 +128,7 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         // Given
         String applicationId = "ds4324kj23k5j23bn5";
         String status = ApplicationStatus.PENDING.name();
-        MessageResource messageResource = new MessageResource(MessageType.INFO, status );        
+        MessageResource messageResource = new MessageResource(MessageType.INFO, status);        
 
         // When
         when(facade.getApplicationStatus(anyString())).thenReturn(status);
