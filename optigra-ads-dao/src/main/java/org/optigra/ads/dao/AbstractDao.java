@@ -50,6 +50,12 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
     }
 
     @Override
+    public void removeById(final K key) {
+        E entity = findById(key);
+        remove(entity);
+    }
+
+    @Override
     public void update(final E entity) {
         entityManager.merge(entity);
     }

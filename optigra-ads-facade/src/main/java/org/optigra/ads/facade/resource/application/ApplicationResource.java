@@ -66,7 +66,7 @@ public class ApplicationResource extends Resource implements Serializable {
 
     @Override
     public String getUri() {
-        return ResourceUri.APPLICATION + ResourceUri.SLASH + id;
+        return ResourceUri.APPLICATION + ResourceUri.SLASH + applicationId;
     }
 
     @Override

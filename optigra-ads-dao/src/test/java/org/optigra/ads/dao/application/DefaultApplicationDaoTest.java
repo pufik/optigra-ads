@@ -1,6 +1,7 @@
 package org.optigra.ads.dao.application;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
@@ -127,5 +128,24 @@ public class DefaultApplicationDaoTest {
         verify(typedQuery).setParameter("appId", applicationId);
         
         assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void deleteApplication() {
+        // Given
+        Long id = 1L;
+        String applicationId = "fsdfgds23523";
+        Application application = new Application();
+        application.setId(id);
+        application.setApplicationId(applicationId);
+        
+        // When
+        when(entityManager.find(Matchers.<Class<Application>>any(), anyLong())).thenReturn(application);
+        
+        unit.deleteApplication(application);
+        
+        // Then
+        verify(entityManager).remove(applicationCaptor.capture());
+        assertEquals(application, applicationCaptor.getValue());
     }
 }

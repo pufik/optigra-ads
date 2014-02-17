@@ -104,4 +104,23 @@ public class DefaultApplicationServiceTest {
         verify(applicationDao).getApplicationById(applicationId);
         assertEquals(expected, actual);
     }
+    
+    @Test
+    public void testDeleteApplication() {
+        // Given
+        String applicationId = "gh5f24g5fg43";
+        Application application = new Application();
+        application.setApplicationId(applicationId);
+        
+        // When
+        when(applicationDao.getApplicationById(anyString())).thenReturn(application);
+        
+        unit.deleteApplication(applicationId);
+        
+        // Then
+        verify(applicationDao).getApplicationById(applicationId);
+        verify(applicationDao).deleteApplication(applicationCaptor.capture());
+        
+        assertEquals(application, applicationCaptor.getValue());
+    }
 }

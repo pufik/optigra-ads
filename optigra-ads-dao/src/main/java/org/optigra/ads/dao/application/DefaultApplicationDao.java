@@ -51,4 +51,9 @@ public class DefaultApplicationDao extends AbstractDao<Application, Long>
         
         return executeSingleResultNamedQuery(Queries.FIND_APPLICATION_BY_ID.getQueryName(), parameters);
     }
+
+    @Override
+    public void deleteApplication(final Application application) {
+        remove(application);
+    }
 }

@@ -53,4 +53,13 @@ public interface ApplicationFacade {
      * @return
      */
     ApplicationResource getApplication(String applicationId);
+
+    /**
+     * Method for deleting application.
+     * 
+     * @date Feb 17, 2014
+     * @author ivanursul
+     * @param applicationId application unique identifier.
+     */
+    void deleteApplication(String applicationId);
 }

@@ -77,4 +77,11 @@ public class DefaultApplicationFacade implements ApplicationFacade {
         
         return resource;
     }
+
+    @Override
+    public void deleteApplication(final String applicationId) {
+        
+        applicationService.deleteApplication(applicationId);
+        
+    }
 }

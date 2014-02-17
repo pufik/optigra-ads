@@ -33,6 +33,9 @@ import org.optigra.ads.service.application.ApplicationService;
 public class DefaultApplicationFacadeTest {
 
     @Captor
+    private ArgumentCaptor<String> stringCaptor;
+    
+    @Captor
     private ArgumentCaptor<PagedResult<?>> pagedResultCaptor;
     
     @Captor
@@ -158,4 +161,16 @@ public class DefaultApplicationFacadeTest {
         assertEquals(expected, actual);
     }
     
+    @Test
+    public void testDeleteApplication() {
+        // Given
+        String applicationId = "gh5f24hg5f43g";
+        
+        // When
+        unit.deleteApplication(applicationId);
+        
+        // Then
+        verify(applicationService).deleteApplication(stringCaptor.capture());
+        assertEquals(applicationId, stringCaptor.getValue());
+    }
 }

@@ -61,4 +61,13 @@ public class ApplicationController extends BaseController {
         return new MessageResource(MessageType.INFO, status);
     }
     
+    @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.DELETE)
+    @ResponseBody
+    public MessageResource deleteApplication(@PathVariable("appId") final String applicationId) {
+        
+        facade.deleteApplication(applicationId);
+        
+        return new MessageResource(MessageType.INFO, "Application deleted");
+    }
+    
 }

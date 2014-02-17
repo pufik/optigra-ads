@@ -34,6 +34,13 @@ public interface Dao<E, K> {
      */
     void remove(E entity);
     /**
+     *  Removes entity by id.
+     * @date Feb 17, 2014
+     * @author ivanursul
+     * @param key
+     */
+    void removeById(K key);
+    /**
      * Updating entity.
      * @date Jan 23, 2014
      * @author ivanursul

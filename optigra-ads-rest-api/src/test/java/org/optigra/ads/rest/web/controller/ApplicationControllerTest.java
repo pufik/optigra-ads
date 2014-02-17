@@ -1,9 +1,11 @@
 package org.optigra.ads.rest.web.controller;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -15,6 +17,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -37,6 +41,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationControllerTest extends AbstractControllerTest {
 
+    @Captor
+    private ArgumentCaptor<String> stringCaptor;
+    
     @Mock
     private ApplicationFacade facade;
     
@@ -156,5 +163,20 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         mockMvc.perform(get("/application/{appId}", applicationId))
             .andExpect(status().isOk())
             .andExpect(content().string(objectMapper.writeValueAsString(applicationResource)));
+    }
+    
+    @Test
+    public void testDeleteApplication() throws Exception {
+        // Given
+        String applicationId = "gh23hg5f2gh";
+        MessageResource messageResource = new MessageResource(MessageType.INFO, "Application deleted");
+        
+        // Then
+        mockMvc.perform(delete("/application/{appId}", applicationId))
+            .andExpect(status().isOk())
+            .andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
+        
+        verify(facade).deleteApplication(stringCaptor.capture());
+        assertEquals(applicationId, stringCaptor.getValue());
     }
 }

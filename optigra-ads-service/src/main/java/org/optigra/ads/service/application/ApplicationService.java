@@ -47,4 +47,15 @@ public interface ApplicationService {
      * @return
      */
     Application getApplication(String applicationId);
+
+    /**
+     * 
+     * Delete application by id.
+     * 
+     * @date Feb 17, 2014
+     * @author ivanursul
+     * @param applicationId
+     */
+    void deleteApplication(String applicationId);
+
 }
