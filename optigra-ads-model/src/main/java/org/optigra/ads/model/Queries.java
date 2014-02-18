@@ -1,4 +1,4 @@
-package org.optigra.ads.common;
+package org.optigra.ads.model;
 
 /**
  * @date Feb 7, 2014

@@ -18,7 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.common.Queries;
+import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.user.User;
 
 

@@ -19,13 +19,11 @@
         San Francisco, California, 94105, USA
  -->
 <wadl:application xmlns:wadl="http://wadl.dev.java.net/2009/02"
-    xmlns:jr="http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" xmlns:r="http://anydomain/schema/reports Report.xsd" 
-    xmlns:n1="http://anydomain/MyTypes.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://wadl.dev.java.net/2009/02 wadl.xsd ">
     <wadl:doc title="Optigra Mobile Ads">
        REST API for Optigra Mobile Ads Network
     </wadl:doc>
-    <wadl:resources base="http://optigra-ads.optigra.org/api">
+    <wadl:resources base="/">
         <wadl:resource path="application">
         <wadl:doc title="Description">Application management methods</wadl:doc>
         	<wadl:method name="GET" id="getApplications">

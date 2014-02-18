@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.optigra.ads.common.Queries;
 import org.optigra.ads.dao.AbstractDao;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.pagination.PagedSearch;
+import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.application.Application;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;

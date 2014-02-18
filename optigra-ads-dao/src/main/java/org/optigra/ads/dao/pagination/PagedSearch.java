@@ -2,7 +2,7 @@ package org.optigra.ads.dao.pagination;
 
 import java.util.Map;
 
-import org.optigra.ads.common.Queries;
+import org.optigra.ads.model.Queries;
 
 /**
  * Class for paged queries.

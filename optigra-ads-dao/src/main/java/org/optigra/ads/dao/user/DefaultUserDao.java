@@ -3,8 +3,8 @@ package org.optigra.ads.dao.user;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.optigra.ads.common.Queries;
 import org.optigra.ads.dao.AbstractDao;
+import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.user.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
