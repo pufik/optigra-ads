@@ -13,7 +13,9 @@ import javax.persistence.Table;
 import org.optigra.ads.common.Queries;
 
 /**
+ * 
  * Application entity.
+ * 
  * @date Feb 11, 2014
  * @author ivanursul
  *

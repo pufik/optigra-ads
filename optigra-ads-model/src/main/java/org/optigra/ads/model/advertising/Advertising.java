@@ -1,35 +1,52 @@
-package org.optigra.ads.facade.resource;
+package org.optigra.ads.model.advertising;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
+import org.optigra.ads.common.Queries;
 
 /**
- * Resource for advertising.
+ * @date Feb 18, 2014
+ * @author ivanursul
  *
- * @author Iurii Parfeniuk
  */
-public class AdvertisingResource extends Resource {
+@Table
+@Entity
+@NamedQueries({
+    @NamedQuery(name = Queries.FIND_ADVERTISINGS_QUERY_NAME, query = Queries.FIND_ADVERTISINGS_QUERY)
+})
+public class Advertising {
+    
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    private Long uid;
-
+    @Column(name = "title")
     private String title;
 
+    @Column(name = "description")
     private String description;
 
+    @Column(name = "logo_url")
     private String logoUrl;
 
+    @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "destination_url")
     private String destinationUrl;
 
-    public Long getUid() {
-        return uid;
+    public Long getId() {
+        return id;
     }
 
-    public void setUid(final Long uid) {
-        this.uid = uid;
-    }
-
-    @Override
-    public String getUri() {
-        return ResourceUri.ADVERTISING + ResourceUri.SLASH + uid;
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -78,10 +95,10 @@ public class AdvertisingResource extends Resource {
         int result = 1;
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((destinationUrl == null) ? 0 : destinationUrl.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
         result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + ((uid == null) ? 0 : uid.hashCode());
         return result;
     }
 
@@ -93,7 +110,7 @@ public class AdvertisingResource extends Resource {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AdvertisingResource other = (AdvertisingResource) obj;
+        Advertising other = (Advertising) obj;
         if (description == null) {
             if (other.description != null)
                 return false;
@@ -103,6 +120,11 @@ public class AdvertisingResource extends Resource {
             if (other.destinationUrl != null)
                 return false;
         } else if (!destinationUrl.equals(other.destinationUrl))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
             return false;
         if (imageUrl == null) {
             if (other.imageUrl != null)
@@ -119,18 +141,13 @@ public class AdvertisingResource extends Resource {
                 return false;
         } else if (!title.equals(other.title))
             return false;
-        if (uid == null) {
-            if (other.uid != null)
-                return false;
-        } else if (!uid.equals(other.uid))
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "AdvertisingResource [uid=" + uid + ", title=" + title + ", description=" + description + ", logoUrl=" + logoUrl + ", imageUrl=" + imageUrl
+        return "Advertising [id=" + id + ", title=" + title + ", description=" + description + ", logoUrl=" + logoUrl + ", imageUrl=" + imageUrl
                 + ", destinationUrl=" + destinationUrl + "]";
     }
-    
+
 }

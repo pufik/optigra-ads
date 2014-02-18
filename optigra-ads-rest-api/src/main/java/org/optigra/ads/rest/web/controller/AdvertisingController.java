@@ -1,14 +1,15 @@
 package org.optigra.ads.rest.web.controller;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
+import javax.annotation.Resource;
 
+import org.optigra.ads.facade.advertising.AdvertisingFacade;
 import org.optigra.ads.facade.resource.AdvertisingResource;
+import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -19,30 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = ResourceUri.ADVERTISING)
 public class AdvertisingController extends BaseController {
-    // TODO: IP - Temporary stuff. Should be removed
-    private static final String API_CONTENT_ADVERTISING_LOGO = "/api/content/advertising/logo/";
-    private static final String API_CONTENT_ADVERTISING = "/api/content/advertising/";
-    private static final String HTTP_COMPANY_COM = "http://company.com";
-    private static final String ADVERTISING_DESCRIPTION = "Advertising description";
-    private static final String SIMPLE_ADVERTISING_EXAMPLE = "Simple advertising example";
 
-    /**
-     * Default search handling.
-     *
-     * @return list of advertising {@link AdvertisingResource}
-     */
+    @Resource(name = "advertisingFacade")
+    private AdvertisingFacade advertisingFacade;
+    
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<AdvertisingResource> search() {
-        AdvertisingResource resource = new AdvertisingResource();
-
-        resource.setUid(BigDecimal.ZERO.longValue());
-        resource.setTitle(SIMPLE_ADVERTISING_EXAMPLE);
-        resource.setDescription(ADVERTISING_DESCRIPTION);
-        resource.setDestinationUrl(HTTP_COMPANY_COM);
-        resource.setImageUrl(API_CONTENT_ADVERTISING + resource.getUid());
-        resource.setLogoUrl(API_CONTENT_ADVERTISING_LOGO + resource.getUid());
-
-        return Arrays.asList(resource);
+    public PagedResultResource<AdvertisingResource> getAdvertisings(@RequestParam(value = "start", defaultValue = "0") final int start,
+            @RequestParam(value = "offset", defaultValue = "20") final int offset) {
+        return advertisingFacade.getAdvertisings(start, offset);
     }
 }

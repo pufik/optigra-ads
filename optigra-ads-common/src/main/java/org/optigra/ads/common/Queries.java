@@ -17,10 +17,14 @@ public class Queries {
     public static final String FIND_APPLICATION_BY_ID_QUERY_NAME = "Application.findApplicationById";
     public static final String FIND_APPLICATION_BY_ID_QUERY = "SELECT a FROM Application a WHERE a.applicationId = :appId";
 
+    public static final String FIND_ADVERTISINGS_QUERY_NAME = "Advertising.findAdvertisings";
+    public static final String FIND_ADVERTISINGS_QUERY = "SELECT a FROM Advertising a";
+
     // Queries
     public static final Queries FIND_USER_BY_LOGIN_AND_PASS = new Queries(USER_FIND_BY_LOGIN_AND_PASSWORD_QUERY_NAME, USER_FIND_BY_LOGIN_AND_PASSWORD_QUERY);
     public static final Queries FIND_APPLICATIONS = new Queries(FIND_APPLICATIONS_QUERY_NAME, FIND_APPLICATIONS_QUERY);
     public static final Queries FIND_APPLICATION_BY_ID = new Queries(FIND_APPLICATION_BY_ID_QUERY_NAME, FIND_APPLICATION_BY_ID_QUERY);
+    public static final Queries FIND_ADVERTISINGS = new Queries(FIND_ADVERTISINGS_QUERY_NAME, FIND_ADVERTISINGS_QUERY);
 
     private final String queryName;
     private final String query;
