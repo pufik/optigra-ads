@@ -6,13 +6,13 @@ import org.optigra.ads.model.application.Application;
 /**
  * @date Feb 12, 2014
  * @author ivanursul
- * 
+ *
  */
 public interface ApplicationDao {
 
     /**
      * Create application method in Dao layer.
-     * 
+     *
      * @date Feb 12, 2014
      * @author ivanursul
      * @param application
@@ -22,16 +22,16 @@ public interface ApplicationDao {
     /**
      * @date Feb 12, 2014
      * @author ivanursul
-     * @param start
      * @param offset
+     * @param limit
      * @return
      */
-    PagedResult<Application> getApplications(int start, int offset);
+    PagedResult<Application> getApplications(int offset, int limit);
 
     /**
-     * 
+     *
      * Getting application.
-     * 
+     *
      * @date Feb 13, 2014
      * @author ivanursul
      * @param applicationId
@@ -40,9 +40,9 @@ public interface ApplicationDao {
     Application getApplicationById(String applicationId);
 
     /**
-     * 
+     *
      * Deleting application.
-     * 
+     *
      * @date Feb 17, 2014
      * @author ivanursul
      * @param applicationId

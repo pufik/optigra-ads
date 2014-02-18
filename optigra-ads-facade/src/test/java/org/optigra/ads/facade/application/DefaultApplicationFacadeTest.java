@@ -28,104 +28,102 @@ import org.optigra.ads.model.application.Application;
 import org.optigra.ads.model.application.ApplicationStatus;
 import org.optigra.ads.service.application.ApplicationService;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultApplicationFacadeTest {
 
     @Captor
     private ArgumentCaptor<String> stringCaptor;
-    
+
     @Captor
     private ArgumentCaptor<PagedResult<?>> pagedResultCaptor;
-    
+
     @Captor
     private ArgumentCaptor<PagedResultResource<? extends Resource>> pagedResultResource;
-    
+
     @Captor
     private ArgumentCaptor<Application> applicationCaptor;
-    
+
     @Mock
     private Converter<Application, ApplicationResource> applicationConverter;
-    
+
     @Mock
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
 
     @Mock
     private Converter<ApplicationResource, Application> applicationDTOConverter;
-    
+
     @Mock
     private ApplicationService applicationService;
-    
+
     @InjectMocks
-    private ApplicationFacade unit = new DefaultApplicationFacade();
-    
+    private final ApplicationFacade unit = new DefaultApplicationFacade();
+
     @Test
     public void testCreateApplication() {
-        // Given 
+        // Given
         String name = "application";
         ApplicationResource applicationResource = new ApplicationResource();
         applicationResource.setName(name);
         Application application = new Application();
         application.setName(name);
-        
+
         // When
         when(applicationDTOConverter.convert(any(ApplicationResource.class))).thenReturn(application);
-        
+
         unit.createApplication(applicationResource);
-        
+
         verify(applicationService).createApplication(applicationCaptor.capture());
-        
+
         // Then
         assertEquals(application, applicationCaptor.getValue());
     }
-    
+
     @Test
     public void testGetApplications() {
         // Given
-        int start = 0;
-        int offset = 25;
+        int offset = 0;
+        int limit = 25;
         long count = 100;
         String uri = ResourceUri.APPLICATION;
         Application applications1 = new Application();
         ApplicationResource applicationsResource1 = new ApplicationResource();
         List<Application> entities = Arrays.asList(applications1);
         List<ApplicationResource> applicationResources = Arrays.asList(applicationsResource1);
-        PagedResult<Application> result = new PagedResult<Application>(start, offset, count, entities);
+        PagedResult<Application> result = new PagedResult<Application>(offset, limit, count, entities);
         PagedResultResource<ApplicationResource> expecteds = new PagedResultResource<>(uri);
         expecteds.setEntities(applicationResources);
-        
-        
+
         // When
         when(applicationService.getApplications(anyInt(), anyInt())).thenReturn(result);
         when(applicationConverter.convertAll(anyListOf(Application.class))).thenReturn(applicationResources);
-        
-        PagedResultResource<ApplicationResource> actuals = unit.getApplications(start, offset);
-        
+
+        PagedResultResource<ApplicationResource> actuals = unit.getApplications(offset, limit);
+
         // Then
-        
+
         verify(pagedSearchConverter).convert(pagedResultCaptor.capture(), pagedResultResource.capture());
-        
+
         assertEquals(result, pagedResultCaptor.getValue());
         assertEquals(expecteds, actuals);
     }
-    
+
     @Test
     public void testGetApplicationStatus() {
         // Given
         String applicationId = "ds4324kj23k5j23bn5";
         String expected = null;
-        
+
         // When
         when(applicationService.getApplicationStatus(anyString())).thenReturn(expected);
-        
+
         String actual = unit.getApplicationStatus(applicationId);
-        
+
         // Then
         verify(applicationService).getApplicationStatus(applicationId);
-        
+
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testGetApplication() {
         // Given
@@ -133,42 +131,42 @@ public class DefaultApplicationFacadeTest {
         Long id = 1L;
         String name = "name";
         String url = "www.vk.com/ios-kakashka";
-        
+
         ApplicationResource expected = new ApplicationResource();
         expected.setApplicationId(applicationId);
         expected.setId(id);
         expected.setName(name);
         expected.setStatus(ApplicationStatus.PENDING);
         expected.setUrl(url);
-        
+
         Application application = new Application();
         application.setApplicationId(applicationId);
         application.setId(id);
         application.setName(name);
         application.setStatus(ApplicationStatus.PENDING);
         application.setUrl(url);
-        
+
         // When
         when(applicationService.getApplication(anyString())).thenReturn(application);
         when(applicationConverter.convert(any(Application.class))).thenReturn(expected);
-        
+
         ApplicationResource actual = unit.getApplication(applicationId);
-        
+
         // Then
         verify(applicationService).getApplication(applicationId);
         verify(applicationConverter).convert(application);
-        
+
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testDeleteApplication() {
         // Given
         String applicationId = "gh5f24hg5f43g";
-        
+
         // When
         unit.deleteApplication(applicationId);
-        
+
         // Then
         verify(applicationService).deleteApplication(stringCaptor.capture());
         assertEquals(applicationId, stringCaptor.getValue());

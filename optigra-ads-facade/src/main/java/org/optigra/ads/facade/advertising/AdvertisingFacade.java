@@ -6,20 +6,20 @@ import org.optigra.ads.facade.resource.PagedResultResource;
 /**
  * @date Feb 18, 2014
  * @author ivanursul
- *
  */
 public interface AdvertisingFacade {
 
     /**
-     * 
      * Method for getting advertisings.
-     * 
+     *
      * @date Feb 18, 2014
      * @author ivanursul
-     * @param start start position
-     * @param offset offset
-     * @return
+     * @param offset
+     *            - start position
+     * @param limit
+     *            - maximum size
+     * @return {@link PagedResultResource}
      */
-    PagedResultResource<AdvertisingResource> getAdvertisings(int start, int offset);
+    PagedResultResource<AdvertisingResource> getAdvertisings(int offset, int limit);
 
 }

@@ -52,20 +52,20 @@ public class DefaultApplicationServiceTest {
     @Test
     public void testGetApplications() {
         // Given
-        int start = 0;
-        int offset = 20;
+        int offset = 0;
+        int limit = 20;
         long count = 200;
         Application entity1 = new Application();
         List<Application> entities = Arrays.asList(entity1);
-        PagedResult<Application> expected = new PagedResult<Application>(start, offset, count, entities );
+        PagedResult<Application> expected = new PagedResult<Application>(offset, limit, count, entities );
         
         // When
         when(applicationDao.getApplications(anyInt(), anyInt())).thenReturn(expected);
         
-        PagedResult<Application> actual = unit.getApplications(start, offset);
+        PagedResult<Application> actual = unit.getApplications(offset, limit);
         
         // Then
-        verify(applicationDao).getApplications(start, offset);
+        verify(applicationDao).getApplications(offset, limit);
         assertEquals(expected, actual);
     }
     

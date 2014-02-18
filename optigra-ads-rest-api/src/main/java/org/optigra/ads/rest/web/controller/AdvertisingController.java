@@ -23,11 +23,12 @@ public class AdvertisingController extends BaseController {
 
     @Resource(name = "advertisingFacade")
     private AdvertisingFacade advertisingFacade;
-    
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public PagedResultResource<AdvertisingResource> getAdvertisings(@RequestParam(value = "start", defaultValue = "0") final int start,
-            @RequestParam(value = "offset", defaultValue = "20") final int offset) {
-        return advertisingFacade.getAdvertisings(start, offset);
+    public PagedResultResource<AdvertisingResource> getAdvertisings(@RequestParam(value = "offset", defaultValue = "0") final int offset,
+            @RequestParam(value = "limit", defaultValue = "20") final int limit) {
+
+        return advertisingFacade.getAdvertisings(offset, limit);
     }
 }

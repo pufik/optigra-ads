@@ -15,10 +15,10 @@ import org.springframework.util.Assert;
 
 /**
  * Default implementation of Application Dao layer.
- * 
+ *
  * @date Feb 12, 2014
  * @author ivanursul
- * 
+ *
  */
 @Repository("applicationDao")
 public class DefaultApplicationDao extends AbstractDao<Application, Long>
@@ -36,11 +36,11 @@ public class DefaultApplicationDao extends AbstractDao<Application, Long>
     }
 
     @Override
-    public PagedResult<Application> getApplications(final int start, final int offset) {
-        
+    public PagedResult<Application> getApplications(final int offset, final int limit) {
+
         Queries query = Queries.FIND_APPLICATIONS;
-        PagedSearch pagedSearch = new PagedSearch(start, offset, query, Collections.<String,Object>emptyMap());
-        
+        PagedSearch pagedSearch = new PagedSearch(offset, limit, query, Collections.<String,Object>emptyMap());
+
         return search(pagedSearch);
     }
 
@@ -48,7 +48,7 @@ public class DefaultApplicationDao extends AbstractDao<Application, Long>
     public Application getApplicationById(final String applicationId) {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("appId", applicationId);
-        
+
         return executeSingleResultNamedQuery(Queries.FIND_APPLICATION_BY_ID.getQueryName(), parameters);
     }
 

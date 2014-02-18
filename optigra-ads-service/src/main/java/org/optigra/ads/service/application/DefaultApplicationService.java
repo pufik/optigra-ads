@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 /**
  * Default implementation for application service.
- * 
+ *
  * @date Feb 12, 2014
  * @author ivanursul
- * 
+ *
  */
 @Service("applicationService")
 public class DefaultApplicationService implements ApplicationService {
@@ -26,8 +26,8 @@ public class DefaultApplicationService implements ApplicationService {
     }
 
     @Override
-    public PagedResult<Application> getApplications(final int start, final int offset) {
-        return applicationDao.getApplications(start, offset);
+    public PagedResult<Application> getApplications(final int offset, final int limit) {
+        return applicationDao.getApplications(offset, limit);
     }
 
     @Override
@@ -49,10 +49,10 @@ public class DefaultApplicationService implements ApplicationService {
 
     @Override
     public void deleteApplication(final String applicationId) {
-        
+
         Application application = applicationDao.getApplicationById(applicationId);
         applicationDao.deleteApplication(application);
-        
+
     }
 
 }

@@ -3,16 +3,16 @@ function ApplicationController(context) {
 	var applicationPresenter = new ApplicationPresenter(context);
 
 	this.getAll = function(pageNum) {
-		var start = 0;
-		var offset = $("#applicationPageSize").val();
+		var offset = 0;
+		var limit = $("#applicationPageSize").val();
 		
 		if (pageNum) {
-			start = (pageNum - 1) * offset;
+			offset = (pageNum - 1) * limit;
 		}
 
 		var search = {};
-		search.start = start;
-		search.offset = (offset) ? offset : 10;
+		search.offset = offset;
+		search.limit = (limit) ? limit : 10;
 
 		applicationDao.getAll(search, this.getAllResponseHandler);
 	};

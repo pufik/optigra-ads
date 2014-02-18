@@ -10,7 +10,7 @@ import org.optigra.ads.model.application.Application;
  *
  */
 public interface ApplicationService {
-    
+
     /**
      * Method for storing application.
      * @date Feb 12, 2014
@@ -23,11 +23,11 @@ public interface ApplicationService {
      * Getting applications.
      * @date Feb 12, 2014
      * @author ivanursul
-     * @param start
      * @param offset
+     * @param limit
      * @return
      */
-    PagedResult<Application> getApplications(int start, int offset);
+    PagedResult<Application> getApplications(int offset, int limit);
 
     /** Method for getting application status.
      * @date Feb 13, 2014
@@ -38,9 +38,9 @@ public interface ApplicationService {
     String getApplicationStatus(String applicationId);
 
     /**
-     * 
+     *
      * Gets application by App Id
-     * 
+     *
      * @date Feb 14, 2014
      * @author ivanursul
      * @param applicationId
@@ -49,9 +49,9 @@ public interface ApplicationService {
     Application getApplication(String applicationId);
 
     /**
-     * 
+     *
      * Delete application by id.
-     * 
+     *
      * @date Feb 17, 2014
      * @author ivanursul
      * @param applicationId
