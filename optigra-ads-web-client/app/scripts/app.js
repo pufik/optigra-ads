@@ -18,7 +18,7 @@ angular.module('optigraAdsWebClientApp', [
             })
             .when('/apps', {
                 templateUrl: 'views/applications.html',
-                controller: 'MainCtrl'
+                controller: 'ApplicationCtrl'
             })
             .otherwise({
                 redirectTo: '/'
