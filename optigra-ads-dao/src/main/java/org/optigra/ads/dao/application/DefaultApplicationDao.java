@@ -10,7 +10,6 @@ import org.optigra.ads.dao.pagination.PagedSearch;
 import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.application.Application;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
 
 
 /**
@@ -30,12 +29,6 @@ public class DefaultApplicationDao extends AbstractDao<Application, Long>
     }
 
     @Override
-    public void createApplication(final Application application) {
-        Assert.isNull(application.getId());
-        create(application);
-    }
-
-    @Override
     public PagedResult<Application> getApplications(final int offset, final int limit) {
 
         Queries query = Queries.FIND_APPLICATIONS;
@@ -50,10 +43,5 @@ public class DefaultApplicationDao extends AbstractDao<Application, Long>
         parameters.put("appId", applicationId);
 
         return executeSingleResultNamedQuery(Queries.FIND_APPLICATION_BY_ID.getQueryName(), parameters);
-    }
-
-    @Override
-    public void deleteApplication(final Application application) {
-        remove(application);
     }
 }

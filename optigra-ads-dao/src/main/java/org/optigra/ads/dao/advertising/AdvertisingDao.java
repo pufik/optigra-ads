@@ -1,5 +1,6 @@
 package org.optigra.ads.dao.advertising;
 
+import org.optigra.ads.dao.Dao;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.advertising.Advertising;
 
@@ -7,7 +8,7 @@ import org.optigra.ads.model.advertising.Advertising;
  * @date Feb 18, 2014
  * @author ivanursul
  */
-public interface AdvertisingDao {
+public interface AdvertisingDao extends Dao<Advertising, Long> {
 
     /**
      * Method for getting advertisings

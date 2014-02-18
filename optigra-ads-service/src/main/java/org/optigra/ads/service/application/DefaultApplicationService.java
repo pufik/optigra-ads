@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
  *
  * @date Feb 12, 2014
  * @author ivanursul
- *
  */
 @Service("applicationService")
 public class DefaultApplicationService implements ApplicationService {
@@ -22,7 +21,7 @@ public class DefaultApplicationService implements ApplicationService {
 
     @Override
     public void createApplication(final Application application) {
-        applicationDao.createApplication(application);
+        applicationDao.create(application);
     }
 
     @Override
@@ -49,10 +48,7 @@ public class DefaultApplicationService implements ApplicationService {
 
     @Override
     public void deleteApplication(final String applicationId) {
-
         Application application = applicationDao.getApplicationById(applicationId);
-        applicationDao.deleteApplication(application);
-
+        applicationDao.remove(application);
     }
-
 }

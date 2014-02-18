@@ -26,29 +26,29 @@ public class DefaultApplicationServiceTest {
 
     @Captor
     private ArgumentCaptor<Application> applicationCaptor;
-    
+
     @Mock
     private ApplicationDao applicationDao;
-    
+
     @InjectMocks
-    private DefaultApplicationService unit = new DefaultApplicationService();
-    
+    private final DefaultApplicationService unit = new DefaultApplicationService();
+
     @Test
     public void testCreateApplication() {
         // Given
         Long userId = 1L;
         Application application = new Application();
         application.setId(userId);
-        
+
         // When
         unit.createApplication(application);
-        
-        verify(applicationDao).createApplication(applicationCaptor.capture());
-        
+
+        verify(applicationDao).create(applicationCaptor.capture());
+
         // Then
         assertEquals(application, applicationCaptor.getValue());
     }
-    
+
     @Test
     public void testGetApplications() {
         // Given
@@ -58,17 +58,17 @@ public class DefaultApplicationServiceTest {
         Application entity1 = new Application();
         List<Application> entities = Arrays.asList(entity1);
         PagedResult<Application> expected = new PagedResult<Application>(offset, limit, count, entities );
-        
+
         // When
         when(applicationDao.getApplications(anyInt(), anyInt())).thenReturn(expected);
-        
+
         PagedResult<Application> actual = unit.getApplications(offset, limit);
-        
+
         // Then
         verify(applicationDao).getApplications(offset, limit);
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testGetApplicationStatus() {
         // Given
@@ -77,50 +77,50 @@ public class DefaultApplicationServiceTest {
         ApplicationStatus status = ApplicationStatus.PAID;
         application.setStatus(status );
         String expected = status.name();
-        
+
         // When
         when(applicationDao.getApplicationById(anyString())).thenReturn(application);
-        
+
         String actual = unit.getApplicationStatus(applicationId);
-        
+
         // Then
         verify(applicationDao).getApplicationById(applicationId);
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testGetApplication() {
         // Given
         String applicationId = "appId";
         Application expected = new Application();
         expected.setApplicationId(applicationId);
-        
+
         // When
         when(applicationDao.getApplicationById(anyString())).thenReturn(expected);
-        
+
         Application actual = unit.getApplication(applicationId);
-        
+
         // Then
         verify(applicationDao).getApplicationById(applicationId);
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testDeleteApplication() {
         // Given
         String applicationId = "gh5f24g5fg43";
         Application application = new Application();
         application.setApplicationId(applicationId);
-        
+
         // When
         when(applicationDao.getApplicationById(anyString())).thenReturn(application);
-        
+
         unit.deleteApplication(applicationId);
-        
+
         // Then
         verify(applicationDao).getApplicationById(applicationId);
-        verify(applicationDao).deleteApplication(applicationCaptor.capture());
-        
+        verify(applicationDao).remove(applicationCaptor.capture());
+
         assertEquals(application, applicationCaptor.getValue());
     }
 }
