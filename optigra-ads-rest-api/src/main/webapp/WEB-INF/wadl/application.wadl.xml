@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="wadl.xsl"?>
+<!-- 
+    example.wadl (06-May-2011)
+    
+    Example Web Application Description Language (WADL) Web Service interface specification,
+    which demonstrates my WADL XSLT stylesheet, wadl.xsl.
+
+    Mark Sawers <mark.sawers@ipc.com>
+    
+    Copyright (c) 2011 IPC Systems, Inc.
+
+    This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 License.
+    To view a copy of this license, visit 
+        http://creativecommons.org/licenses/by-sa/3.0/
+    or send a letter to 
+        Creative Commons
+        543 Howard Street, 5th Floor
+        San Francisco, California, 94105, USA
+ -->
+<wadl:application xmlns:wadl="http://wadl.dev.java.net/2009/02"
+    xmlns:jr="http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" xmlns:r="http://anydomain/schema/reports Report.xsd" 
+    xmlns:n1="http://anydomain/MyTypes.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://wadl.dev.java.net/2009/02 wadl.xsd ">
+    <wadl:doc title="Optigra Mobile Ads">
+       REST API for Optigra Mobile Ads Network
+    </wadl:doc>
+    <wadl:resources base="http://optigra-ads.optigra.org/api">
+        <wadl:resource path="application">
+        <wadl:doc title="Description">Application management methods</wadl:doc>
+        	<wadl:method name="GET" id="getApplications">
+        	<wadl:doc>Get all applications</wadl:doc>
+        	        <wadl:request>
+                        <wadl:param name="authorization" style="header" type="xsi:string" required="true">
+                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
+                        </wadl:param>
+                        <wadl:param name="start" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" required="false" default="0">
+                            <wadl:doc>start position</wadl:doc>
+                        </wadl:param>
+                        <wadl:param name="offset" style="query" type="integer" required="false" default="10">
+                            <wadl:doc>record offset (page number)</wadl:doc>
+                        </wadl:param>
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/application?start=10&amp;offset=20
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:request>
+                    
+                    <wadl:response status="200">
+                        <wadl:doc title="OK" />
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								{ "count" : 12,
+									  "entities" : [ { "applicationId" : "1392644056502",
+									        "id" : 40,
+									        "name" : "Mario Brothers",
+									        "status" : "PENDING",
+									        "uri" : "/application/1392644056502",
+									        "url" : "vk.com/mario_brothers"
+									      },
+									      { "applicationId" : "1392644120942",
+									        "id" : 41,
+									        "name" : "Barchuk fan group",
+									        "status" : "PENDING",
+									        "uri" : "/application/1392644120942",
+									        "url" : "www.vk.com/barchuk_corporation"
+									      }
+									    ],
+									  "offset" : 2,
+									  "start" : 0,
+									  "uri" : "/application"
+								}
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:response>
+        	</wadl:method>
+        </wadl:resource>
+    </wadl:resources>
+</wadl:application>

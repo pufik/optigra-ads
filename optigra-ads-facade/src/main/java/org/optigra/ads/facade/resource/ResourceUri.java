@@ -7,11 +7,15 @@ package org.optigra.ads.facade.resource;
  */
 public final class ResourceUri {
 
-
     /**
      * Slash symbo.
      */
     public static final String SLASH = "/";
+
+    /**
+     * REST API WADL
+     */
+    public static final String WADL = "/application.wadl";
 
     /**
      * Advertising resource base URI.
@@ -21,7 +25,6 @@ public final class ResourceUri {
     public static final String APPLICATION_BY_ID = SLASH + "{appId:.*}";
     public static final String APPLICATION_STATUS = SLASH + "{appId:.*}/status";
     public static final String USER = "/user";
-
 
     /**
      * Default constructor.
