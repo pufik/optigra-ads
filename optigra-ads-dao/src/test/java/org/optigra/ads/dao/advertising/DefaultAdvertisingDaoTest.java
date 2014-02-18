@@ -21,28 +21,28 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.common.Queries;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.pagination.PagedSearch;
+import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.advertising.Advertising;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultAdvertisingDaoTest {
-    
+
     private static final String TABLE_TOKEN = "$table";
     private static final String COUNT_QUERY = "SELECT COUNT(*) FROM " + TABLE_TOKEN + " a WHERE a IN(%s) ";
-    
+
     @Mock
     private EntityManager entityManager;
-    
+
     @Mock
     private TypedQuery<Advertising> typedQuery;
-    
+
     @Mock
     private TypedQuery<Long> longTypedQuery;
-    
+
     @InjectMocks
-    private DefaultAdvertisingDao unit = new DefaultAdvertisingDao();
+    private final DefaultAdvertisingDao unit = new DefaultAdvertisingDao();
 
     @Test
     public void testGetAdvertisings() {
@@ -57,25 +57,25 @@ public class DefaultAdvertisingDaoTest {
         List<Advertising> entities = Arrays.asList(entity1);
         PagedResult<Advertising> expected = new PagedResult<Advertising>(start, offset, count, entities);
         String querySql = String.format(COUNT_QUERY, search.getQuery().getQuery()).replace(TABLE_TOKEN, Advertising.class.getSimpleName());
-        
+
         // When
         when(entityManager.createNamedQuery(anyString(), Matchers.<Class<Advertising>>any())).thenReturn(typedQuery);
         when(entityManager.createQuery(anyString(), Matchers.<Class<Long>>any())).thenReturn(longTypedQuery);
         when(typedQuery.getResultList()).thenReturn(entities);
         when(longTypedQuery.getSingleResult()).thenReturn(count);
-        
+
         PagedResult<Advertising> actual = unit.getAdvertisings(start, offset);
-        
+
         // Then
         verify(entityManager).createNamedQuery(query.getQueryName(), Advertising.class);
         verify(entityManager).createQuery(querySql, Long.class);
-        
+
         verify(typedQuery, times(0)).setParameter(anyString(), anyObject());
         verify(longTypedQuery, times(0)).setParameter(anyString(), anyObject());
-        
+
         verify(typedQuery).setFirstResult(start);
         verify(typedQuery).setMaxResults(offset);
-        
+
         assertEquals(expected, actual);
     }
 }

@@ -8,7 +8,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.optigra.ads.common.Queries;
+import org.optigra.ads.model.Queries;
 
 /**
  * @date Feb 18, 2014
@@ -21,7 +21,7 @@ import org.optigra.ads.common.Queries;
     @NamedQuery(name = Queries.FIND_ADVERTISINGS_QUERY_NAME, query = Queries.FIND_ADVERTISINGS_QUERY)
 })
 public class Advertising {
-    
+
     @Id
     @GeneratedValue
     private Long id;
