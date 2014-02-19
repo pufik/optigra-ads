@@ -12,7 +12,7 @@ repositories {
 dependencies {
 	compile project(':optigra-ads-facade')
 	compile project(':optigra-ads-common')
-        compile project(':optigra-ads-security')
+    compile project(':optigra-ads-security')
 
 	compile 'javax.servlet:servlet-api:2.5'
 	

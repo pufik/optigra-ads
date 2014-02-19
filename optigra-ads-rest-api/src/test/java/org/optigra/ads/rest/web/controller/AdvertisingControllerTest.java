@@ -38,7 +38,7 @@ public class AdvertisingControllerTest extends AbstractControllerTest {
     
     @Mock
     private AdvertisingFacade advertisingFacade;
-    
+
     @InjectMocks
     private final AdvertisingController unit = new AdvertisingController();
 
@@ -53,8 +53,8 @@ public class AdvertisingControllerTest extends AbstractControllerTest {
     public void testGetAdvertisings() throws Exception {
         // Given
         long count = 100;
-        int start = 0;
-        int offset = 20;
+        int offset = 0;
+        int limit = 20;
         AdvertisingResource entity1 = new AdvertisingResource();
         List<AdvertisingResource> entities = Arrays.asList(entity1);
 
@@ -62,17 +62,17 @@ public class AdvertisingControllerTest extends AbstractControllerTest {
         expected.setCount(count);
         expected.setEntities(entities);
         expected.setOffset(offset);
-        expected.setStart(start );
-        
+        expected.setLimit(limit);
+
         // When
         when(advertisingFacade.getAdvertisings(anyInt(), anyInt())).thenReturn(expected);
-        
+
         // When
         mockMvc.perform(get("/advertising"))
             .andExpect(status().isOk())
             .andExpect(content().string(objectMapper.writeValueAsString(expected)));
-        
-        verify(advertisingFacade).getAdvertisings(start, offset);
+
+        verify(advertisingFacade).getAdvertisings(offset, limit);
     }
     
     @Test

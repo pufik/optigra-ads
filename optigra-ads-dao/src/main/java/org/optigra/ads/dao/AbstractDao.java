@@ -10,13 +10,15 @@ import javax.persistence.TypedQuery;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.pagination.PagedSearch;
 
-
 /**
  * Abstract Dao class, that will be responsible for basic operations.
+ *
  * @date Jan 23, 2014
  * @author ivanursul
- * @param <E> Entity
- * @param <K> Unique Identifier.
+ * @param <E>
+ *            Entity
+ * @param <K>
+ *            Unique Identifier.
  */
 public abstract class AbstractDao<E, K> implements Dao<E, K> {
 
@@ -28,6 +30,7 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
 
     /**
      * Entity class method.
+     *
      * @date Jan 24, 2014
      * @author ivanursul
      * @return entity class for custom dao.
@@ -62,25 +65,28 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
 
     /**
      * Search function for named query.
+     *
      * @date Feb 6, 2014
      * @author ivanursul
-     * @param search Paged object
+     * @param search
+     *            Paged object
      * @return List of entities
      */
     protected PagedResult<E> search(final PagedSearch search) {
         TypedQuery<E> query = createNamedQuery(search.getQuery().getQueryName(), search.getParameters());
-        query.setFirstResult(search.getStart());
-        query.setMaxResults(search.getOffset());
+        query.setFirstResult(search.getOffset());
+        query.setMaxResults(search.getLimit());
 
         Long count = getQueryCount(search);
 
-        PagedResult<E> result = new PagedResult<>(search.getStart(), search.getOffset(), count, query.getResultList());
+        PagedResult<E> result = new PagedResult<>(search.getOffset(), search.getLimit(), count, query.getResultList());
 
         return result;
     }
 
     /**
      * Method, that will return count of rows in query.
+     *
      * @date Feb 10, 2014
      * @author ivanursul
      * @param search
@@ -93,7 +99,6 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
         return countQuery.getSingleResult();
     }
 
-
     protected List<E> executeNamedQuery(final String queryName, final Map<String, Object> parameters) {
         TypedQuery<E> query = createNamedQuery(queryName, parameters);
 
@@ -102,10 +107,13 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
 
     /**
      * Single Result Method for executing Named Query.
+     *
      * @date Feb 6, 2014
      * @author ivanursul
-     * @param queryName NamedQuery name
-     * @param parameters query parameters
+     * @param queryName
+     *            NamedQuery name
+     * @param parameters
+     *            query parameters
      * @return entity
      */
     protected E executeSingleResultNamedQuery(final String queryName, final Map<String, Object> parameters) {
@@ -135,10 +143,10 @@ public abstract class AbstractDao<E, K> implements Dao<E, K> {
     private TypedQuery<Long> createQuery(final String querySql, final Map<String, Object> parameters) {
         TypedQuery<Long> countQuery = entityManager.createQuery(querySql, Long.class);
 
-        for(String key : parameters.keySet()) {
+        for (String key : parameters.keySet()) {
             countQuery.setParameter(key, parameters.get(key));
         }
-    
+
         return countQuery;
     }
 }

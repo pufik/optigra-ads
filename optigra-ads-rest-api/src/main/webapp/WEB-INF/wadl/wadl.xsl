@@ -44,7 +44,8 @@
 >
 
 <!-- Global variables -->
-<xsl:variable name="g_resourcesBase" select="wadl:application/wadl:resources/@base"/>
+<xsl:param name="providedBase" />
+<xsl:variable name="g_resourcesBase" select="$providedBase"/>
 
 <!-- Template for top-level doc element -->
 <xsl:template match="wadl:application">

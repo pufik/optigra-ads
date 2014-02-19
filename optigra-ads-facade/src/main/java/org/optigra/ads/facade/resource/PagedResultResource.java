@@ -5,12 +5,11 @@ import java.util.List;
 /**
  * @date Feb 12, 2014
  * @author ivanursul
- * 
  */
 public class PagedResultResource<R extends Resource> extends Resource {
 
-    private int start;
     private int offset;
+    private int limit;
     private long count;
     private List<R> entities;
 
@@ -25,20 +24,20 @@ public class PagedResultResource<R extends Resource> extends Resource {
         return uri;
     }
 
-    public int getStart() {
-        return start;
-    }
-
-    public void setStart(final int start) {
-        this.start = start;
-    }
-
     public int getOffset() {
         return offset;
     }
 
     public void setOffset(final int offset) {
         this.offset = offset;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
+
+    public void setLimit(final int limit) {
+        this.limit = limit;
     }
 
     public long getCount() {
@@ -63,8 +62,8 @@ public class PagedResultResource<R extends Resource> extends Resource {
         int result = 1;
         result = prime * result + (int) (count ^ (count >>> 32));
         result = prime * result + ((entities == null) ? 0 : entities.hashCode());
+        result = prime * result + limit;
         result = prime * result + offset;
-        result = prime * result + start;
         result = prime * result + ((uri == null) ? 0 : uri.hashCode());
         return result;
     }
@@ -85,9 +84,9 @@ public class PagedResultResource<R extends Resource> extends Resource {
                 return false;
         } else if (!entities.equals(other.entities))
             return false;
-        if (offset != other.offset)
+        if (limit != other.limit)
             return false;
-        if (start != other.start)
+        if (offset != other.offset)
             return false;
         if (uri == null) {
             if (other.uri != null)
@@ -99,7 +98,6 @@ public class PagedResultResource<R extends Resource> extends Resource {
 
     @Override
     public String toString() {
-        return "PagedResultResource [start=" + start + ", offset=" + offset + ", count=" + count + ", entities=" + entities + ", uri=" + uri + "]";
+        return "PagedResultResource [offset=" + offset + ", limit=" + limit + ", count=" + count + ", entities=" + entities + ", uri=" + uri + "]";
     }
-    
 }

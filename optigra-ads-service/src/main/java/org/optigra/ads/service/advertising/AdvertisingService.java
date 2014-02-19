@@ -30,6 +30,6 @@ public interface AdvertisingService {
      * @author ivanursul
      * @param eq
      */
-    void createAdvertising(Advertising eq);
+    void createAdvertising(Advertising advertising);
 
 }

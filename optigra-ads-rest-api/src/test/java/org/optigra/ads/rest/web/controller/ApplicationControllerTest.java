@@ -36,17 +36,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 /**
  * @date Feb 11, 2014
  * @author ivanursul
- *
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationControllerTest extends AbstractControllerTest {
 
     @Captor
     private ArgumentCaptor<String> stringCaptor;
-    
+
     @Mock
     private ApplicationFacade facade;
-    
+
     @InjectMocks
     private ApplicationController unit;
 
@@ -56,7 +55,7 @@ public class ApplicationControllerTest extends AbstractControllerTest {
     public void setup() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(unit).build();
     }
-    
+
     @Test
     public void testAddAplication() throws Exception {
         writeFromFields(true);
@@ -70,64 +69,56 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         resource.setStatus(ApplicationStatus.PENDING);
         resource.setUrl(url);
         MessageResource messageResource = new MessageResource(MessageType.INFO, "Application created");
-        
+
         // Then
-        mockMvc.perform(post(ResourceUri.APPLICATION)
-                .content(objectMapper.writeValueAsString(resource))
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
-        
+        mockMvc.perform(post(ResourceUri.APPLICATION).content(objectMapper.writeValueAsString(resource)).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
+
         verify(facade).createApplication(resource);
         writeFromFields(false);
     }
-    
+
     @Test
     public void testGetApplications() throws Exception {
         // Given
         long count = 100;
-        int start = 0;
-        int offset = 20;
+        int offset = 0;
+        int limit = 20;
         ApplicationResource applicationResource1 = new ApplicationResource();
-        List<ApplicationResource> entities = Arrays.asList(applicationResource1 );
+        List<ApplicationResource> entities = Arrays.asList(applicationResource1);
         PagedResultResource<ApplicationResource> pagedResult = new PagedResultResource<>(ResourceUri.APPLICATION);
         pagedResult.setCount(count);
         pagedResult.setOffset(offset);
-        pagedResult.setStart(start);
+        pagedResult.setLimit(limit);
         pagedResult.setEntities(entities);
-        
+
         // When
         when(facade.getApplications(anyInt(), anyInt())).thenReturn(pagedResult);
-        
+
         // Then
-        mockMvc.perform(get(ResourceUri.APPLICATION))
-            .andExpect(status().isOk())
-            .andExpect(content().string(objectMapper.writeValueAsString(pagedResult)));
+        mockMvc.perform(get(ResourceUri.APPLICATION)).andExpect(status().isOk()).andExpect(content().string(objectMapper.writeValueAsString(pagedResult)));
     }
 
     @Test
     public void testGetApplicationsWithParameters() throws Exception {
         // Given
         long count = 100;
-        int start = 5;
-        int offset = 34;
+        int offset = 5;
+        int limit = 34;
         ApplicationResource applicationResource1 = new ApplicationResource();
-        List<ApplicationResource> entities = Arrays.asList(applicationResource1 );
+        List<ApplicationResource> entities = Arrays.asList(applicationResource1);
         PagedResultResource<ApplicationResource> pagedResult = new PagedResultResource<>(ResourceUri.APPLICATION);
         pagedResult.setCount(count);
         pagedResult.setOffset(offset);
-        pagedResult.setStart(start);
+        pagedResult.setLimit(limit);
         pagedResult.setEntities(entities);
-        
+
         // When
         when(facade.getApplications(anyInt(), anyInt())).thenReturn(pagedResult);
-        
+
         // Then
-        mockMvc.perform(get(ResourceUri.APPLICATION)
-                .param("start", String.valueOf(start))
-                .param("offset", String.valueOf(offset)))
-        .andExpect(status().isOk())
-        .andExpect(content().string(objectMapper.writeValueAsString(pagedResult)));
+        mockMvc.perform(get(ResourceUri.APPLICATION).param("start", String.valueOf(offset)).param("offset", String.valueOf(limit))).andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(pagedResult)));
     }
 
     @Test
@@ -135,47 +126,44 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         // Given
         String applicationId = "ds4324kj23k5j23bn5";
         String status = ApplicationStatus.PENDING.name();
-        MessageResource messageResource = new MessageResource(MessageType.INFO, status);        
+        MessageResource messageResource = new MessageResource(MessageType.INFO, status);
 
         // When
         when(facade.getApplicationStatus(anyString())).thenReturn(status);
-        
+
         // Then
-        mockMvc.perform(get("/application/{appId}/status", applicationId))
-                .andExpect(status().isOk())
+        mockMvc.perform(get("/application/{appId}/status", applicationId)).andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
     }
-    
+
     @Test
     public void testGetApplication() throws Exception {
         // Given
-        String applicationId = "appId"; 
+        String applicationId = "appId";
         String name = "name";
         ApplicationResource applicationResource = new ApplicationResource();
         applicationResource.setApplicationId(applicationId);
         applicationResource.setName(name);
         applicationResource.setStatus(ApplicationStatus.PAID);
-        
+
         // When
         when(facade.getApplication(anyString())).thenReturn(applicationResource);
-        
+
         // Then
-        mockMvc.perform(get("/application/{appId}", applicationId))
-            .andExpect(status().isOk())
-            .andExpect(content().string(objectMapper.writeValueAsString(applicationResource)));
+        mockMvc.perform(get("/application/{appId}", applicationId)).andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(applicationResource)));
     }
-    
+
     @Test
     public void testDeleteApplication() throws Exception {
         // Given
         String applicationId = "gh23hg5f2gh";
         MessageResource messageResource = new MessageResource(MessageType.INFO, "Application deleted");
-        
+
         // Then
-        mockMvc.perform(delete("/application/{appId}", applicationId))
-            .andExpect(status().isOk())
-            .andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
-        
+        mockMvc.perform(delete("/application/{appId}", applicationId)).andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
+
         verify(facade).deleteApplication(stringCaptor.capture());
         assertEquals(applicationId, stringCaptor.getValue());
     }

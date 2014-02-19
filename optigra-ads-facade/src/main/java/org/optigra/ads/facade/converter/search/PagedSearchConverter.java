@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * @date Feb 12, 2014
  * @author ivanursul
- * 
+ *
  */
 
 @Component("pagedSearchConverter")
@@ -23,8 +23,8 @@ public class PagedSearchConverter extends AbstractConverter<PagedResult<?>, Page
     @Override
     public PagedResultResource<? extends Resource> convert(final PagedResult<?> source, final PagedResultResource<? extends Resource> target) {
 
-        target.setStart(source.getStart());
         target.setOffset(source.getOffset());
+        target.setLimit(source.getLimit());
         target.setCount(source.getCount());
 
         return target;

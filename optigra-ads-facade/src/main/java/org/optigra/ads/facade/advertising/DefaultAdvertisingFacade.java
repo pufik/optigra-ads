@@ -12,18 +12,19 @@ import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.model.advertising.Advertising;
 import org.optigra.ads.service.advertising.AdvertisingService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @date Feb 18, 2014
  * @author ivanursul
- *
  */
 @Component("advertisingFacade")
+@Transactional
 public class DefaultAdvertisingFacade implements AdvertisingFacade {
 
     @Resource(name = "advertisingService")
     private AdvertisingService advertisingService;
-    
+
     @Resource(name = "advertisingConverter")
     private Converter<Advertising, AdvertisingResource> advertisingConverter;
 
@@ -32,17 +33,17 @@ public class DefaultAdvertisingFacade implements AdvertisingFacade {
     
     @Resource(name = "pagedSearchConverter")
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
-    
+
     @Override
-    public PagedResultResource<AdvertisingResource> getAdvertisings(final int start, final int offset) {
-        
-        PagedResult<Advertising> advertisings = advertisingService.getAdvertisings(start, offset); 
+    public PagedResultResource<AdvertisingResource> getAdvertisings(final int offset, final int limit) {
+
+        PagedResult<Advertising> advertisings = advertisingService.getAdvertisings(offset, limit);
         List<AdvertisingResource> advertisingResources = advertisingConverter.convertAll(advertisings.getEntities());
-        
+
         PagedResultResource<AdvertisingResource> pagedResultResource = new PagedResultResource<>(ResourceUri.ADVERTISING);
         pagedSearchConverter.convert(advertisings, pagedResultResource);
         pagedResultResource.setEntities(advertisingResources);
-        
+
         return pagedResultResource;
     }
 

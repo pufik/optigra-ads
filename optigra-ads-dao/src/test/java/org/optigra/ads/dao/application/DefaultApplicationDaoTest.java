@@ -22,30 +22,30 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.common.Queries;
 import org.optigra.ads.dao.pagination.PagedResult;
+import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.application.Application;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultApplicationDaoTest {
-    
+
     private static final String TABLE_TOKEN = "$table";
     private static final String COUNT_QUERY = "SELECT COUNT(*) FROM " + TABLE_TOKEN + " a WHERE a IN(%s) ";
-    
+
     @Captor
     private ArgumentCaptor<Application> applicationCaptor;
-    
+
     @Mock
     private EntityManager entityManager;
-    
+
     @Mock
     private TypedQuery<Application> typedQuery;
 
     @Mock
     private TypedQuery<Long> typedCountQuery;
-    
+
     @InjectMocks
-    private DefaultApplicationDao unit = new DefaultApplicationDao();
+    private final DefaultApplicationDao unit = new DefaultApplicationDao();
 
     @Test
     public void testCreateApplication() {
@@ -53,32 +53,16 @@ public class DefaultApplicationDaoTest {
         String applicationId = "5th65124l1k241s4d3c2h35";
         Application application = new Application();
         application.setApplicationId(applicationId);
-        
+
         // When
-        unit.createApplication(application);
-        
+        unit.create(application);
+
         verify(entityManager).persist(applicationCaptor.capture());
-        
+
         // Then
         assertEquals(application, applicationCaptor.getValue());
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateApplicationWithNotNullId() {
-        // Given
-        Long id = 1L;
-        Application application = new Application();
-        application.setId(id);
-        
-        // When
-        unit.createApplication(application);
-        
-        verify(entityManager).persist(applicationCaptor.capture());
-        
-        // Then
-        assertEquals(application, applicationCaptor.getValue());
-    }
-    
     @Test
     public void testGetApplications() {
         // Given
@@ -90,46 +74,46 @@ public class DefaultApplicationDaoTest {
         Application application1 = new Application();
         List<Application> entities = Arrays.asList(application1 );
         PagedResult<Application> expected = new PagedResult<Application>(start, offset, count, entities);
-        
+
         // When
         when(entityManager.createNamedQuery(anyString(), Matchers.<Class<Application>>any())).thenReturn(typedQuery);
         when(entityManager.createQuery(anyString(), Matchers.<Class<Long>>any())).thenReturn(typedCountQuery);
-        
+
         when(typedQuery.getResultList()).thenReturn(entities);
         when(typedCountQuery.getSingleResult()).thenReturn(count);
-        
+
         PagedResult<Application> actual = unit.getApplications(start, offset);
-        
+
         // Then
         verify(entityManager).createNamedQuery(query.getQueryName(), Application.class);
         verify(entityManager).createQuery(querySql, Long.class);
-        
+
         verify(typedQuery, times(0)).setParameter(anyString(), anyObject());
         verify(typedCountQuery, times(0)).setParameter(anyString(), anyObject());
-        
+
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testGetApplicationById() {
         // Given
         String applicationId = "appId";
         Application expected = new Application();
         expected.setApplicationId(applicationId);
-        
+
         // When
         when(entityManager.createNamedQuery(anyString(), Matchers.<Class<Application>>any())).thenReturn(typedQuery);
         when(typedQuery.getSingleResult()).thenReturn(expected);
-        
+
         Application actual = unit.getApplicationById(applicationId);
-        
+
         // Then
         verify(entityManager).createNamedQuery(Queries.FIND_APPLICATION_BY_ID.getQueryName(), Application.class);
         verify(typedQuery).setParameter("appId", applicationId);
-        
+
         assertEquals(expected, actual);
     }
-    
+
     @Test
     public void deleteApplication() {
         // Given
@@ -138,12 +122,12 @@ public class DefaultApplicationDaoTest {
         Application application = new Application();
         application.setId(id);
         application.setApplicationId(applicationId);
-        
+
         // When
         when(entityManager.find(Matchers.<Class<Application>>any(), anyLong())).thenReturn(application);
-        
-        unit.deleteApplication(application);
-        
+
+        unit.remove(application);
+
         // Then
         verify(entityManager).remove(applicationCaptor.capture());
         assertEquals(application, applicationCaptor.getValue());

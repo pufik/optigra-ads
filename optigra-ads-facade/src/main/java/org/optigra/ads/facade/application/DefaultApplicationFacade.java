@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * @date Feb 11, 2014
  * @author ivanursul
- * 
  */
 @Component("applicationFacade")
 @Transactional
@@ -25,7 +24,7 @@ public class DefaultApplicationFacade implements ApplicationFacade {
 
     @Resource(name = "applicationDTOConverter")
     private Converter<ApplicationResource, Application> applicationDTOConverter;
-    
+
     @Resource(name = "pagedSearchConverter")
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
 
@@ -37,7 +36,7 @@ public class DefaultApplicationFacade implements ApplicationFacade {
 
     @Override
     public void createApplication(final ApplicationResource applicationResource) {
-        
+
         // Convert from dto to entity
         Application application = applicationDTOConverter.convert(applicationResource);
 
@@ -46,42 +45,42 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     }
 
     @Override
-    public PagedResultResource<ApplicationResource> getApplications(final int start, final int offset) {
-        
+    public PagedResultResource<ApplicationResource> getApplications(final int offset, final int limit) {
+
         // Get List of Applications from service layer
-        PagedResult<Application> applications = applicationService.getApplications(start, offset);
-        
+        PagedResult<Application> applications = applicationService.getApplications(offset, limit);
+
         List<ApplicationResource> applicationResources = applicationConverter.convertAll(applications.getEntities());
-        
+
         PagedResultResource<ApplicationResource> pagedResult = new PagedResultResource<>(ResourceUri.APPLICATION);
         pagedResult.setEntities(applicationResources);
-        
+
         pagedSearchConverter.convert(applications, pagedResult);
-        
+
         return pagedResult;
     }
 
     @Override
     public String getApplicationStatus(final String applicationId) {
-        
+
         String applicationStatus = applicationService.getApplicationStatus(applicationId);
-        
+
         return applicationStatus;
     }
 
     @Override
     public ApplicationResource getApplication(final String applicationId) {
-        
+
         Application application = applicationService.getApplication(applicationId);
         ApplicationResource resource = applicationConverter.convert(application);
-        
+
         return resource;
     }
 
     @Override
     public void deleteApplication(final String applicationId) {
-        
+
         applicationService.deleteApplication(applicationId);
-        
+
     }
 }

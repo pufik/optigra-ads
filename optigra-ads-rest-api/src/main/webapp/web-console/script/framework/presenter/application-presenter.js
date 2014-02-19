@@ -12,11 +12,11 @@ function ApplicationPresenter(context) {
 		
 		// Init pagination
 		var currentPage = 1;
-		if(search.start > 0){
-			var currentPage = Math.ceil((search.start + search.offset) / search.start);
+		if(search.offset > 0){
+			var currentPage = Math.ceil((search.offset + search.limit) / search.offset);
 		}
 		
-		var totalPages = Math.ceil(search.count / search.offset);
+		var totalPages = Math.ceil(search.count / search.limit);
 		totalPages = (totalPages <= 0) ? 1 : totalPages;
 		
 		var options = {
@@ -25,7 +25,7 @@ function ApplicationPresenter(context) {
 				maxVisible: 10
 		        };
 		
-		$("#applicationPageSize").val(search.offset);
+		$("#applicationPageSize").val(search.limit);
 		
 		$("#applicationSearch").bootpag(options).on('page',
 				function(event, pageNum){
