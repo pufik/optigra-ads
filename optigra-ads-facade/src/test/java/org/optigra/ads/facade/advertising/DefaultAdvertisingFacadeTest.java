@@ -1,6 +1,7 @@
 package org.optigra.ads.facade.advertising;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
@@ -33,11 +34,17 @@ public class DefaultAdvertisingFacadeTest {
     @Captor
     private ArgumentCaptor<PagedResultResource<AdvertisingResource>> pagedResultResourceCaptor;
     
+    @Captor
+    private ArgumentCaptor<Advertising> advertisingCaptor;
+    
     @Mock
     private AdvertisingService advertisingService;
     
     @Mock
     private Converter<Advertising, AdvertisingResource> advertisingConverter;
+    
+    @Mock
+    private Converter<AdvertisingResource, Advertising> resourceAdvertisingConverter;
     
     @Mock
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
@@ -72,5 +79,41 @@ public class DefaultAdvertisingFacadeTest {
 
         assertEquals(expected, pagedResultResourceCaptor.getValue());
         assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testCreateAdvertising() {
+        // Given
+        Long id = 1L;
+        String description = "description";
+        String destinationUrl = "destination url";
+        String imageUrl = "image url";
+        String logoUrl = "logo url";
+        String title = "title";
+        
+        AdvertisingResource advertisingResource = new AdvertisingResource();
+        advertisingResource.setDescription(description);
+        advertisingResource.setDestinationUrl(destinationUrl);
+        advertisingResource.setImageUrl(imageUrl);
+        advertisingResource.setLogoUrl(logoUrl);
+        advertisingResource.setTitle(title);
+        advertisingResource.setUid(id);
+        
+        Advertising advertising = new Advertising();
+        advertising.setDescription(description);
+        advertising.setDestinationUrl(destinationUrl);
+        advertising.setId(id);
+        advertising.setImageUrl(imageUrl);
+        advertising.setLogoUrl(logoUrl);
+        advertising.setTitle(title);
+        
+        // When
+        when(resourceAdvertisingConverter.convert(any(AdvertisingResource.class))).thenReturn(advertising);
+        
+        unit.createAdvertising(advertisingResource);
+        
+        // Then
+        verify(advertisingService).createAdvertising(advertisingCaptor.capture());
+        assertEquals(advertising, advertisingCaptor.getValue());
     }
 }

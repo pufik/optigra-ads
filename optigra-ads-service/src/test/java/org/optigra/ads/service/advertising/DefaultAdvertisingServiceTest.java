@@ -2,6 +2,7 @@ package org.optigra.ads.service.advertising;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -9,6 +10,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -19,6 +22,9 @@ import org.optigra.ads.model.advertising.Advertising;
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultAdvertisingServiceTest {
 
+    @Captor
+    private ArgumentCaptor<Advertising> advertisingCaptor;
+    
     @Mock
     private AdvertisingDao advertisingDao;
     
@@ -43,4 +49,18 @@ public class DefaultAdvertisingServiceTest {
         // Then
         assertEquals(expected, actual);
     }
+    
+    @Test
+    public void testAddAdvertising() {
+        // Given
+        Advertising advertising = new Advertising();
+        
+        // When
+        unit.createAdvertising(advertising);
+        
+        // Then
+        verify(advertisingDao).create(advertisingCaptor.capture());
+        assertEquals(advertising, advertisingCaptor.getValue());
+    }
 }
+

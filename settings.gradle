@@ -7,4 +7,5 @@ include ':optigra-ads-search-engine'
 include ':optigra-ads-common'
 include ':optigra-ads-security'
 include ':optigra-ads-rest-api'
+include ':optigra-ads-notification'
 

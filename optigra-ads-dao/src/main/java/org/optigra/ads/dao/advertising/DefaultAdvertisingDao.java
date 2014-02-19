@@ -13,24 +13,23 @@ import org.springframework.stereotype.Repository;
 /**
  * @date Feb 18, 2014
  * @author ivanursul
- *
  */
 @Repository("advertisingDao")
 public class DefaultAdvertisingDao extends AbstractDao<Advertising, Long> implements AdvertisingDao {
 
     @Override
-    public PagedResult<Advertising> getAdvertisings(final int start, final int offset) {
-
-        Queries query = Queries.FIND_ADVERTISINGS;
-        Map<String, Object> parameters = Collections.emptyMap();
-        PagedSearch search = new PagedSearch(start, offset, query, parameters);
-
-        return search(search);
+    protected Class<Advertising> getEntityClass() {
+        return Advertising.class;
     }
 
     @Override
-    protected Class<Advertising> getEntityClass() {
-        return Advertising.class;
+    public PagedResult<Advertising> getAdvertisings(final int offset, final int limit) {
+
+        Queries query = Queries.FIND_ADVERTISINGS;
+        Map<String, Object> parameters = Collections.emptyMap();
+        PagedSearch search = new PagedSearch(offset, limit, query, parameters);
+
+        return search(search);
     }
 
 }

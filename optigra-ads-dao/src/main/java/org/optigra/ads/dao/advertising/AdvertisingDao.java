@@ -1,25 +1,24 @@
 package org.optigra.ads.dao.advertising;
 
+import org.optigra.ads.dao.Dao;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.advertising.Advertising;
 
 /**
  * @date Feb 18, 2014
  * @author ivanursul
- *
  */
-public interface AdvertisingDao {
+public interface AdvertisingDao extends Dao<Advertising, Long> {
 
     /**
-     * 
      * Method for getting advertisings
-     * 
+     *
      * @date Feb 18, 2014
      * @author ivanursul
-     * @param start
      * @param offset
+     * @param limit
      * @return
      */
-    PagedResult<Advertising> getAdvertisings(int start, int offset);
+    PagedResult<Advertising> getAdvertisings(int offset, int limit);
 
 }

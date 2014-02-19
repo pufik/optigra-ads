@@ -32,15 +32,15 @@
                         <wadl:param name="authorization" style="header" type="xsi:string" required="true">
                             <wadl:doc>HTTP Basic Authentication</wadl:doc>
                         </wadl:param>
-                        <wadl:param name="start" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" required="false" default="0">
+                        <wadl:param name="offset" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" required="false" default="0">
                             <wadl:doc>start position</wadl:doc>
                         </wadl:param>
-                        <wadl:param name="offset" style="query" type="integer" required="false" default="10">
-                            <wadl:doc>record offset (page number)</wadl:doc>
+                        <wadl:param name="limit" style="query" type="integer" required="false" default="20">
+                            <wadl:doc>record max count per page</wadl:doc>
                         </wadl:param>
                         <wadl:representation mediaType="application/json">
                             <wadl:doc>
-								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/application?start=10&amp;offset=20
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/application?offset=10&amp;limit=20
                             </wadl:doc>
                         </wadl:representation>
                     </wadl:request>
@@ -65,8 +65,8 @@
 									        "url" : "www.vk.com/barchuk_corporation"
 									      }
 									    ],
-									  "offset" : 2,
-									  "start" : 0,
+									  "limit" : 2,
+									  "offset" : 0,
 									  "uri" : "/application"
 								}
                             </wadl:doc>
