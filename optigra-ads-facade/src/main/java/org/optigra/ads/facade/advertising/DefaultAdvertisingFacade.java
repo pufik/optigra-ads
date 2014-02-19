@@ -26,6 +26,9 @@ public class DefaultAdvertisingFacade implements AdvertisingFacade {
     
     @Resource(name = "advertisingConverter")
     private Converter<Advertising, AdvertisingResource> advertisingConverter;
+
+    @Resource(name = "resourceAdvertisingConverter")
+    private Converter<AdvertisingResource, Advertising> resourceAdvertisingConverter;
     
     @Resource(name = "pagedSearchConverter")
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
@@ -43,4 +46,9 @@ public class DefaultAdvertisingFacade implements AdvertisingFacade {
         return pagedResultResource;
     }
 
+    @Override
+    public void createAdvertising(final AdvertisingResource advertisingResource) {
+        Advertising advertising = resourceAdvertisingConverter.convert(advertisingResource);
+        advertisingService.createAdvertising(advertising);
+    }
 }

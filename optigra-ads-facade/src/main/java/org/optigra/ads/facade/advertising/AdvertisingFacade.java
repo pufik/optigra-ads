@@ -22,4 +22,14 @@ public interface AdvertisingFacade {
      */
     PagedResultResource<AdvertisingResource> getAdvertisings(int start, int offset);
 
+    /**
+     * 
+     * Creates advertising.
+     * 
+     * @date Feb 18, 2014
+     * @author ivanursul
+     * @param advertisingResource resource to be created.
+     */
+    void createAdvertising(AdvertisingResource advertisingResource);
+
 }

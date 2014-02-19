@@ -23,4 +23,9 @@ public class DefaultAdvertisingService implements AdvertisingService {
         return advertisingDao.getAdvertisings(start, offset);
     }
 
+    @Override
+    public void createAdvertising(final Advertising eq) {
+        
+    }
+
 }

@@ -22,4 +22,14 @@ public interface AdvertisingService {
      */
     PagedResult<Advertising> getAdvertisings(int start, int offset);
 
+    /**
+     * 
+     * Creates advertising.
+     * 
+     * @date Feb 18, 2014
+     * @author ivanursul
+     * @param eq
+     */
+    void createAdvertising(Advertising eq);
+
 }

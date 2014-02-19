@@ -43,4 +43,6 @@ public class DefaultAdvertisingServiceTest {
         // Then
         assertEquals(expected, actual);
     }
+    
+    
 }

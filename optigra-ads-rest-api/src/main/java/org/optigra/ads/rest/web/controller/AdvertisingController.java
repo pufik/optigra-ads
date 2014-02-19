@@ -4,9 +4,12 @@ import javax.annotation.Resource;
 
 import org.optigra.ads.facade.advertising.AdvertisingFacade;
 import org.optigra.ads.facade.resource.AdvertisingResource;
+import org.optigra.ads.facade.resource.MessageResource;
+import org.optigra.ads.facade.resource.MessageType;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,5 +32,14 @@ public class AdvertisingController extends BaseController {
     public PagedResultResource<AdvertisingResource> getAdvertisings(@RequestParam(value = "start", defaultValue = "0") final int start,
             @RequestParam(value = "offset", defaultValue = "20") final int offset) {
         return advertisingFacade.getAdvertisings(start, offset);
+    }
+    
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public MessageResource createAdvertising(@RequestBody final AdvertisingResource resource) {
+        
+        advertisingFacade.createAdvertising(resource);
+        
+        return new MessageResource(MessageType.INFO, "Advertising created");
     }
 }
