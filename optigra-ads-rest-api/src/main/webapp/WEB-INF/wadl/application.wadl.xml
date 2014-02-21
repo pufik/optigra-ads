@@ -44,7 +44,6 @@
                             </wadl:doc>
                         </wadl:representation>
                     </wadl:request>
-                    
                     <wadl:response status="200">
                         <wadl:doc title="OK" />
                         <wadl:representation mediaType="application/json">
@@ -68,6 +67,37 @@
 									  "limit" : 2,
 									  "offset" : 0,
 									  "uri" : "/application"
+								}
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:response>
+        	</wadl:method>
+        <wadl:method name="POST" id="createApplication">
+        	<wadl:doc>Create application</wadl:doc>
+        	        <wadl:request>
+                        <wadl:param name="authorization" style="header" type="xsi:string" required="true">
+                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
+                        </wadl:param>
+                        <wadl:param name="offset" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" required="false" default="0">
+                            <wadl:doc>start position</wadl:doc>
+                        </wadl:param>
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								{ "applicationId" : 1392996574341,
+								  "name" : "Application added by Iurii",
+								  "status" : "PENDING",
+								  "url" : "http://vk.com/group"
+								}
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:request>
+                    <wadl:response status="200">
+                        <wadl:doc title="OK" />
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								{ "message" : "Application created",
+								  "status" : null,
+								  "type" : "INFO"
 								}
                             </wadl:doc>
                         </wadl:representation>
