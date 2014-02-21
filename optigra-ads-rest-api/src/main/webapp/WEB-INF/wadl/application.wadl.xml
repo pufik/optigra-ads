@@ -24,6 +24,23 @@
        REST API for Optigra Mobile Ads Network
     </wadl:doc>
     <wadl:resources base="/">
+        <wadl:resource path="/">
+          <wadl:doc title="Description">REST API details and resources links</wadl:doc>
+          <wadl:method name="GET" id="apiDetails">
+        	<wadl:doc>REST API details</wadl:doc>
+        	        <wadl:request>
+        	        	<wadl:doc>HTTP Basic Authentication</wadl:doc>
+        	        </wadl:request>
+        	        <wadl:response status="200">
+                        <wadl:doc title="OK" />
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								{"version":"1.0","description":"Optigra Ads REST API","resources":["/advertising","/application"],"uri":"/"}
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:response>
+          </wadl:method>
+        </wadl:resource>
         <wadl:resource path="application">
         <wadl:doc title="Description">Application management methods</wadl:doc>
         	<wadl:method name="GET" id="getApplications">
