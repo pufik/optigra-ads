@@ -1,5 +1,6 @@
 package org.optigra.ads.facade.user;
 
+import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.user.UserDetailsResource;
 import org.optigra.ads.facade.resource.user.UserResource;
 
@@ -27,5 +28,14 @@ public interface UserFacade {
      * @param userResource
      */
     void createUser(UserDetailsResource userResource);
+
+    /**
+     * @date Feb 24, 2014
+     * @author ivanursul
+     * @param offset
+     * @param limit
+     * @return
+     */
+    PagedResultResource<UserResource> getUsers(int offset, int limit);
     
 }

@@ -22,7 +22,8 @@ import org.optigra.ads.model.Queries;
 @Entity
 @Table(name = "c_user")
 @NamedQueries({
-    @NamedQuery(name = Queries.USER_FIND_BY_LOGIN_AND_PASSWORD_QUERY_NAME, query = Queries.USER_FIND_BY_LOGIN_AND_PASSWORD_QUERY)
+    @NamedQuery(name = Queries.FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY_NAME, query = Queries.FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY),
+    @NamedQuery(name = Queries.FIND_USERS_QUERY_NAME, query = Queries.FIND_USERS_QUERY)
 })
 public class User implements Serializable {
     private static final long serialVersionUID = 4388457091152861411L;

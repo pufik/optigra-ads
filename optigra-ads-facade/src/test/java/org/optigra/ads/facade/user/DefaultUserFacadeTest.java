@@ -2,9 +2,14 @@ package org.optigra.ads.facade.user;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +18,10 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.facade.converter.Converter;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.user.UserDetailsResource;
 import org.optigra.ads.facade.resource.user.UserResource;
 import org.optigra.ads.model.user.User;
@@ -28,10 +36,19 @@ import org.optigra.ads.service.user.UserService;
 public class DefaultUserFacadeTest {
 
     @Captor
+    private ArgumentCaptor<PagedResult<User>> pagedResultCaptor;
+    
+    @Captor
+    private ArgumentCaptor<PagedResultResource<UserResource>> pagedResultResourceCaptor;
+    
+    @Captor
     private ArgumentCaptor<User> userCaptor;
     
     @Mock
     private Converter<UserDetailsResource, User> userDetailsResourceConverter;
+    
+    @Mock
+    private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
     
     @Mock
     private UserService userService;
@@ -63,7 +80,6 @@ public class DefaultUserFacadeTest {
         assertEquals(expected, actual);
     }
     
-    
     @Test
     public void testCreateUser() {
         // Given
@@ -90,5 +106,33 @@ public class DefaultUserFacadeTest {
         
         // Then
         assertEquals(user, userCaptor.getValue());
+    }
+    
+    @Test
+    public void testGetUsers() {
+        // Given
+        int offset = 1;
+        int limit = 23;
+        long count = 100;
+        UserResource resource1 = new UserResource();
+        List<UserResource> userResources = Arrays.asList(resource1 );
+        PagedResultResource<UserResource> expected = new PagedResultResource<>(ResourceUri.USER);
+        expected.setEntities(userResources);
+        User user1 = new User();
+        List<User> entities = Arrays.asList(user1 );
+        PagedResult<User> pagedResult = new PagedResult<User>(offset, limit, count, entities );
+        // When
+        when(userService.getUsers(anyInt(), anyInt())).thenReturn(pagedResult);
+        when(userConverter.convertAll(anyListOf(User.class))).thenReturn(userResources);
+        
+        PagedResultResource<UserResource> actual = unit.getUsers(offset, limit);
+        
+        // Then
+        verify(userService).getUsers(offset, limit);
+        verify(userConverter).convertAll(entities);
+        verify(pagedSearchConverter).convert(pagedResultCaptor.capture(), pagedResultResourceCaptor.capture());
+        assertEquals(pagedResult, pagedResultCaptor.getValue());
+        assertEquals(expected, pagedResultResourceCaptor.getValue());
+        assertEquals(expected, actual);
     }
 }

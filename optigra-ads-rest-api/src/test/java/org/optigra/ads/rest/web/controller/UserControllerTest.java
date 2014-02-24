@@ -1,6 +1,7 @@
 package org.optigra.ads.rest.web.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -8,6 +9,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +21,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.user.UserDetailsResource;
 import org.optigra.ads.facade.resource.user.UserResource;
@@ -33,7 +38,7 @@ public class UserControllerTest extends AbstractControllerTest {
     private ArgumentCaptor<UserDetailsResource> userDetailsCaptor;
     
     @Mock
-    private UserFacade defaultUserFacade;
+    private UserFacade userFacade;
     
     @InjectMocks
     private final UserController unit = new UserController();
@@ -55,7 +60,7 @@ public class UserControllerTest extends AbstractControllerTest {
         expectedResource.setLogin(login);
 
         // When
-        when(defaultUserFacade.getUserById(anyLong())).thenReturn(expectedResource);
+        when(userFacade.getUserById(anyLong())).thenReturn(expectedResource);
         
         // Then
         mockMvc.perform(get(ResourceUri.USER + ResourceUri.SLASH + "{id}", userId))
@@ -81,9 +86,37 @@ public class UserControllerTest extends AbstractControllerTest {
                 .content(objectMapper.writeValueAsString(userDetailsResource)))
             .andExpect(status().isOk());
         
-        verify(defaultUserFacade).createUser(userDetailsCaptor.capture());
+        verify(userFacade).createUser(userDetailsCaptor.capture());
         assertEquals(userDetailsResource, userDetailsCaptor.getValue());
         
         writeFromFields(false);
+    }
+    
+    @Test
+    public void testGetUsers() throws Exception {
+        // Given
+        long count = 100;
+        UserResource entity1 = new UserResource();
+        List<UserResource> entities = Arrays.asList(entity1 );
+        int limit = 20;
+        int offset = 1;
+        
+        PagedResultResource<UserResource> expected = new PagedResultResource<>(ResourceUri.USER);
+        expected.setCount(count);
+        expected.setEntities(entities);
+        expected.setLimit(limit);
+        expected.setOffset(offset);
+        
+        // When
+        when(userFacade.getUsers(anyInt(), anyInt())).thenReturn(expected);
+        
+        // Then
+        mockMvc.perform(get("/user")
+                .param("offset", String.valueOf(offset))
+                .param("limit", String.valueOf(limit)))
+            .andExpect(status().isOk())
+            .andExpect(content().string(objectMapper.writeValueAsString(expected)));
+        
+        verify(userFacade).getUsers(offset, limit);
     }
 }

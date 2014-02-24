@@ -1,8 +1,13 @@
 package org.optigra.ads.facade.user;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.facade.converter.Converter;
+import org.optigra.ads.facade.resource.PagedResultResource;
+import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.user.UserDetailsResource;
 import org.optigra.ads.facade.resource.user.UserResource;
 import org.optigra.ads.model.user.User;
@@ -28,6 +33,9 @@ public class DefaultUserFacade implements UserFacade {
     @Resource(name = "userDetailsResourceConverter")
     private Converter<UserDetailsResource, User> userDetailsResourceConverter;
     
+    @Resource(name = "pagedSearchConverter")
+    private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
+    
     @Override
     public UserResource getUserById(final Long id) {
         
@@ -43,6 +51,21 @@ public class DefaultUserFacade implements UserFacade {
         User user = userDetailsResourceConverter.convert(userResource);
 
         userService.createUser(user);
+    }
+
+    @Override
+    public PagedResultResource<UserResource> getUsers(final int offset, final int limit) {
+        
+        PagedResult<User> pagedResult = userService.getUsers(offset, limit);
+        
+        List<UserResource> userResources = userConverter.convertAll(pagedResult.getEntities());
+        
+        PagedResultResource<UserResource> pagedResultResource = new PagedResultResource<>(ResourceUri.USER);
+        pagedResultResource.setEntities(userResources);
+        
+        pagedSearchConverter.convert(pagedResult, pagedResultResource);
+        
+        return pagedResultResource;
     }
 
 }
