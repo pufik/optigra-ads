@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -13,9 +14,9 @@ import javax.persistence.Table;
 import org.optigra.ads.model.Queries;
 
 /**
- * 
+ *
  * Application entity.
- * 
+ *
  * @date Feb 11, 2014
  * @author ivanursul
  *
@@ -27,20 +28,20 @@ import org.optigra.ads.model.Queries;
     @NamedQuery(name = Queries.FIND_APPLICATION_BY_ID_QUERY_NAME, query = Queries.FIND_APPLICATION_BY_ID_QUERY)
 })
 public class Application {
-    
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "applicationId", unique = true)
     private String applicationId;
-    
+
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
-    
+
     @Column(name = "url", unique = true)
     private String url;
-    
+
     @Column(name = "name")
     private String name;
 
@@ -137,5 +138,5 @@ public class Application {
                 + ", status=" + status + ", url=" + url + ", name=" + name
                 + "]";
     }
-    
-}    
+
+}

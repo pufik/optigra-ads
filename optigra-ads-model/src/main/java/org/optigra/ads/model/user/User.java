@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -29,19 +30,19 @@ public class User implements Serializable {
     private static final long serialVersionUID = 4388457091152861411L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "login", unique = true)
     private String login;
-    
+
     @Column(name = "password")
     private String password;
-    
+
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private UserRole role;
-    
+
     public Long getId() {
         return id;
     }
