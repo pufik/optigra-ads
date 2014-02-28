@@ -37,19 +37,19 @@ public class UserController extends BaseController {
             @RequestParam(value = "limit", defaultValue = "20") final int limit) {
         return userFacade.getUsers(offset, limit);
     }
-    
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public UserResource getUser(@PathVariable("id") final Long id) {
         return userFacade.getUserById(id);
     }
-    
+
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public MessageResource createUser(@Valid @RequestBody final UserDetailsResource userResource) {
-        
+
         userFacade.createUser(userResource);
-        
+
         return new MessageResource(MessageType.INFO, "User successfully created");
     }
 }

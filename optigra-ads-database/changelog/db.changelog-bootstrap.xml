@@ -69,4 +69,11 @@
             </column>
         </createTable>
     </changeSet>
+    
+    <changeSet id="addEmailAndFullNameUserTable" author="Iurii Parfeniuk">
+    	<addColumn tableName="c_user">
+    		<column name="email" type="varchar(255)" />
+    		<column name="full_name" type="varchar(255)"/>
+    	</addColumn>
+    </changeSet>
 </databaseChangeLog>

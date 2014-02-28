@@ -88,10 +88,9 @@
         <div class='sign-up-form'>
           <h4>Sign Up</h4>
           <form accept-chatset="UTF-8" method="post" onsubmit="return getContext().getUserController().register();">
-            <input type="text" name="firstName" required="required" placeholder="First Name" value="" class= "forms"> </br>
-            <input type="text" name="lastName" required="required" placeholder="Last Name" value=""  class= "forms">
-            <input type="email" name="email" required="required" placeholder="Email" value=""  class= "forms">
-            <input type="password" name="rawPassword" required="required" placeholder="Password"  class= "forms">
+            <input type="text" id="userCreateFullName" name="fullName" required="required" placeholder="Full Name" value="" class= "forms"> </br>
+            <input type="email" id="userCreateEmail" name="email" required="required" placeholder="Email" value=""  class= "forms">
+            <input type="password" id="userCreatePassword" name="rawPassword" required="required" placeholder="Password"  class= "forms">
             <input type="password" name="confirmRawPassword" required="required" placeholder="Confirm Password"  class= "forms">
             <input class="sign-up" type="submit" value="Sign Up"><br>
 

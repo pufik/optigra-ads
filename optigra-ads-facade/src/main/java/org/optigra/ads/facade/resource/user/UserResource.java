@@ -2,6 +2,7 @@ package org.optigra.ads.facade.resource.user;
 
 import org.optigra.ads.facade.resource.Resource;
 import org.optigra.ads.facade.resource.ResourceUri;
+import org.optigra.ads.model.user.UserRole;
 
 /**
  * @date Feb 7, 2014
@@ -15,9 +16,9 @@ public class UserResource extends Resource {
 
     private String email;
 
-    private String firstName;
+    private String fullName;
 
-    private String lastName;
+    private UserRole role;
 
     @Override
     public String getUri() {
@@ -48,20 +49,20 @@ public class UserResource extends Resource {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(final String firstName) {
-        this.firstName = firstName;
+    public void setFullName(final String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getLastName() {
-        return lastName;
+    public UserRole getRole() {
+        return role;
     }
 
-    public void setLastName(final String lastName) {
-        this.lastName = lastName;
+    public void setRole(final UserRole role) {
+        this.role = role;
     }
 
     @Override
@@ -69,10 +70,10 @@ public class UserResource extends Resource {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+        result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + ((login == null) ? 0 : login.hashCode());
+        result = prime * result + ((role == null) ? 0 : role.hashCode());
         return result;
     }
 
@@ -90,31 +91,28 @@ public class UserResource extends Resource {
                 return false;
         } else if (!email.equals(other.email))
             return false;
-        if (firstName == null) {
-            if (other.firstName != null)
+        if (fullName == null) {
+            if (other.fullName != null)
                 return false;
-        } else if (!firstName.equals(other.firstName))
+        } else if (!fullName.equals(other.fullName))
             return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (lastName == null) {
-            if (other.lastName != null)
-                return false;
-        } else if (!lastName.equals(other.lastName))
-            return false;
         if (login == null) {
             if (other.login != null)
                 return false;
         } else if (!login.equals(other.login))
+            return false;
+        if (role != other.role)
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "UserResource [id=" + id + ", login=" + login + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+        return "UserResource [id=" + id + ", login=" + login + ", email=" + email + ", fullName=" + fullName + ", role=" + role + "]";
     }
 }
