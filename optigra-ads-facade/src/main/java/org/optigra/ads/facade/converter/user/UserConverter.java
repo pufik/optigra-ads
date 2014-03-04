@@ -7,10 +7,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * Converter for User-UserResource relation.
- * 
+ *
  * @date Feb 7, 2014
  * @author ivanursul
- * 
  */
 @Component("userConverter")
 public class UserConverter extends AbstractConverter<User, UserResource> {
@@ -25,8 +24,10 @@ public class UserConverter extends AbstractConverter<User, UserResource> {
 
         target.setId(user.getId());
         target.setLogin(user.getLogin());
+        target.setEmail(user.getEmail());
+        target.setFullName(user.getFullName());
+        target.setRole(user.getRole());
 
         return target;
     }
-
 }

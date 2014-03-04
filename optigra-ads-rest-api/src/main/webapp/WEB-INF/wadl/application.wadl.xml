@@ -121,5 +121,81 @@
                     </wadl:response>
         	</wadl:method>
         </wadl:resource>
+     	
+     	<wadl:resource path="user">
+        <wadl:doc title="Description">User management methods</wadl:doc>
+        	<wadl:method name="GET" id="getUsers">
+        	<wadl:doc>Get all users</wadl:doc>
+        	        <wadl:request>
+                        <wadl:param name="authorization" style="header" type="xsi:string" required="true">
+                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
+                        </wadl:param>
+                        <wadl:param name="offset" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" required="false" default="0">
+                            <wadl:doc>start position</wadl:doc>
+                        </wadl:param>
+                        <wadl:param name="limit" style="query" type="integer" required="false" default="20">
+                            <wadl:doc>record max count per page</wadl:doc>
+                        </wadl:param>
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/user?offset=10&amp;limit=20
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:request>
+                    <wadl:response status="200">
+                        <wadl:doc title="OK" />
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								{ "count" : 2,
+								  "entities" : [ { "email" : null,
+								        "fullName" : null,
+								        "id" : 1,
+								        "login" : "admin",
+								        "role" : "ADMIN",
+								        "uri" : "/user/1"
+								      },
+								      { "email" : "iurii.parfeniuk@gmail.com",
+								        "fullName" : "Iurii Parfeniuk",
+								        "id" : 2,
+								        "login" : "iurii.parfeniuk@gmail.com",
+								        "role" : "ADMIN",
+								        "uri" : "/user/2"
+								      }
+								    ],
+								  "limit" : 20,
+								  "offset" : 0,
+								  "uri" : "/user"
+								}
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:response>
+        	</wadl:method>
+        <wadl:method name="POST" id="createUser">
+        	<wadl:doc>Create user(Sign Up/Register)</wadl:doc>
+        	        <wadl:request>
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								{ "email" : "iurii_parfeniuk@gmail.com",
+								  "fullName" : "Iurii Parfeniuk",
+								  "login" : "iurii_parfeniuk",
+								  "password" : "12345",
+								  "role" : "USER"
+								}
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:request>
+                    <wadl:response status="200">
+                        <wadl:doc title="OK" />
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								{ "message" : "User successfully created",
+								  "status" : null,
+								  "type" : "INFO"
+								}
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:response>
+        	</wadl:method>
+        </wadl:resource>
     </wadl:resources>
 </wadl:application>

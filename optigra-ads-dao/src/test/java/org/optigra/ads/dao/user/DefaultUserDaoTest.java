@@ -3,9 +3,14 @@ package org.optigra.ads.dao.user;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -18,6 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.user.User;
 
@@ -26,6 +32,9 @@ import org.optigra.ads.model.user.User;
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultUserDaoTest {
 
+    private static final String TABLE_TOKEN = "$table";
+    private static final String COUNT_QUERY = "SELECT COUNT(*) FROM " + TABLE_TOKEN + " a WHERE a IN(%s) ";
+    
     @Captor
     private ArgumentCaptor<User> userCaptor;
     
@@ -34,6 +43,9 @@ public class DefaultUserDaoTest {
     
     @Mock
     private TypedQuery<User> typedQuery;
+
+    @Mock
+    private TypedQuery<Long> longTypedQuery;
     
     @InjectMocks
     private DefaultUserDao unit = new DefaultUserDao();
@@ -156,5 +168,35 @@ public class DefaultUserDaoTest {
         verify(entityManager).persist(userCaptor.capture());
         
         assertEquals(user, userCaptor.getValue());
+    }
+    
+    @Test
+    public void testGetUsers() {
+        // Given
+        int offset = 20;
+        int limit = 0;
+        long count = 100;
+        User user1 = new User();
+        List<User> entities = Arrays.asList(user1);
+        PagedResult<User> expected = new PagedResult<User>(offset, limit, count, entities);
+        Queries query = Queries.FIND_USERS;
+        String querySql = String.format(COUNT_QUERY, query.getQuery()).replace(TABLE_TOKEN, User.class.getSimpleName());
+        
+        // When
+        when(entityManager.createNamedQuery(anyString(), Matchers.<Class<User>>any())).thenReturn(typedQuery);
+        when(typedQuery.getResultList()).thenReturn(entities);
+        when(entityManager.createQuery(anyString(), Matchers.<Class<Long>>any())).thenReturn(longTypedQuery);
+        when(longTypedQuery.getSingleResult()).thenReturn(count);
+        
+        PagedResult<User> actual = unit.getUsers(offset, limit);
+        
+        // Then
+        verify(entityManager).createNamedQuery(query.getQueryName(), User.class);
+        verify(entityManager).createQuery(querySql, Long.class);
+        verify(typedQuery, times(0)).setParameter(anyString(), anyObject());
+        verify(longTypedQuery, times(0)).setParameter(anyString(), anyObject());
+        verify(typedQuery).setFirstResult(offset);
+        verify(typedQuery).setMaxResults(limit);
+        assertEquals(expected, actual);
     }
 }

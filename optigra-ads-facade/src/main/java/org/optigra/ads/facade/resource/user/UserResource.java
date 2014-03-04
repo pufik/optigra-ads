@@ -2,19 +2,24 @@ package org.optigra.ads.facade.resource.user;
 
 import org.optigra.ads.facade.resource.Resource;
 import org.optigra.ads.facade.resource.ResourceUri;
+import org.optigra.ads.model.user.UserRole;
 
 /**
- * 
  * @date Feb 7, 2014
  * @author ivanursul
- *
  */
 public class UserResource extends Resource {
 
-    protected Long id;
-    
-    protected String login;
-    
+    private Long id;
+
+    private String login;
+
+    private String email;
+
+    private String fullName;
+
+    private UserRole role;
+
     @Override
     public String getUri() {
         return ResourceUri.USER + ResourceUri.SLASH + id;
@@ -36,12 +41,39 @@ public class UserResource extends Resource {
         this.login = login;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(final String fullName) {
+        this.fullName = fullName;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(final UserRole role) {
+        this.role = role;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((fullName == null) ? 0 : fullName.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((login == null) ? 0 : login.hashCode());
+        result = prime * result + ((role == null) ? 0 : role.hashCode());
         return result;
     }
 
@@ -54,6 +86,16 @@ public class UserResource extends Resource {
         if (getClass() != obj.getClass())
             return false;
         UserResource other = (UserResource) obj;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        if (fullName == null) {
+            if (other.fullName != null)
+                return false;
+        } else if (!fullName.equals(other.fullName))
+            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -64,12 +106,13 @@ public class UserResource extends Resource {
                 return false;
         } else if (!login.equals(other.login))
             return false;
+        if (role != other.role)
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "UserResource [id=" + id + ", login=" + login + "]";
+        return "UserResource [id=" + id + ", login=" + login + ", email=" + email + ", fullName=" + fullName + ", role=" + role + "]";
     }
-    
 }

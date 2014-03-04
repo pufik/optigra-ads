@@ -37,9 +37,22 @@ function UserController(context) {
 	}
 	
 	this.register = function() {
-		alert("We will do it ASAP ;)");
+		var user = { role: 'ADMIN'};
+		user.login = $("#userCreateEmail").val();
+		user.password = $("#userCreatePassword").val();;
+		user.email = $("#userCreateEmail").val();
+		user.fullName = $("#userCreateFullName").val();
+		
+		userDao.register(this.registerResponseHandler, user);
+		
 		return false;
 	};
+	
+	this.registerResponseHandler = function(message) {
+		if(message.type == "INFO"){
+		  alert('User created!')
+		}
+	}
 	
 	this.getDashboard = function() {
 		userDao.getProfile(this.getProfileResponseHandler);

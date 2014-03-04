@@ -1,18 +1,22 @@
 package org.optigra.ads.service.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.user.UserDao;
 import org.optigra.ads.model.user.User;
 import org.optigra.ads.model.user.UserRole;
@@ -21,7 +25,7 @@ import org.optigra.ads.model.user.UserRole;
 public class DefaultUserServiceTest {
 	
     @Mock
-    private UserDao defaultUserDao;
+    private UserDao userDao;
     
     @InjectMocks
 	private DefaultUserService unit = new DefaultUserService();
@@ -34,11 +38,11 @@ public class DefaultUserServiceTest {
 		expectedUser.setId(userId);
 		
 		// When
-        when(defaultUserDao.getUserById(anyLong())).thenReturn(expectedUser);
+        when(userDao.getUserById(anyLong())).thenReturn(expectedUser);
 		User actualUser = unit.getUserById(userId);
 
 		// Then
-		verify(defaultUserDao).getUserById(userId);
+		verify(userDao).getUserById(userId);
 		assertEquals(expectedUser, actualUser);
 	}
 	
@@ -52,12 +56,31 @@ public class DefaultUserServiceTest {
 		expectedUser.setRole(UserRole.ADMIN);
 
 		// When
-		when(defaultUserDao.getUserByLoginAndPassword(anyString(), anyString())).thenReturn(expectedUser);
+		when(userDao.getUserByLoginAndPassword(anyString(), anyString())).thenReturn(expectedUser);
 		User actualUser = unit.getUserByLoginAndPassword(login, password);
 
 		// Then
-		verify(defaultUserDao).getUserByLoginAndPassword(login, password);
+		verify(userDao).getUserByLoginAndPassword(login, password);
 		assertEquals(expectedUser, actualUser);
 	}
 
+	@Test
+	public void testGetUsers() {
+	    // Given
+	    int offset = 1;
+	    int limit = 23;
+	    long count = 100;
+        User user1 = new User();
+        List<User> entities = Arrays.asList(user1);
+        PagedResult<User> expected = new PagedResult<User>(offset, limit, count, entities);
+	    
+        // When
+        when(userDao.getUsers(anyInt(), anyInt())).thenReturn(expected);
+        
+	    PagedResult<User> actual = unit.getUsers(offset, limit);
+	    
+	    // Then
+	    verify(userDao).getUsers(offset, limit);
+	    assertEquals(expected, actual);
+	}
 }

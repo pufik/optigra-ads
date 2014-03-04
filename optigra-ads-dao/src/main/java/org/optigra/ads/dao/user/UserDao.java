@@ -1,5 +1,6 @@
 package org.optigra.ads.dao.user;
 
+import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
 
 
@@ -44,4 +45,13 @@ public interface UserDao {
      * @param user
      */
     void createUser(User user);
+
+    /**
+     * @date Feb 24, 2014
+     * @author ivanursul
+     * @param offset
+     * @param limit
+     * @return
+     */
+    PagedResult<User> getUsers(int offset, int limit);
 }

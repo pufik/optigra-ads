@@ -2,6 +2,7 @@ package org.optigra.ads.service.user;
 
 import javax.annotation.Resource;
 
+import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.user.UserDao;
 import org.optigra.ads.model.user.User;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,10 @@ public class DefaultUserService implements UserService {
     @Override
     public void createUser(final User user) {
         userDao.createUser(user);
+    }
+
+    @Override
+    public PagedResult<User> getUsers(final int offset, final int limit) {
+        return userDao.getUsers(offset, limit);
     }
 }

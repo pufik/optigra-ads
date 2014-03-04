@@ -1,5 +1,6 @@
 package org.optigra.ads.service.user;
 
+import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
 
 /**
@@ -44,5 +45,14 @@ public interface UserService {
      * @param user User to be saved
      */
     void createUser(User user);
+
+    /**
+     * @date Feb 24, 2014
+     * @author ivanursul
+     * @param offset
+     * @param limit
+     * @return
+     */
+    PagedResult<User> getUsers(int offset, int limit);
 
 }

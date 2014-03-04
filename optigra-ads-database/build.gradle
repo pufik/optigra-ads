@@ -1,0 +1,44 @@
+apply plugin: 'liquibase'
+ buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'postgresql:postgresql:9.1-901.jdbc4'
+        classpath 'org.liquibase:liquibase-core:2.0.5'
+        classpath ('com.augusttechgroup:gradle-liquibase-plugin:0.7') {
+            exclude group: 'org.liquibase', module: 'liquibase-core'
+        }
+        classpath 'net.sourceforge.jtds:jtds:1.2.7'
+    }
+ }
+
+    liquibase {
+    changelogs {
+        main {
+            file = file('changelog/db.changelog-master.xml')
+        }
+    }
+
+    databases {
+        localhost {
+            url = "jdbc:postgresql://localhost:5432/optigra-ads"
+            username = "postgres"
+            password = "postgres"
+        }
+        
+        devserver {
+            url = "jdbc:postgresql://optigra-ads.dev.optigra.org:5432/optigra-ads"
+            username = "postgres"
+            password = "postgres"
+        }
+    }
+    
+    if(project.ext.has('serverName')){
+        defaultDatabase = databases[project.ext.serverName]
+    }else{
+        defaultDatabase = databases['localhost']
+    }
+}
+
