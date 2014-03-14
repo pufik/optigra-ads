@@ -61,7 +61,7 @@ public class ContentServiceImplTest {
     @Test
     public void testmethodName() throws Exception {
         // Given
-        String payload = "payload";
+        String payload = "payload test";
         InputStream stream = new ByteArrayInputStream("somstring".getBytes("UTF-8"));
         String path = "/path/to/my/file.ext";
         Date date = Calendar.getInstance().getTime();
