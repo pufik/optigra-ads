@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans  http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<bean name="jcrConfiguration" class="org.apache.jackrabbit.core.config.RepositoryConfig"
+		factory-method="create">
+		<constructor-arg index="0" type="java.io.InputStream" value="classpath:jackrabbit-repository.xml" />
+		<constructor-arg index="1" type="java.lang.String" value="/content" />
+	</bean>
+
+	<bean id="jcrRepository" name="jcrRepository" factory-method="create"
+		class="org.apache.jackrabbit.core.RepositoryImpl" destroy-method="shutdown">
+		<constructor-arg>
+			<ref bean="jcrConfiguration" />
+		</constructor-arg>
+	</bean>
+
+	<bean id="password" class="java.lang.String">
+		<constructor-arg index="0" value="pass" />
+	</bean>
+
+    <bean name="credentials" class="javax.jcr.SimpleCredentials">
+        <constructor-arg index="0" type="java.lang.String" value="user" />
+        <constructor-arg index="1">
+            <bean factory-bean="password" factory-method="toCharArray" />
+        </constructor-arg>
+    </bean>
+
+	<bean id="jcrSession" name="jcrSession" scope="session" factory-bean="jcrRepository" factory-method="login" destroy-method="logout">
+		<constructor-arg>
+			<ref bean="credentials" />
+		</constructor-arg>
+	</bean>
+	
+</beans>
