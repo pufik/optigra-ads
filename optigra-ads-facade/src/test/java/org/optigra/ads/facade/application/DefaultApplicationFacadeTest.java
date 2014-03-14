@@ -69,13 +69,17 @@ public class DefaultApplicationFacadeTest {
 
         // When
         when(applicationDTOConverter.convert(any(ApplicationResource.class))).thenReturn(application);
-
-        unit.createApplication(applicationResource);
+        when(applicationConverter.convert(any(Application.class))).thenReturn(applicationResource);
+        
+        ApplicationResource actualResource = unit.createApplication(applicationResource);
 
         verify(applicationService).createApplication(applicationCaptor.capture());
-
+        verify(applicationDTOConverter).convert(applicationResource);
+        verify(applicationConverter).convert(application);
+        
         // Then
         assertEquals(application, applicationCaptor.getValue());
+        assertEquals(applicationResource, actualResource);
     }
 
     @Test

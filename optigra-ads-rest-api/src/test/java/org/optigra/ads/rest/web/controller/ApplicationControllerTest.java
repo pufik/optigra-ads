@@ -1,6 +1,7 @@
 package org.optigra.ads.rest.web.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -58,7 +59,6 @@ public class ApplicationControllerTest extends AbstractControllerTest {
 
     @Test
     public void testAddAplication() throws Exception {
-        writeFromFields(true);
         // Given
         String name = "application#2";
         String applicationId = "h5gfg543f5gh34fgh";
@@ -68,14 +68,21 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         resource.setApplicationId(applicationId);
         resource.setStatus(ApplicationStatus.PENDING);
         resource.setUrl(url);
-        MessageResource messageResource = new MessageResource(MessageType.INFO, "Application created");
-
+        
+        // When
+        when(facade.createApplication(any(ApplicationResource.class))).thenReturn(resource);
+        
+        String request = getJson(resource, true);
+        String response = getJson(resource, false);
+        
         // Then
-        mockMvc.perform(post(ResourceUri.APPLICATION).content(objectMapper.writeValueAsString(resource)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
+        mockMvc.perform(post(ResourceUri.APPLICATION)
+                .content(request)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(response));
 
         verify(facade).createApplication(resource);
-        writeFromFields(false);
     }
 
     @Test

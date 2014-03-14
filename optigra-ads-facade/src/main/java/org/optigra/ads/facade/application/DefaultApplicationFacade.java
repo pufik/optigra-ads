@@ -35,13 +35,15 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     private ApplicationService applicationService;
 
     @Override
-    public void createApplication(final ApplicationResource applicationResource) {
+    public ApplicationResource createApplication(final ApplicationResource applicationResource) {
 
         // Convert from dto to entity
         Application application = applicationDTOConverter.convert(applicationResource);
 
         // Store application entity
         applicationService.createApplication(application);
+        
+        return applicationConverter.convert(application);
     }
 
     @Override

@@ -31,11 +31,8 @@ public class ApplicationController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public MessageResource createApplication(@RequestBody final ApplicationResource applicationResource) {
-
-        facade.createApplication(applicationResource);
-
-        return new MessageResource(MessageType.INFO, "Application created");
+    public ApplicationResource createApplication(@RequestBody final ApplicationResource applicationResource) {
+        return facade.createApplication(applicationResource);
     }
 
     @RequestMapping(method = RequestMethod.GET)

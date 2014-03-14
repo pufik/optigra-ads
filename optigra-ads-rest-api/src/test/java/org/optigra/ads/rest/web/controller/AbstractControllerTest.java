@@ -2,6 +2,7 @@ package org.optigra.ads.rest.web.controller;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,10 +22,14 @@ public class AbstractControllerTest {
             objectMapper.setVisibility(PropertyAccessor.ALL, Visibility.NONE);
             objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
         } else {
-            objectMapper.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
             
-            objectMapper.setVisibility(PropertyAccessor.ALL, Visibility.NONE);
-            objectMapper.setVisibility(PropertyAccessor.GETTER, Visibility.ANY);
+            objectMapper = new ObjectMapper();
+
         }
+    }
+    
+    protected String getJson(final Object object, final boolean writeFromFields) throws JsonProcessingException {
+        writeFromFields(writeFromFields);
+        return objectMapper.writeValueAsString(object);
     }
 }

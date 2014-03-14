@@ -18,8 +18,9 @@ public interface ApplicationFacade {
      * @author ivanursul
      * @param applicationResource
      *            dto
+     * @return 
      */
-    void createApplication(ApplicationResource applicationResource);
+    ApplicationResource createApplication(ApplicationResource applicationResource);
 
     /**
      * Method for getting list of applications.
