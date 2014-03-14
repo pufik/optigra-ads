@@ -12,7 +12,6 @@
 			classpath*:facade-context.xml
 			classpath*:dao-context.xml
 			classpath*:security-context.xml
-			classpath*:content-context.xml
 		</param-value>
 	</context-param>
 	
