@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultApplicationFacade implements ApplicationFacade {
 
-    @Resource(name = "applicationDTOConverter")
+    @Resource(name = "applicationResourceConverter")
     private Converter<ApplicationResource, Application> applicationDTOConverter;
 
     @Resource(name = "pagedSearchConverter")

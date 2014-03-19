@@ -24,6 +24,9 @@ public class ApplicationConverterTest {
         String url = "url";
         String name = "name";
         String applicationId = "5h34g6f34g6g45hf6gh45f6gh45";
+        String groupId = "-53453434";
+        String groupName = "groupName";
+        String imageUrl = "imageUrl";
         
         Application application = new Application();
         application.setId(id);
@@ -31,6 +34,9 @@ public class ApplicationConverterTest {
         application.setName(name);
         application.setStatus(status);
         application.setUrl(url);
+        application.setGroupId(groupId);
+        application.setGroupName(groupName);
+        application.setImageUrl(imageUrl);
         
         ApplicationResource expected = new ApplicationResource();
         expected.setId(id);
@@ -38,6 +44,9 @@ public class ApplicationConverterTest {
         expected.setName(name);
         expected.setStatus(status);
         expected.setUrl(url);
+        expected.setGroupId(groupId);
+        expected.setGroupName(groupName);
+        expected.setImageUrl(imageUrl);
         
         // When
         ApplicationResource actual = unit.convert(application);

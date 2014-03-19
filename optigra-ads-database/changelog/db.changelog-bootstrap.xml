@@ -76,4 +76,23 @@
     		<column name="full_name" type="varchar(255)"/>
     	</addColumn>
     </changeSet>
+
+    <changeSet id="addGroupIdAndGroupDescriptionAndImageUrlToApplication" author="Ivan Ursul">
+    	<addColumn tableName="application">
+    		<column name="group_id" type="varchar(255)"  >
+    		        <constraints unique="true"
+                        uniqueConstraintName="group_id_uk" />
+    		</column>
+    		<column name="group_short_name" type="varchar(255)"/>
+    		<column name="image_url" type="varchar(255)"/>
+    	</addColumn>
+    </changeSet>
+
+    <changeSet id="addImageUrlToUser" author="Ivan Ursul">
+    	<addColumn tableName="c_user">
+    		<column name="image_url" type="varchar(255)"/>
+    	</addColumn>
+    </changeSet>
+    
+        
 </databaseChangeLog>

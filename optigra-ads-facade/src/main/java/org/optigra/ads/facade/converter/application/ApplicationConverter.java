@@ -26,6 +26,9 @@ public class ApplicationConverter extends AbstractConverter<Application, Applica
         applicationResource.setName(application.getName());
         applicationResource.setStatus(application.getStatus());
         applicationResource.setUrl(application.getUrl());
+        applicationResource.setGroupId(application.getGroupId());
+        applicationResource.setGroupName(application.getGroupName());
+        applicationResource.setImageUrl(application.getImageUrl());
 
         return applicationResource;
     }

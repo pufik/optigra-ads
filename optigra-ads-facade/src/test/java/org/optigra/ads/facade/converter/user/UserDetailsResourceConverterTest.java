@@ -19,6 +19,7 @@ public class UserDetailsResourceConverterTest {
         String password = "password";
         String email = "email";
         String fullName = "fullName";
+        String imageUrl = "imageUrl";
 
         UserDetailsResource userResource = new UserDetailsResource();
         userResource.setId(id);
@@ -27,6 +28,7 @@ public class UserDetailsResourceConverterTest {
         userResource.setRole(UserRole.USER);
         userResource.setEmail(email);
         userResource.setFullName(fullName);
+        userResource.setImageUrl(imageUrl);
 
         User expected = new User();
         expected.setId(id);
@@ -35,6 +37,7 @@ public class UserDetailsResourceConverterTest {
         expected.setRole(UserRole.USER);
         expected.setEmail(email);
         expected.setFullName(fullName);
+        expected.setImageUrl(imageUrl);
 
         // When
         User actual = unit.convert(userResource);

@@ -20,13 +20,14 @@ public class UserConverter extends AbstractConverter<User, UserResource> {
     }
 
     @Override
-    public UserResource convert(final User user, final UserResource target) {
+    public UserResource convert(final User source, final UserResource target) {
 
-        target.setId(user.getId());
-        target.setLogin(user.getLogin());
-        target.setEmail(user.getEmail());
-        target.setFullName(user.getFullName());
-        target.setRole(user.getRole());
+        target.setId(source.getId());
+        target.setLogin(source.getLogin());
+        target.setEmail(source.getEmail());
+        target.setFullName(source.getFullName());
+        target.setRole(source.getRole());
+        target.setImageUrl(source.getImageUrl());
 
         return target;
     }

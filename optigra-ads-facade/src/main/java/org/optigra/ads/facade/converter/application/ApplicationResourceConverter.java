@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
  * @author ivanursul
  * 
  */
-@Component("applicationDTOConverter")
-public class ApplicationDTOConverter extends AbstractConverter<ApplicationResource, Application> {
+@Component("applicationResourceConverter")
+public class ApplicationResourceConverter extends AbstractConverter<ApplicationResource, Application> {
 
     @Override
     public Application convert(final ApplicationResource applicationResource) {
@@ -27,6 +27,9 @@ public class ApplicationDTOConverter extends AbstractConverter<ApplicationResour
         application.setName(applicationResource.getName());
         application.setStatus(applicationResource.getStatus());
         application.setUrl(applicationResource.getUrl());
+        application.setGroupId(applicationResource.getGroupId());
+        application.setGroupName(applicationResource.getGroupName());
+        application.setImageUrl(applicationResource.getImageUrl());
 
         return application;
     }
