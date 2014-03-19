@@ -29,12 +29,6 @@ public class ApplicationController extends BaseController {
     @Resource(name = "applicationFacade")
     private ApplicationFacade facade;
 
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
-    public ApplicationResource createApplication(@RequestBody final ApplicationResource applicationResource) {
-        return facade.createApplication(applicationResource);
-    }
-
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public PagedResultResource<ApplicationResource> getApplications(@RequestParam(value = "offset", defaultValue = "0") final int offset,
@@ -57,6 +51,20 @@ public class ApplicationController extends BaseController {
         String status = facade.getApplicationStatus(applicationId);
 
         return new MessageResource(MessageType.INFO, status);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public ApplicationResource createApplication(@RequestBody final ApplicationResource applicationResource) {
+        return facade.createApplication(applicationResource);
+    }
+
+    @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.PUT)
+    @ResponseBody
+    public MessageResource updateApplication(@PathVariable("appId") final String applicationId, @RequestBody final ApplicationResource applicationResource) {
+        
+        facade.updateApplication(applicationId, applicationResource);
+        return new MessageResource(MessageType.INFO, "Application Updated");
     }
 
     @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.DELETE)

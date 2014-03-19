@@ -61,4 +61,10 @@ public class DefaultApplicationService implements ApplicationService {
         Application application = applicationDao.getApplicationById(applicationId);
         applicationDao.remove(application);
     }
+
+    @Override
+    public void updateApplication(final Application application) {
+        applicationDao.update(application);
+    }
+
 }

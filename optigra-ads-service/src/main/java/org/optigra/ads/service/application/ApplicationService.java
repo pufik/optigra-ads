@@ -58,4 +58,11 @@ public interface ApplicationService {
      */
     void deleteApplication(String applicationId);
 
+    /**
+     * @date Mar 19, 2014
+     * @author ivanursul
+     * @param application
+     */
+    void updateApplication(Application application);
+
 }

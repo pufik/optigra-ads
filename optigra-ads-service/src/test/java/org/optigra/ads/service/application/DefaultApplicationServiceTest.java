@@ -123,4 +123,19 @@ public class DefaultApplicationServiceTest {
 
         assertEquals(application, applicationCaptor.getValue());
     }
+    
+    @Test
+    public void testUpdateApplication() throws Exception {
+        // Given
+        String applicationId = "applicationId";
+        Application application = new Application();
+        application.setApplicationId(applicationId);
+        
+        // When
+        unit.updateApplication(application);
+
+        // Then
+        verify(applicationDao).update(applicationCaptor.capture());
+        assertEquals(application, applicationCaptor.getValue());
+    }
 }

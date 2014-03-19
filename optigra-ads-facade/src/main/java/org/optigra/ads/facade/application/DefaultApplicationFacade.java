@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DefaultApplicationFacade implements ApplicationFacade {
 
     @Resource(name = "applicationResourceConverter")
-    private Converter<ApplicationResource, Application> applicationDTOConverter;
+    private Converter<ApplicationResource, Application> applicationResourceConverter;
 
     @Resource(name = "pagedSearchConverter")
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
@@ -38,7 +38,7 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     public ApplicationResource createApplication(final ApplicationResource applicationResource) {
 
         // Convert from dto to entity
-        Application application = applicationDTOConverter.convert(applicationResource);
+        Application application = applicationResourceConverter.convert(applicationResource);
 
         // Store application entity
         applicationService.createApplication(application);
@@ -82,5 +82,12 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     @Override
     public void deleteApplication(final String applicationId) {
         applicationService.deleteApplication(applicationId);
+    }
+
+    @Override
+    public void updateApplication(final String applicationId, final ApplicationResource applicationResource) {
+        Application application = applicationService.getApplication(applicationId);
+        applicationResourceConverter.convert(applicationResource, application);
+        applicationService.updateApplication(application);
     }
 }

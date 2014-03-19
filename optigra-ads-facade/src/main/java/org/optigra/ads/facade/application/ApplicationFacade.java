@@ -63,4 +63,12 @@ public interface ApplicationFacade {
      *            application unique identifier.
      */
     void deleteApplication(String applicationId);
+
+    /**
+     * @date Mar 19, 2014
+     * @author ivanursul
+     * @param applicationId
+     * @param applicationResource
+     */
+    void updateApplication(String applicationId, ApplicationResource applicationResource);
 }
