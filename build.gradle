@@ -53,14 +53,12 @@ subprojects {
         compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.0'
         compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
         
-        compile ('org.apache.jackrabbit:jackrabbit-core:2.2.4') {
+        compile 'javax.jcr:jcr:2.0'
+        compile ('org.apache.jackrabbit:jackrabbit-core:2.6.0') {
              exclude group: 'org.slf4j'
         }
         
-        compile 'javax.jcr:jcr:2.0'
         compile 'commons-fileupload:commons-fileupload:1.2.2'
-        compile 'commons-dbcp:commons-dbcp:1.4'
-        
     }
 
     jar {

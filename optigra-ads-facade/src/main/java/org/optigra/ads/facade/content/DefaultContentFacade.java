@@ -2,6 +2,8 @@ package org.optigra.ads.facade.content;
 
 import java.io.InputStream;
 
+import javax.annotation.Resource;
+
 import org.optigra.ads.content.exception.ContentException;
 import org.optigra.ads.content.exception.ContentNotFoundException;
 import org.optigra.ads.content.model.Content;
@@ -15,13 +17,13 @@ import org.springframework.stereotype.Component;
 @Component("contentFacade")
 public class DefaultContentFacade implements ContentFacade {
 
-	//@Resource(name = "contentService")
+	@Resource(name = "contentService")
 	private ContentService contentService;
 	
-	//@Resource(name = "contentStrategyPathResolver")
+	@Resource(name = "contentStrategyPathResolver")
 	private ContentStrategyPathResolver strategyPathResolver; 
 	
-	//@Resource(name = "contentConverter")
+	@Resource(name = "contentConverter")
 	private Converter<Content, ContentResource> contentConverter;
 	
 	@Override

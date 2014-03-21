@@ -19,9 +19,6 @@ dependencies {
     compile project(':optigra-ads-model')
 
     compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
-    compile 'commons-dbcp:commons-dbcp:20030825.184428'
-    compile 'commons-pool:commons-pool:20030825.183949'
-    compile 'commons-collections:commons-collections:20040616'
 }
 
 test {
