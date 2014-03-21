@@ -23,7 +23,6 @@ public class ApplicationResourceConverter extends AbstractConverter<ApplicationR
     public Application convert(final ApplicationResource applicationResource, final Application application) {
 
         application.setApplicationId(applicationResource.getApplicationId());
-        application.setId(applicationResource.getId());
         application.setName(applicationResource.getName());
         application.setStatus(applicationResource.getStatus());
         application.setUrl(applicationResource.getUrl());

@@ -11,7 +11,7 @@ import org.optigra.ads.content.model.Content;
 import org.springframework.stereotype.Service;
 
 @Service("contentService")
-public class ContentServiceImpl implements ContentService {
+public class DefaultContentService implements ContentService {
 
 	@Resource(name = "jcrRepositoryImpl")
 	private ContentRepository contentRepository;

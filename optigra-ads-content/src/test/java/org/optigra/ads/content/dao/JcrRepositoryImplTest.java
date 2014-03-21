@@ -7,8 +7,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
 
 import javax.jcr.Binary;
 import javax.jcr.Node;
@@ -26,9 +24,6 @@ import org.optigra.ads.content.model.Content;
 @RunWith(MockitoJUnitRunner.class)
 public class JcrRepositoryImplTest {
 
-    private static final String CONTENT = "content";
-    private static final String DATE = "date";
-    
     @Mock
     private Session session;
     
@@ -98,22 +93,30 @@ public class JcrRepositoryImplTest {
     @Test
     public void testStoreContent() throws Exception {
         // Given
-        String payload = "payload";
         InputStream stream = new ByteArrayInputStream("somstring".getBytes("UTF-8"));
-        String path = "/path/to/my/file.ext";
-        Date date = Calendar.getInstance().getTime();
+        String path = "/path/to/me";
+        String fileName = "filename";
         
         Content content = new Content();
-        content.setPayload(payload);
-        content.setDate(date);
+        content.setFileName(fileName);
         content.setStream(stream);
         content.setPath(path);
         
         // When
         String expectedContentId = "contentId";
 
-        when(sessionFactory.getCurrentSession()).thenReturn(session);
         when(session.getRootNode()).thenReturn(node);
+        
+        when(node.hasNode("path")).thenReturn(true);
+        when(node.getNode("path")).thenReturn(node);
+
+        when(node.hasNode("to")).thenReturn(true);
+        when(node.getNode("to")).thenReturn(node);
+        
+        when(node.hasNode("me")).thenReturn(true);
+        when(node.getNode("me")).thenReturn(node);
+        
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
         when(node.addNode(anyString())).thenReturn(node);
         when(node.getIdentifier()).thenReturn(expectedContentId);
         
@@ -122,12 +125,90 @@ public class JcrRepositoryImplTest {
         // Then
         verify(sessionFactory).getCurrentSession();
         verify(session).getRootNode();
-        verify(node).addNode(path);
         verify(node).getIdentifier();
         verify(session).save();
         
-        verify(node).setProperty(CONTENT, payload);
-        verify(node).setProperty(DATE, date.getTime());
+        assertEquals(expectedContentId, actualContentId);
+    }
+
+    @Test
+    public void testStoreContentWithDifferentPath() throws Exception {
+        // Given
+        InputStream stream = new ByteArrayInputStream("somstring".getBytes("UTF-8"));
+        String path = "/path/to/me";
+        String fileName = "filename";
+        
+        Content content = new Content();
+        content.setFileName(fileName);
+        content.setStream(stream);
+        content.setPath(path);
+        
+        // When
+        String expectedContentId = "contentId";
+        
+        when(session.getRootNode()).thenReturn(node);
+        
+        when(node.hasNode("path")).thenReturn(true);
+        when(node.getNode("path")).thenReturn(node);
+        
+        when(node.hasNode("to")).thenReturn(false);
+        when(node.addNode("to")).thenReturn(node);
+        
+        when(node.hasNode("me")).thenReturn(false);
+        when(node.addNode("me")).thenReturn(node);
+        
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(node.addNode(anyString())).thenReturn(node);
+        when(node.getIdentifier()).thenReturn(expectedContentId);
+        
+        String actualContentId = unit.storeContent(content);
+        
+        // Then
+        verify(sessionFactory).getCurrentSession();
+        verify(session).getRootNode();
+        verify(node).getIdentifier();
+        verify(session).save();
+        
+        assertEquals(expectedContentId, actualContentId);
+    }
+
+    @Test
+    public void testStoreContentWithNotValidFilename() throws Exception {
+        // Given
+        InputStream stream = new ByteArrayInputStream("somstring".getBytes("UTF-8"));
+        String path = "/path/to/me";
+        String fileName = "filename 2013 - 01.jpg";
+        
+        Content content = new Content();
+        content.setFileName(fileName);
+        content.setStream(stream);
+        content.setPath(path);
+        
+        // When
+        String expectedContentId = "contentId";
+        
+        when(session.getRootNode()).thenReturn(node);
+        
+        when(node.hasNode("path")).thenReturn(true);
+        when(node.getNode("path")).thenReturn(node);
+        
+        when(node.hasNode("to")).thenReturn(false);
+        when(node.addNode("to")).thenReturn(node);
+        
+        when(node.hasNode("me")).thenReturn(false);
+        when(node.addNode("me")).thenReturn(node);
+        
+        when(sessionFactory.getCurrentSession()).thenReturn(session);
+        when(node.addNode(anyString())).thenReturn(node);
+        when(node.getIdentifier()).thenReturn(expectedContentId);
+        
+        String actualContentId = unit.storeContent(content);
+        
+        // Then
+        verify(sessionFactory).getCurrentSession();
+        verify(session).getRootNode();
+        verify(node).getIdentifier();
+        verify(session).save();
         
         assertEquals(expectedContentId, actualContentId);
     }

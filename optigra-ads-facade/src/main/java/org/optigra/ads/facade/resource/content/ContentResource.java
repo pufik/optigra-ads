@@ -1,31 +1,14 @@
-package org.optigra.ads.content.model;
+package org.optigra.ads.facade.resource.content;
 
-import java.io.InputStream;
-public class Content {
-	
+
+
+public class ContentResource {
+
     private String contentId;
     
     private String fileName;
     
-	private String path;
-	
-	private InputStream stream;
-
-	public String getPath() {
-        return path;
-    }
-
-    public void setPath(final String path) {
-        this.path = path;
-    }
-
-    public InputStream getStream() {
-        return stream;
-    }
-
-    public void setStream(final InputStream stream) {
-        this.stream = stream;
-    }
+    private String path;
 
     public String getContentId() {
         return contentId;
@@ -43,6 +26,14 @@ public class Content {
         this.fileName = fileName;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(final String path) {
+        this.path = path;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -50,7 +41,6 @@ public class Content {
         result = prime * result + ((contentId == null) ? 0 : contentId.hashCode());
         result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
         result = prime * result + ((path == null) ? 0 : path.hashCode());
-        result = prime * result + ((stream == null) ? 0 : stream.hashCode());
         return result;
     }
 
@@ -62,7 +52,7 @@ public class Content {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Content other = (Content) obj;
+        ContentResource other = (ContentResource) obj;
         if (contentId == null) {
             if (other.contentId != null)
                 return false;
@@ -78,17 +68,12 @@ public class Content {
                 return false;
         } else if (!path.equals(other.path))
             return false;
-        if (stream == null) {
-            if (other.stream != null)
-                return false;
-        } else if (!stream.equals(other.stream))
-            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "Content [contentId=" + contentId + ", fileName=" + fileName + ", path=" + path + ", stream=" + stream + "]";
+        return "ContentResource [contentId=" + contentId + ", fileName=" + fileName + ", path=" + path + "]";
     }
-
+    
 }

@@ -59,6 +59,7 @@ subprojects {
         
         compile 'javax.jcr:jcr:2.0'
         compile 'commons-fileupload:commons-fileupload:1.2.2'
+        compile 'commons-dbcp:commons-dbcp:1.4'
         
     }
 

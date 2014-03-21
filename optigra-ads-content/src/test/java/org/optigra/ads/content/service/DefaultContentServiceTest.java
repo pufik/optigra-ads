@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,13 +18,13 @@ import org.optigra.ads.content.dao.ContentRepository;
 import org.optigra.ads.content.model.Content;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ContentServiceImplTest {
+public class DefaultContentServiceTest {
 
     @Mock
     private ContentRepository contentRepository;
     
     @InjectMocks
-    private ContentServiceImpl unit = new ContentServiceImpl();
+    private DefaultContentService unit = new DefaultContentService();
     
     @Test
     public void testGetContentByUuid() throws Exception {
@@ -61,14 +59,10 @@ public class ContentServiceImplTest {
     @Test
     public void testmethodName() throws Exception {
         // Given
-        String payload = "payload test";
         InputStream stream = new ByteArrayInputStream("somstring".getBytes("UTF-8"));
         String path = "/path/to/my/file.ext";
-        Date date = Calendar.getInstance().getTime();
         
         Content content = new Content();
-        content.setPayload(payload);
-        content.setDate(date);
         content.setStream(stream);
         content.setPath(path);
         
