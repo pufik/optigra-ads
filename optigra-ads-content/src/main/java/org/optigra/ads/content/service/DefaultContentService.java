@@ -2,8 +2,6 @@ package org.optigra.ads.content.service;
 
 import java.io.InputStream;
 
-import javax.annotation.Resource;
-
 import org.optigra.ads.content.dao.ContentRepository;
 import org.optigra.ads.content.exception.ContentException;
 import org.optigra.ads.content.exception.ContentNotFoundException;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service("contentService")
 public class DefaultContentService implements ContentService {
 
-	@Resource(name = "jcrRepositoryImpl")
+	//@Resource(name = "jcrRepositoryImpl")
 	private ContentRepository contentRepository;
 
 	@Override

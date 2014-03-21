@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import javax.annotation.Resource;
 import javax.jcr.Binary;
 import javax.jcr.Node;
 import javax.jcr.Property;
@@ -39,7 +38,7 @@ public class JcrRepositoryImpl implements ContentRepository {
 	private static final String FILE = "file";
 	private static final String DATE = "date";
 	
-	@Resource(name = "jcrSessionFactory")
+	//@Resource(name = "jcrSessionFactory")
 	private JcrSessionFactory sessionFactory;
 	
 	@Override

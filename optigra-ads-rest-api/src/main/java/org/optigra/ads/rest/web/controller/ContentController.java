@@ -3,7 +3,6 @@ package org.optigra.ads.rest.web.controller;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
@@ -22,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class ContentController {
 
-    @Resource(name = "contentFacade")
+    //@Resource(name = "contentFacade")
     private ContentFacade contentFacade;
     
     @RequestMapping(value = ResourceUri.CONTENT, method = RequestMethod.GET)
