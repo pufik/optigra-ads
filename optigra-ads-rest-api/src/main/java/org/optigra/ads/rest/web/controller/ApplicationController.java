@@ -62,8 +62,9 @@ public class ApplicationController extends BaseController {
     @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.PUT)
     @ResponseBody
     public MessageResource updateApplication(@PathVariable("appId") final String applicationId, @RequestBody final ApplicationResource applicationResource) {
-        
+
         facade.updateApplication(applicationId, applicationResource);
+
         return new MessageResource(MessageType.INFO, "Application Updated");
     }
 
@@ -75,5 +76,4 @@ public class ApplicationController extends BaseController {
 
         return new MessageResource(MessageType.INFO, "Application deleted");
     }
-
 }

@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="wadl.xsl"?>
-<!-- 
-    example.wadl (06-May-2011)
+<wadl:application 
+	xmlns:wadl="http://wadl.dev.java.net/2009/02"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://wadl.dev.java.net/2009/02 http://www.w3.org/Submission/wadl/wadl.xsd">
     
-    Example Web Application Description Language (WADL) Web Service interface specification,
-    which demonstrates my WADL XSLT stylesheet, wadl.xsl.
-
-    Mark Sawers <mark.sawers@ipc.com>
-    
-    Copyright (c) 2011 IPC Systems, Inc.
-
-    This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 License.
-    To view a copy of this license, visit 
-        http://creativecommons.org/licenses/by-sa/3.0/
-    or send a letter to 
-        Creative Commons
-        543 Howard Street, 5th Floor
-        San Francisco, California, 94105, USA
- -->
-<wadl:application xmlns:wadl="http://wadl.dev.java.net/2009/02"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://wadl.dev.java.net/2009/02 wadl.xsd ">
     <wadl:doc title="Optigra Mobile Ads">
        REST API for Optigra Mobile Ads Network
     </wadl:doc>
@@ -41,18 +26,18 @@
                     </wadl:response>
           </wadl:method>
         </wadl:resource>
-        <wadl:resource path="application">
+        <wadl:resource path="application/{applicationId}">
         <wadl:doc title="Description">Application management methods</wadl:doc>
         	<wadl:method name="GET" id="getApplications">
-        	<wadl:doc>Get all applications</wadl:doc>
+        			<wadl:doc>Get all applications</wadl:doc>
         	        <wadl:request>
-                        <wadl:param name="authorization" style="header" type="xsi:string" required="true">
+                        <wadl:param name="authorization" style="header" type="xs:string" required="true">
                             <wadl:doc>HTTP Basic Authentication</wadl:doc>
                         </wadl:param>
-                        <wadl:param name="offset" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" required="false" default="0">
+                        <wadl:param name="offset" style="query" type="xs:integer" required="false" default="0">
                             <wadl:doc>start position</wadl:doc>
                         </wadl:param>
-                        <wadl:param name="limit" style="query" type="integer" required="false" default="20">
+                        <wadl:param name="limit" style="query" type="xs:integer" required="false" default="20">
                             <wadl:doc>record max count per page</wadl:doc>
                         </wadl:param>
                         <wadl:representation mediaType="application/json">
@@ -89,22 +74,18 @@
                         </wadl:representation>
                     </wadl:response>
         	</wadl:method>
-        <wadl:method name="POST" id="createApplication">
-        	<wadl:doc>Create application</wadl:doc>
+        	<wadl:method name="GET" id="getApplicationDetails">
+        			<wadl:doc>Get details about application</wadl:doc>
         	        <wadl:request>
                         <wadl:param name="authorization" style="header" type="xsi:string" required="true">
                             <wadl:doc>HTTP Basic Authentication</wadl:doc>
                         </wadl:param>
-                        <wadl:param name="offset" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:int" required="false" default="0">
-                            <wadl:doc>start position</wadl:doc>
+                        <wadl:param name="applicationId" style="template" type="xs:integer" required="true">
+                            <wadl:doc>Application unique identifier</wadl:doc>
                         </wadl:param>
                         <wadl:representation mediaType="application/json">
                             <wadl:doc>
-								{ "applicationId" : 1392996574341,
-								  "name" : "Application added by Iurii",
-								  "status" : "PENDING",
-								  "url" : "http://vk.com/group"
-								}
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/application/15931b82-8077-4bb9-a2b7-2810e4da00af
                             </wadl:doc>
                         </wadl:representation>
                     </wadl:request>
@@ -112,15 +93,124 @@
                         <wadl:doc title="OK" />
                         <wadl:representation mediaType="application/json">
                             <wadl:doc>
-								{ "message" : "Application created",
-								  "status" : null,
-								  "type" : "INFO"
+								{ "applicationId" : "15931b82-8077-4bb9-a2b7-2810e4da00af",
+								  "groupId" : "339767",
+								  "groupName" : "a1tv",
+								  "id" : 116,
+								  "imageUrl" : "http://cs417927.vk.me/v417927923/9fde/6uS-xRhAL3A.jpg",
+								  "name" : "A-ONE HIP-HOP MUSIC CHANNEL",
+								  "status" : "PAID",
+								  "uri" : "/application/15931b82-8077-4bb9-a2b7-2810e4da00af",
+								  "url" : "http://vk.com/a1tv"
 								}
                             </wadl:doc>
                         </wadl:representation>
                     </wadl:response>
-        	</wadl:method>
-        </wadl:resource>
+        	</wadl:method>	
+	        <wadl:method name="POST" id="createApplication">
+	        	<wadl:doc>Create application</wadl:doc>
+	        	        <wadl:request>
+	                        <wadl:param name="authorization" style="header" type="xs:string" required="true">
+	                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
+	                        </wadl:param>
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+									{ "applicationId" :  "applicationId",
+									  "name" : "Application added by Iurii",
+									  "status" : "PENDING",
+									  "url" : "http://vk.com/group",
+									  "groupId" : "12345",
+									  "groupName" : "GroupName",
+									  "imageUrl" : "image_url"
+									}
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:request>
+	                    <wadl:response status="200">
+	                        <wadl:doc title="OK" />
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+								    {
+								       "id": 129,
+								       "applicationId": "c6d2fd8c-a06b-45b9-a802-ae9c9e0c8156",
+								       "status": "PENDING",
+								       "url": "http://vk.com/group",
+								       "name": "Application added by Iurii",
+								       "groupId": "12345",
+								       "groupName": "GroupName",
+								       "imageUrl": "image_url",
+								       "uri": "/application/c6d2fd8c-a06b-45b9-a802-ae9c9e0c8156"
+								    }
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:response>
+	        	</wadl:method>
+	        	<wadl:method name="PUT" id="updateApplication">
+	        		<wadl:doc>Update application's information</wadl:doc>
+	        	        <wadl:request>
+	                        <wadl:param name="authorization" style="header" type="xs:string" required="true">
+	                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
+	                        </wadl:param>
+	                        <wadl:param name="applicationId" style="template" type="xs:integer" required="true">
+                            	<wadl:doc>Application unique identifier</wadl:doc>
+                        	</wadl:param>
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+									 {
+								       "id": 129,
+								       "applicationId": "c6d2fd8c-a06b-45b9-a802-ae9c9e0c8156",
+								       "status": "PENDING",
+								       "url": "http://vk.com/group",
+								       "name": "Changed group by IUrii",
+								       "groupId": "12345",
+								       "groupName": "GroupName",
+								       "imageUrl": "image_url"
+								    }
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:request>
+	                    <wadl:response status="200">
+	                        <wadl:doc title="OK" />
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+								    {
+								       "type": "INFO",
+								       "status": null,
+								       "message": "Application Updated"
+								    }
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:response>
+	        	</wadl:method>
+	        	<wadl:method name="DELETE" id="removeApplication">
+	        		<wadl:doc>Remove application</wadl:doc>
+	        	        <wadl:request>
+	                        <wadl:param name="authorization" style="header" type="xs:string" required="true">
+	                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
+	                        </wadl:param>
+	                        <wadl:param name="applicationId" style="template" type="xs:integer" required="true">
+                            	<wadl:doc>Application unique identifier</wadl:doc>
+                        	</wadl:param>
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+									 http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/application/c6d2fd8c-a06b-45b9-a802-ae9c9e0c8156
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:request>
+	                    <wadl:response status="200">
+	                        <wadl:doc title="OK" />
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+	                            	{
+								       "type": "INFO",
+									   "status": null,
+									   "message": "Application deleted"
+									}
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:response>
+	        	</wadl:method>
+	        </wadl:resource>
      	
      	<wadl:resource path="user">
         <wadl:doc title="Description">User management methods</wadl:doc>
