@@ -14,7 +14,7 @@
 		<security:http-basic />
 		<!--TODO: Should be changed when  security strategy will be approved -->
 		<security:intercept-url pattern="/api/user/**" method="POST"  access="permitAll"/>
-		<security:intercept-url pattern="/**"  access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/**"  access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
 	</security:http>
 	
 	<security:authentication-manager >
