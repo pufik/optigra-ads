@@ -1,5 +1,6 @@
 package org.optigra.ads.facade.application;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,6 +11,7 @@ import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.application.ApplicationService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,15 +36,20 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     @Resource(name = "applicationService")
     private ApplicationService applicationService;
 
+    @Resource(name = "sessionService")
+    private SessionService sessionService;
+
     @Override
     public ApplicationResource createApplication(final ApplicationResource applicationResource) {
 
         // Convert from dto to entity
         Application application = applicationResourceConverter.convert(applicationResource);
+        application.setOwner(sessionService.getCurrentSession().getUser());
+        application.setCreateDate(new Date());
 
         // Store application entity
         applicationService.createApplication(application);
-        
+
         return applicationConverter.convert(application);
     }
 
@@ -87,7 +94,9 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     @Override
     public void updateApplication(final String applicationId, final ApplicationResource applicationResource) {
         Application application = applicationService.getApplication(applicationId);
+
         applicationResourceConverter.convert(applicationResource, application);
+
         applicationService.updateApplication(application);
     }
 }

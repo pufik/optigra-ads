@@ -27,6 +27,9 @@ import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.model.application.ApplicationStatus;
+import org.optigra.ads.model.user.User;
+import org.optigra.ads.security.session.Session;
+import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.application.ApplicationService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -57,6 +60,9 @@ public class DefaultApplicationFacadeTest {
     @Mock
     private ApplicationService applicationService;
 
+    @Mock
+    private SessionService sessionService;
+
     @InjectMocks
     private final ApplicationFacade unit = new DefaultApplicationFacade();
 
@@ -64,21 +70,24 @@ public class DefaultApplicationFacadeTest {
     public void testCreateApplication() {
         // Given
         String name = "application";
+        User user = new User();
         ApplicationResource applicationResource = new ApplicationResource();
         applicationResource.setName(name);
         Application application = new Application();
         application.setName(name);
+        application.setOwner(user);
 
         // When
         when(applicationResourceConverter.convert(any(ApplicationResource.class))).thenReturn(application);
         when(applicationConverter.convert(any(Application.class))).thenReturn(applicationResource);
-        
+        when(sessionService.getCurrentSession()).thenReturn(new Session(user));
+
         ApplicationResource actualResource = unit.createApplication(applicationResource);
 
         verify(applicationService).createApplication(applicationCaptor.capture());
         verify(applicationResourceConverter).convert(applicationResource);
         verify(applicationConverter).convert(application);
-        
+
         // Then
         assertEquals(application, applicationCaptor.getValue());
         assertEquals(applicationResource, actualResource);
@@ -177,7 +186,7 @@ public class DefaultApplicationFacadeTest {
         verify(applicationService).deleteApplication(stringCaptor.capture());
         assertEquals(applicationId, stringCaptor.getValue());
     }
-    
+
     @Test
     public void testUpdateApplication() throws Exception {
         // Given
@@ -203,10 +212,10 @@ public class DefaultApplicationFacadeTest {
         application.setImageUrl(imageUrl);
         application.setName(name);
         application.setUrl(url );
-        
+
         // When
         when(applicationService.getApplication(anyString())).thenReturn(application);
-        
+
         unit.updateApplication(applicationId, applicationResource);
 
         // Then

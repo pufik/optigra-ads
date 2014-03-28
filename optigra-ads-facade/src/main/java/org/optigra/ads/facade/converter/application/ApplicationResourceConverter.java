@@ -1,5 +1,7 @@
 package org.optigra.ads.facade.converter.application;
 
+import java.util.Date;
+
 import org.optigra.ads.facade.converter.AbstractConverter;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * @date Feb 12, 2014
  * @author ivanursul
- * 
+ *
  */
 @Component("applicationResourceConverter")
 public class ApplicationResourceConverter extends AbstractConverter<ApplicationResource, Application> {
@@ -29,6 +31,7 @@ public class ApplicationResourceConverter extends AbstractConverter<ApplicationR
         application.setGroupId(applicationResource.getGroupId());
         application.setGroupName(applicationResource.getGroupName());
         application.setImageUrl(applicationResource.getImageUrl());
+        application.setUpdateDate(new Date());
 
         return application;
     }
