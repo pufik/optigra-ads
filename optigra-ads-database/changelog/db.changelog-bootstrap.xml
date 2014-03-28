@@ -7,10 +7,33 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
+    <changeSet id="createUserTable" author="Iurii Parfeniuk">
+        <createTable tableName="c_user">
+            <column name="user_id" type="bigint" autoIncrement="true" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="login" type="varchar(255)">
+            	<constraints nullable="false" unique="true" uniqueConstraintName="user_login_uk"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)" />
+    		<column name="full_name" type="varchar(255)"/>
+    		<column name="image_url" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    
     <changeSet id="createApplicationTable" author="Iurii Parfeniuk">
         <createTable tableName="application">
-            <column name="id" type="bigint" autoIncrement="true" >
+            <column name="entity_id" type="bigint" autoIncrement="true" >
                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="owner_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
             <column name="application_id" type="varchar(255)">
             	<constraints nullable="false"/>
@@ -24,30 +47,36 @@
             <column name="url" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
+            <column name="group_id" type="varchar(255)">
+    		     <constraints nullable="false"/>
+    		</column>
+    		<column name="group_short_name" type="varchar(255)"/>
+    		<column name="image_url" type="varchar(255)"/>
+    		<column name="create_date" type="TIMESTAMP">
+    			<constraints nullable="false"/>
+    		</column>
+    		<column name="update_date" type="TIMESTAMP">
+    			<constraints nullable="false"/>
+    		</column>
         </createTable>
-    </changeSet>
-    
-    <changeSet id="createUserTable" author="Iurii Parfeniuk">
-        <createTable tableName="c_user">
-            <column name="id" type="bigint" autoIncrement="true" >
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="login" type="varchar(255)">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="password" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="role" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
+        
+        <!-- Foreign constraints -->
+        <addForeignKeyConstraint
+        	constraintName="application_user_fk" 
+        	baseTableName="application" baseColumnNames="owner_id"  
+        	referencedTableName="c_user" referencedColumnNames="user_id"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE"
+        />
     </changeSet>
     
     <changeSet id="createAdvertisingTable" author="Iurii Parfeniuk">
         <createTable tableName="advertising">
-            <column name="id" type="bigint" autoIncrement="true" >
+            <column name="entity_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="owner_id" type="bigint">
+                <constraints nullable="false"/>
             </column>
             <column name="title" type="varchar(255)">
             	<constraints nullable="false"/>
@@ -64,35 +93,24 @@
             <column name="logo_url" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="image_url" type="varchar(255)">
+            <column name="image_url" type="varchar(255)" >
                 <constraints nullable="false"/>
             </column>
-        </createTable>
-    </changeSet>
-    
-    <changeSet id="addEmailAndFullNameUserTable" author="Iurii Parfeniuk">
-    	<addColumn tableName="c_user">
-    		<column name="email" type="varchar(255)" />
-    		<column name="full_name" type="varchar(255)"/>
-    	</addColumn>
-    </changeSet>
-
-    <changeSet id="addGroupIdAndGroupDescriptionAndImageUrlToApplication" author="Ivan Ursul">
-    	<addColumn tableName="application">
-    		<column name="group_id" type="varchar(255)"  >
-    		        <constraints unique="true"
-                        uniqueConstraintName="group_id_uk" />
+            <column name="create_date" type="TIMESTAMP">
+    			<constraints nullable="false"/>
     		</column>
-    		<column name="group_short_name" type="varchar(255)"/>
-    		<column name="image_url" type="varchar(255)"/>
-    	</addColumn>
+    		<column name="update_date" type="TIMESTAMP">
+    			<constraints nullable="false"/>
+    		</column>
+        </createTable>
+       
+       <!-- Foreign constraints --> 
+        <addForeignKeyConstraint
+        	constraintName="advertising_user_fk" 
+        	baseTableName="advertising" baseColumnNames="owner_id"  
+        	referencedTableName="c_user" referencedColumnNames="user_id"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE"
+        />
     </changeSet>
-
-    <changeSet id="addImageUrlToUser" author="Ivan Ursul">
-    	<addColumn tableName="c_user">
-    		<column name="image_url" type="varchar(255)"/>
-    	</addColumn>
-    </changeSet>
-    
-        
 </databaseChangeLog>

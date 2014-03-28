@@ -20,8 +20,6 @@ dependencies {
     compile project(':optigra-ads-model')
 
     testCompile group: 'junit', name: 'junit', version: '4.+'
-    compile 'org.springframework.security:spring-security-config:3.2.0.RELEASE'
-    compile 'org.springframework.security:spring-security-web:3.2.0.RELEASE'
 }
 
 test {

@@ -2,30 +2,23 @@ package org.optigra.ads.model.advertising;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.optigra.ads.model.Model;
 import org.optigra.ads.model.Queries;
 
 /**
  * @date Feb 18, 2014
  * @author ivanursul
- *
  */
-@Table
 @Entity
-@NamedQueries({
-    @NamedQuery(name = Queries.FIND_ADVERTISINGS_QUERY_NAME, query = Queries.FIND_ADVERTISINGS_QUERY)
-})
-public class Advertising {
+@Table(name = "advertising")
+@NamedQueries({ @NamedQuery(name = Queries.FIND_ADVERTISINGS_QUERY_NAME, query = Queries.FIND_ADVERTISINGS_QUERY) })
+public class Advertising extends Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private static final long serialVersionUID = 1L;
 
     @Column(name = "title")
     private String title;
@@ -41,14 +34,6 @@ public class Advertising {
 
     @Column(name = "destination_url")
     private String destinationUrl;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -93,10 +78,9 @@ public class Advertising {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + ((description == null) ? 0 : description.hashCode());
         result = prime * result + ((destinationUrl == null) ? 0 : destinationUrl.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
         result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
         result = prime * result + ((title == null) ? 0 : title.hashCode());
@@ -107,7 +91,7 @@ public class Advertising {
     public boolean equals(final Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
+        if (!super.equals(obj))
             return false;
         if (getClass() != obj.getClass())
             return false;
@@ -121,11 +105,6 @@ public class Advertising {
             if (other.destinationUrl != null)
                 return false;
         } else if (!destinationUrl.equals(other.destinationUrl))
-            return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
             return false;
         if (imageUrl == null) {
             if (other.imageUrl != null)
@@ -144,11 +123,4 @@ public class Advertising {
             return false;
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "Advertising [id=" + id + ", title=" + title + ", description=" + description + ", logoUrl=" + logoUrl + ", imageUrl=" + imageUrl
-                + ", destinationUrl=" + destinationUrl + "]";
-    }
-
 }

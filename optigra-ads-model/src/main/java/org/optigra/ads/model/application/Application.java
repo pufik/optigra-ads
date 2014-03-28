@@ -4,34 +4,26 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.optigra.ads.model.Model;
 import org.optigra.ads.model.Queries;
 
 /**
- *
  * Application entity.
  *
  * @date Feb 11, 2014
  * @author ivanursul
- *
  */
-@Table
 @Entity
-@NamedQueries({
-    @NamedQuery(name = Queries.FIND_APPLICATIONS_QUERY_NAME, query = Queries.FIND_APPLICATIONS_QUERY),
-    @NamedQuery(name = Queries.FIND_APPLICATION_BY_ID_QUERY_NAME, query = Queries.FIND_APPLICATION_BY_ID_QUERY)
-})
-public class Application {
+@Table(name = "application")
+@NamedQueries({ @NamedQuery(name = Queries.FIND_APPLICATIONS_QUERY_NAME, query = Queries.FIND_APPLICATIONS_QUERY),
+        @NamedQuery(name = Queries.FIND_APPLICATION_BY_ID_QUERY_NAME, query = Queries.FIND_APPLICATION_BY_ID_QUERY) })
+public class Application extends Model {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private static final long serialVersionUID = 1L;
 
     @Column(name = "applicationId", unique = true)
     private String applicationId;
@@ -44,23 +36,15 @@ public class Application {
 
     @Column(name = "name")
     private String name;
-    
+
     @Column(name = "group_id")
     private String groupId;
 
     @Column(name = "group_short_name")
     private String groupName;
-    
+
     @Column(name = "image_url")
     private String imageUrl;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
 
     public String getApplicationId() {
         return applicationId;
@@ -121,11 +105,10 @@ public class Application {
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
+        int result = super.hashCode();
         result = prime * result + ((applicationId == null) ? 0 : applicationId.hashCode());
         result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
         result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((status == null) ? 0 : status.hashCode());
@@ -137,7 +120,7 @@ public class Application {
     public boolean equals(final Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
+        if (!super.equals(obj))
             return false;
         if (getClass() != obj.getClass())
             return false;
@@ -157,11 +140,6 @@ public class Application {
                 return false;
         } else if (!groupName.equals(other.groupName))
             return false;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
         if (imageUrl == null) {
             if (other.imageUrl != null)
                 return false;
@@ -179,13 +157,7 @@ public class Application {
                 return false;
         } else if (!url.equals(other.url))
             return false;
+
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "Application [id=" + id + ", applicationId=" + applicationId + ", status=" + status + ", url=" + url + ", name=" + name + ", groupId=" + groupId
-                + ", groupName=" + groupName + ", imageUrl=" + imageUrl + "]";
-    }
-
 }

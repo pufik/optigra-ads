@@ -1,19 +1,25 @@
 package org.optigra.ads.model.user;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.optigra.ads.model.Queries;
+import org.optigra.ads.model.advertising.Advertising;
 
 /**
  * User entity.
@@ -29,6 +35,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @Column(name = "login", unique = true)
@@ -46,9 +53,12 @@ public class User implements Serializable {
 
     @Column(name = "full_name")
     private String fullName;
-    
+
     @Column(name = "image_url")
     private String imageUrl;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Advertising> advertising = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -104,6 +114,14 @@ public class User implements Serializable {
 
     public void setImageUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<Advertising> getAdvertising() {
+        return advertising;
+    }
+
+    public void setAdvertising(final List<Advertising> advertising) {
+        this.advertising = advertising;
     }
 
     @Override
