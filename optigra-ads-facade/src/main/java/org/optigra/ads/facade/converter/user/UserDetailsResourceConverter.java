@@ -15,15 +15,16 @@ import org.springframework.stereotype.Component;
 public class UserDetailsResourceConverter extends AbstractConverter<UserDetailsResource, User> {
 
     @Override
-    public User convert(final UserDetailsResource source, final User user) {
-        user.setId(source.getId());
-        user.setLogin(source.getLogin());
-        user.setPassword(source.getPassword());
-        user.setRole(source.getRole());
-        user.setEmail(source.getEmail());
-        user.setFullName(source.getFullName());
+    public User convert(final UserDetailsResource source, final User target) {
+        target.setId(source.getId());
+        target.setLogin(source.getLogin());
+        target.setPassword(source.getPassword());
+        target.setRole(source.getRole());
+        target.setEmail(source.getEmail());
+        target.setFullName(source.getFullName());
+        target.setImageUrl(source.getImageUrl());
 
-        return user;
+        return target;
     }
 
     @Override

@@ -24,18 +24,21 @@ public class UserConverterTest {
         String login = "login";
         String email = "email";
         String fullName = "fullName";
+        String imageUrl = "imageUrl";
 
         User user = new User();
         user.setId(userId);
         user.setLogin(login);
         user.setEmail(email);
         user.setFullName(fullName);
+        user.setImageUrl(imageUrl);
 
         UserResource expected = new UserResource();
         expected.setId(userId);
         expected.setLogin(login);
         expected.setEmail(email);
         expected.setFullName(fullName);
+        expected.setImageUrl(imageUrl);
 
         // When
         UserResource actual = unit.convert(user);
@@ -52,11 +55,13 @@ public class UserConverterTest {
         User user = new User();
         String email = "email";
         String fullName = "fullName";
+        String imageUrl = "imageUrl";
 
         user.setId(userId);
         user.setLogin(login);
         user.setEmail(email);
         user.setFullName(fullName);
+        user.setImageUrl(imageUrl);
         List<User> users = Arrays.asList(user);
 
         UserResource expected = new UserResource();
@@ -64,6 +69,7 @@ public class UserConverterTest {
         expected.setLogin(login);
         expected.setEmail(email);
         expected.setFullName(fullName);
+        expected.setImageUrl(imageUrl);
         List<UserResource> expecteds = Arrays.asList(expected);
 
         // When

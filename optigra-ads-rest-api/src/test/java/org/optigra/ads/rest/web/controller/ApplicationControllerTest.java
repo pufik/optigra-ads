@@ -1,13 +1,16 @@
 package org.optigra.ads.rest.web.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,6 +44,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public class ApplicationControllerTest extends AbstractControllerTest {
 
     @Captor
+    private ArgumentCaptor<ApplicationResource> applicationCaptor;
+
+    @Captor
     private ArgumentCaptor<String> stringCaptor;
 
     @Mock
@@ -58,7 +64,6 @@ public class ApplicationControllerTest extends AbstractControllerTest {
 
     @Test
     public void testAddAplication() throws Exception {
-        writeFromFields(true);
         // Given
         String name = "application#2";
         String applicationId = "h5gfg543f5gh34fgh";
@@ -68,14 +73,21 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         resource.setApplicationId(applicationId);
         resource.setStatus(ApplicationStatus.PENDING);
         resource.setUrl(url);
-        MessageResource messageResource = new MessageResource(MessageType.INFO, "Application created");
-
+        
+        // When
+        when(facade.createApplication(any(ApplicationResource.class))).thenReturn(resource);
+        
+        String request = getJson(resource, true);
+        String response = getJson(resource, false);
+        
         // Then
-        mockMvc.perform(post(ResourceUri.APPLICATION).content(objectMapper.writeValueAsString(resource)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
+        mockMvc.perform(post(ResourceUri.APPLICATION)
+                .content(request)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(response));
 
         verify(facade).createApplication(resource);
-        writeFromFields(false);
     }
 
     @Test
@@ -166,5 +178,38 @@ public class ApplicationControllerTest extends AbstractControllerTest {
 
         verify(facade).deleteApplication(stringCaptor.capture());
         assertEquals(applicationId, stringCaptor.getValue());
+    }
+    
+    @Test
+    public void testUpdateApplication() throws Exception {
+        // Given
+        String applicationId = "Very big applcation Id";
+        String groupId = "-54435435346";
+        String groupName = "groupName";
+        String imageUrl = "imageUrl";
+        String name = "name";
+        String url = "url";
+        
+        ApplicationResource applicationResource = new ApplicationResource();
+        applicationResource.setApplicationId(applicationId);
+        applicationResource.setGroupId(groupId);
+        applicationResource.setGroupName(groupName);
+        applicationResource.setImageUrl(imageUrl);
+        applicationResource.setName(name);
+        applicationResource.setStatus(ApplicationStatus.PENDING);
+        applicationResource.setUrl(url);
+
+        // When
+
+        // Then
+        String request = getJson(applicationResource, true);
+        
+        mockMvc.perform(put("/application/{appId}", applicationId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request))
+            .andExpect(status().isOk());
+        
+        verify(facade).updateApplication(eq(applicationId), applicationCaptor.capture());
+        assertEquals(applicationResource, applicationCaptor.getValue());
     }
 }

@@ -18,8 +18,9 @@ public interface ApplicationFacade {
      * @author ivanursul
      * @param applicationResource
      *            dto
+     * @return 
      */
-    void createApplication(ApplicationResource applicationResource);
+    ApplicationResource createApplication(ApplicationResource applicationResource);
 
     /**
      * Method for getting list of applications.
@@ -62,4 +63,12 @@ public interface ApplicationFacade {
      *            application unique identifier.
      */
     void deleteApplication(String applicationId);
+
+    /**
+     * @date Mar 19, 2014
+     * @author ivanursul
+     * @param applicationId
+     * @param applicationResource
+     */
+    void updateApplication(String applicationId, ApplicationResource applicationResource);
 }

@@ -24,6 +24,12 @@ public class ApplicationResource extends Resource implements Serializable {
     
     private String name;
     
+    private String groupId;
+
+    private String groupName;
+    
+    private String imageUrl;
+    
     public Long getId() {
         return id;
     }
@@ -69,13 +75,39 @@ public class ApplicationResource extends Resource implements Serializable {
         return ResourceUri.APPLICATION + ResourceUri.SLASH + applicationId;
     }
 
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(final String groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(final String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(final String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((applicationId == null) ? 0 : applicationId.hashCode());
+        result = prime * result + ((applicationId == null) ? 0 : applicationId.hashCode());
+        result = prime * result + ((groupId == null) ? 0 : groupId.hashCode());
+        result = prime * result + ((groupName == null) ? 0 : groupName.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((status == null) ? 0 : status.hashCode());
         result = prime * result + ((url == null) ? 0 : url.hashCode());
@@ -96,20 +128,32 @@ public class ApplicationResource extends Resource implements Serializable {
                 return false;
         } else if (!applicationId.equals(other.applicationId))
             return false;
+        if (groupId == null) {
+            if (other.groupId != null)
+                return false;
+        } else if (!groupId.equals(other.groupId))
+            return false;
+        if (groupName == null) {
+            if (other.groupName != null)
+                return false;
+        } else if (!groupName.equals(other.groupName))
+            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
+            return false;
+        if (imageUrl == null) {
+            if (other.imageUrl != null)
+                return false;
+        } else if (!imageUrl.equals(other.imageUrl))
             return false;
         if (name == null) {
             if (other.name != null)
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (status == null) {
-            if (other.status != null)
-                return false;
-        } else if (!status.equals(other.status))
+        if (status != other.status)
             return false;
         if (url == null) {
             if (other.url != null)
@@ -121,9 +165,8 @@ public class ApplicationResource extends Resource implements Serializable {
 
     @Override
     public String toString() {
-        return "ApplicationResource [id=" + id + ", applicationId="
-                + applicationId + ", status=" + status + ", url=" + url
-                + ", name=" + name + "]";
+        return "ApplicationResource [id=" + id + ", applicationId=" + applicationId + ", status=" + status + ", url=" + url + ", name=" + name + ", groupId="
+                + groupId + ", groupName=" + groupName + ", imageUrl=" + imageUrl + "]";
     }
-    
+ 
 }

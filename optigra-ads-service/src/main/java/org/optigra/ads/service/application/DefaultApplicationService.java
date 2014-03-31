@@ -1,5 +1,7 @@
 package org.optigra.ads.service.application;
 
+import java.util.UUID;
+
 import javax.annotation.Resource;
 
 import org.optigra.ads.dao.application.ApplicationDao;
@@ -21,7 +23,15 @@ public class DefaultApplicationService implements ApplicationService {
 
     @Override
     public void createApplication(final Application application) {
+        String applicationId = getApplicationId();
+        
+        application.setApplicationId(applicationId);
+        
         applicationDao.create(application);
+    }
+
+    private String getApplicationId() {
+        return UUID.randomUUID().toString();
     }
 
     @Override
@@ -51,4 +61,10 @@ public class DefaultApplicationService implements ApplicationService {
         Application application = applicationDao.getApplicationById(applicationId);
         applicationDao.remove(application);
     }
+
+    @Override
+    public void updateApplication(final Application application) {
+        applicationDao.update(application);
+    }
+
 }

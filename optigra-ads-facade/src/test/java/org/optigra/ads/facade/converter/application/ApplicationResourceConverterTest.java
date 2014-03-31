@@ -12,10 +12,10 @@ import org.optigra.ads.model.application.ApplicationStatus;
  * @author ivanursul
  *
  */
-public class ApplicationDTOConverterTest {
+public class ApplicationResourceConverterTest {
 
-    private ApplicationDTOConverter unit = new ApplicationDTOConverter();
-    
+    private final ApplicationResourceConverter unit = new ApplicationResourceConverter();
+
     @Test
     public void testConvert() {
         // Given
@@ -24,24 +24,33 @@ public class ApplicationDTOConverterTest {
         String url = "url";
         String name = "name";
         String applicationId = "5h34g6f34g6g45hf6gh45f6gh45";
-        
+        String groupId = "-53453434";
+        String groupName = "groupName";
+        String imageUrl = "imageUrl";
+
         Application expected = new Application();
-        expected.setId(id);
         expected.setApplicationId(applicationId);
         expected.setName(name);
         expected.setStatus(status);
         expected.setUrl(url);
-        
+        expected.setGroupId(groupId);
+        expected.setGroupName(groupName);
+        expected.setImageUrl(imageUrl);
+
         ApplicationResource applicationResource = new ApplicationResource();
         applicationResource.setId(id);
         applicationResource.setApplicationId(applicationId);
         applicationResource.setName(name);
         applicationResource.setStatus(status);
         applicationResource.setUrl(url);
-        
+        applicationResource.setGroupId(groupId);
+        applicationResource.setGroupName(groupName);
+        applicationResource.setImageUrl(imageUrl);
+
         // When
         Application actual = unit.convert(applicationResource);
-        
+        actual.setUpdateDate(null);
+
         // Then
         assertEquals(expected, actual);
     }

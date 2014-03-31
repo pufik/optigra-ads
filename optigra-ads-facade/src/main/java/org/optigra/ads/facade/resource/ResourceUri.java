@@ -23,10 +23,14 @@ public final class ResourceUri {
     public static final String APPLICATION = "/application";
     public static final String APPLICATION_BY_ID = SLASH + "{appId:.*}";
     public static final String APPLICATION_STATUS = SLASH + "{appId:.*}/status";
+    public static final String CONTENT = "/content";
+    public static final String USER_CONTENT = "/content/user";
 
     public static final String ADVERTISING = "/advertising";
     
     public static final String USER = "/user";
+
+
 
 
     /**

@@ -28,9 +28,9 @@ public final class ApiDetailsResource extends Resource {
 
     public ApiDetailsResource() {
         super();
-        version = API_VERSION;
-        resources = Arrays.asList(ResourceUri.ADVERTISING, ResourceUri.APPLICATION);
-        description = OPTIGRA_ADS_REST_API;
+        this.version = API_VERSION;
+        this.resources = Arrays.asList(ResourceUri.ADVERTISING, ResourceUri.APPLICATION, ResourceUri.USER);
+        this.description = OPTIGRA_ADS_REST_API;
     }
 
     @Override

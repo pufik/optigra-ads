@@ -5,6 +5,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,10 +27,14 @@ import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.model.application.ApplicationStatus;
+import org.optigra.ads.model.user.User;
+import org.optigra.ads.security.session.Session;
+import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.application.ApplicationService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultApplicationFacadeTest {
+
 
     @Captor
     private ArgumentCaptor<String> stringCaptor;
@@ -50,10 +55,13 @@ public class DefaultApplicationFacadeTest {
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
 
     @Mock
-    private Converter<ApplicationResource, Application> applicationDTOConverter;
+    private Converter<ApplicationResource, Application> applicationResourceConverter;
 
     @Mock
     private ApplicationService applicationService;
+
+    @Mock
+    private SessionService sessionService;
 
     @InjectMocks
     private final ApplicationFacade unit = new DefaultApplicationFacade();
@@ -62,20 +70,27 @@ public class DefaultApplicationFacadeTest {
     public void testCreateApplication() {
         // Given
         String name = "application";
+        User user = new User();
         ApplicationResource applicationResource = new ApplicationResource();
         applicationResource.setName(name);
         Application application = new Application();
         application.setName(name);
+        application.setOwner(user);
 
         // When
-        when(applicationDTOConverter.convert(any(ApplicationResource.class))).thenReturn(application);
+        when(applicationResourceConverter.convert(any(ApplicationResource.class))).thenReturn(application);
+        when(applicationConverter.convert(any(Application.class))).thenReturn(applicationResource);
+        when(sessionService.getCurrentSession()).thenReturn(new Session(user));
 
-        unit.createApplication(applicationResource);
+        ApplicationResource actualResource = unit.createApplication(applicationResource);
 
         verify(applicationService).createApplication(applicationCaptor.capture());
+        verify(applicationResourceConverter).convert(applicationResource);
+        verify(applicationConverter).convert(application);
 
         // Then
         assertEquals(application, applicationCaptor.getValue());
+        assertEquals(applicationResource, actualResource);
     }
 
     @Test
@@ -170,5 +185,42 @@ public class DefaultApplicationFacadeTest {
         // Then
         verify(applicationService).deleteApplication(stringCaptor.capture());
         assertEquals(applicationId, stringCaptor.getValue());
+    }
+
+    @Test
+    public void testUpdateApplication() throws Exception {
+        // Given
+        String applicationId = "applicationId";
+        String url = "url";
+        String groupId = "-534534534";
+        String groupName = "groupName";
+        String imageUrl = "imageUrl";
+        String name = "name";
+
+        ApplicationResource applicationResource = new ApplicationResource();
+        applicationResource.setApplicationId(applicationId);
+        applicationResource.setGroupId(groupId);
+        applicationResource.setGroupName(groupName);
+        applicationResource.setImageUrl(imageUrl);
+        applicationResource.setName(name);
+        applicationResource.setUrl(url );
+
+        Application application = new Application();
+        application.setApplicationId(applicationId);
+        application.setGroupId(groupId);
+        application.setGroupName(groupName);
+        application.setImageUrl(imageUrl);
+        application.setName(name);
+        application.setUrl(url );
+
+        // When
+        when(applicationService.getApplication(anyString())).thenReturn(application);
+
+        unit.updateApplication(applicationId, applicationResource);
+
+        // Then
+        verify(applicationResourceConverter).convert(eq(applicationResource), eq(application));
+        verify(applicationService).updateApplication(applicationCaptor.capture());
+        assertEquals(application, applicationCaptor.getValue());
     }
 }

@@ -1,5 +1,6 @@
 package org.optigra.ads.facade.application;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,6 +11,7 @@ import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.application.ApplicationService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DefaultApplicationFacade implements ApplicationFacade {
 
-    @Resource(name = "applicationDTOConverter")
-    private Converter<ApplicationResource, Application> applicationDTOConverter;
+    @Resource(name = "applicationResourceConverter")
+    private Converter<ApplicationResource, Application> applicationResourceConverter;
 
     @Resource(name = "pagedSearchConverter")
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
@@ -34,14 +36,21 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     @Resource(name = "applicationService")
     private ApplicationService applicationService;
 
+    @Resource(name = "sessionService")
+    private SessionService sessionService;
+
     @Override
-    public void createApplication(final ApplicationResource applicationResource) {
+    public ApplicationResource createApplication(final ApplicationResource applicationResource) {
 
         // Convert from dto to entity
-        Application application = applicationDTOConverter.convert(applicationResource);
+        Application application = applicationResourceConverter.convert(applicationResource);
+        application.setOwner(sessionService.getCurrentSession().getUser());
+        application.setCreateDate(new Date());
 
         // Store application entity
         applicationService.createApplication(application);
+
+        return applicationConverter.convert(application);
     }
 
     @Override
@@ -80,5 +89,14 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     @Override
     public void deleteApplication(final String applicationId) {
         applicationService.deleteApplication(applicationId);
+    }
+
+    @Override
+    public void updateApplication(final String applicationId, final ApplicationResource applicationResource) {
+        Application application = applicationService.getApplication(applicationId);
+
+        applicationResourceConverter.convert(applicationResource, application);
+
+        applicationService.updateApplication(application);
     }
 }

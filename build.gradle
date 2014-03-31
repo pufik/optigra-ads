@@ -34,12 +34,15 @@ subprojects {
         compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.5'
         compile group: 'log4j',     name: 'log4j', version: '1.2.17'
         
+        compile 'org.springframework:spring-web:3.2.6.RELEASE'
         compile 'org.springframework:spring-core:3.2.6.RELEASE'
         compile 'org.springframework:spring-beans:3.2.6.RELEASE'
         compile 'org.springframework:spring-context:3.2.6.RELEASE'
         compile 'org.springframework:spring-test:3.2.6.RELEASE'
 	    compile 'org.springframework:spring-aspects:3.2.6.RELEASE'
 	    compile 'org.springframework:spring-tx:3.2.6.RELEASE'
+	    compile 'org.springframework.security:spring-security-config:3.2.0.RELEASE'
+    	compile 'org.springframework.security:spring-security-web:3.2.0.RELEASE'
 	    
         compile 'org.hibernate:hibernate-core:4.2.0.Final'
         compile 'org.hibernate:hibernate-entitymanager:4.2.0.Final'
@@ -51,6 +54,14 @@ subprojects {
         compile 'com.fasterxml.jackson.core:jackson-core:2.3.0'
         compile 'com.fasterxml.jackson.core:jackson-annotations:2.3.0'
         compile 'com.fasterxml.jackson.core:jackson-databind:2.3.0'
+        
+        compile 'javax.jcr:jcr:2.0'
+        compile ('org.apache.jackrabbit:jackrabbit-core:2.6.0') {
+             exclude group: 'org.slf4j'
+        }
+        
+        compile 'commons-fileupload:commons-fileupload:1.2.2'
+        compile 'org.tuckey:urlrewritefilter:3.2.0'
     }
 
     jar {
