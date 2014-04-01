@@ -287,5 +287,38 @@
                     </wadl:response>
         	</wadl:method>
         </wadl:resource>
+        <wadl:resource path="content">
+        <wadl:doc title="Description">Content management methods</wadl:doc>
+        	<wadl:method name="GET" id="getContent">
+        	<wadl:doc>Get content by path</wadl:doc>
+        	        <wadl:request>
+                        <wadl:param name="authorization" style="header" type="xsi:string" required="true">
+                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
+                        </wadl:param>
+                        <wadl:param name="contentPath" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema" type="xs:string" required="true">
+                            <wadl:doc>Content path on Repository</wadl:doc>
+                        </wadl:param>
+                        <wadl:representation>
+                            <wadl:doc>
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/content?contentPath=/common/myImage.png
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:request>
+                    <wadl:response status="200" />
+        	</wadl:method>
+        <wadl:method name="POST" id="uploadContent">
+        	<wadl:doc>Upload content to the repository</wadl:doc>
+        	        <wadl:request>
+        	         	<wadl:param name="authorization" style="header" type="xsi:string" required="true">
+                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
+                        </wadl:param>
+                        <wadl:param name="file" style="query" type="xs:base64Binary" />
+                        <wadl:representation mediaType="multipart/form-data" />
+                    </wadl:request>
+                    <wadl:response status="200">
+                        <wadl:doc title="OK" />
+                    </wadl:response>
+        	</wadl:method>
+        </wadl:resource>
     </wadl:resources>
 </wadl:application>
