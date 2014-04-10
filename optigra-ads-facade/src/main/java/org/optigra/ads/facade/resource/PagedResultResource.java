@@ -76,7 +76,7 @@ public class PagedResultResource<R extends Resource> extends Resource {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        PagedResultResource other = (PagedResultResource) obj;
+        PagedResultResource<?> other = (PagedResultResource<?>) obj;
         if (count != other.count)
             return false;
         if (entities == null) {

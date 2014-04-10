@@ -29,7 +29,6 @@ public class ApplicationResourceConverterTest {
         String imageUrl = "imageUrl";
 
         Application expected = new Application();
-        expected.setApplicationId(applicationId);
         expected.setName(name);
         expected.setStatus(status);
         expected.setUrl(url);
