@@ -26,12 +26,12 @@ public final class ResourceUri {
     public static final String CONTENT = "/content";
     public static final String USER_CONTENT = "/content/user";
 
-    public static final String ADVERTISING = "/advertising";
-    
     public static final String USER = "/user";
 
+    public static final String ADVERTISING = "/advertising";
+	public static final String ADVERTISING_BY_ID = SLASH + "{advertisingId}";
 
-
+	public static final String USER_BY_ID = "/{id}";
 
     /**
      * Default constructor.

@@ -28,4 +28,19 @@ public class DefaultAdvertisingService implements AdvertisingService {
         advertisingDao.create(advertising);
     }
 
+	@Override
+	public Advertising getAdvertising(Long advertisingId) {
+		return advertisingDao.findById(advertisingId);
+	}
+
+	@Override
+	public void updateAdvertising(Advertising advertising) {
+		advertisingDao.update(advertising);
+	}
+
+	@Override
+	public void deleteAdvertising(Long advertisingId) {
+		advertisingDao.removeById(advertisingId);
+	}
+
 }

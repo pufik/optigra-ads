@@ -27,7 +27,7 @@ public interface UserFacade {
      * @author ivanursul
      * @param userResource
      */
-    void createUser(UserDetailsResource userResource);
+    UserResource createUser(UserDetailsResource userResource);
 
     /**
      * @date Feb 24, 2014
@@ -37,5 +37,18 @@ public interface UserFacade {
      * @return
      */
     PagedResultResource<UserResource> getUsers(int offset, int limit);
+
+    /**
+     * Updates user.
+     * @param userId
+     * @param userResource
+     */
+	void updateUser(Long userId, UserDetailsResource userResource);
+
+	/**
+	 * Delete user entity
+	 * @param userId
+	 */
+	void deleteUser(Long userId);
     
 }

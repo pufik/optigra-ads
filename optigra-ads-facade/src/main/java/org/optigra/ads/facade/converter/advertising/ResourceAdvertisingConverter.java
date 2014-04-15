@@ -1,5 +1,7 @@
 package org.optigra.ads.facade.converter.advertising;
 
+import java.util.Date;
+
 import org.optigra.ads.facade.converter.AbstractConverter;
 import org.optigra.ads.facade.resource.AdvertisingResource;
 import org.optigra.ads.model.advertising.Advertising;
@@ -18,10 +20,10 @@ public class ResourceAdvertisingConverter extends AbstractConverter<AdvertisingR
         
         target.setDescription(source.getDescription());
         target.setDestinationUrl(source.getDestinationUrl());
-        target.setId(source.getUid());
         target.setImageUrl(source.getImageUrl());
         target.setLogoUrl(source.getLogoUrl());
         target.setTitle(source.getTitle());
+        target.setUpdateDate(new Date());
         
         return target;
     }

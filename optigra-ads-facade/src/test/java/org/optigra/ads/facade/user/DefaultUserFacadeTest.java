@@ -99,13 +99,13 @@ public class DefaultUserFacadeTest {
         
         // When
         when(userDetailsResourceConverter.convert(any(UserDetailsResource.class))).thenReturn(user);
+        when(userConverter.convert(any(User.class))).thenReturn(userResource);
         
-        unit.createUser(userResource);
-        
-        verify(userService).createUser(userCaptor.capture());
+        UserResource actual = unit.createUser(userResource);
         
         // Then
-        assertEquals(user, userCaptor.getValue());
+        verify(userService).createUser(user);
+        assertEquals(userResource, actual);
     }
     
     @Test
@@ -135,4 +135,38 @@ public class DefaultUserFacadeTest {
         assertEquals(expected, pagedResultResourceCaptor.getValue());
         assertEquals(expected, actual);
     }
+    
+    @Test
+	public void testUpdateUser() throws Exception {
+		// Given
+    	Long userId = 1L;
+    	String email = "email";
+    	
+    	UserDetailsResource userResource = new UserDetailsResource();
+		userResource.setEmail(email);
+
+		User user = new User();
+		user.setEmail(email);
+		
+		// When
+		when(userService.getUserById(anyLong())).thenReturn(user);
+		
+    	unit.updateUser(userId, userResource);
+
+		// Then
+    	verify(userDetailsResourceConverter).convert(userResource, user);
+    	verify(userService).update(user);
+	}
+    
+    @Test
+	public void testDeleteUser() throws Exception {
+		// Given
+    	Long userId = 1L;
+		
+		// When
+    	unit.deleteUser(userId);
+
+		// Then
+    	verify(userService).deleteUser(userId);
+	}
 }

@@ -6,6 +6,7 @@ import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.user.UserDao;
 import org.optigra.ads.model.user.User;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 /**
  * Default user service.
@@ -23,7 +24,9 @@ public class DefaultUserService implements UserService {
     
 	@Override
 	public User getUserById(final Long userId) {
-		return userDao.getUserById(userId);
+		User user = userDao.getUserById(userId);
+		Assert.notNull(user);
+		return user;
 	}
 
 	@Override
@@ -40,4 +43,14 @@ public class DefaultUserService implements UserService {
     public PagedResult<User> getUsers(final int offset, final int limit) {
         return userDao.getUsers(offset, limit);
     }
+
+	@Override
+	public void update(User user) {
+		userDao.update(user);
+	}
+
+	@Override
+	public void deleteUser(Long userId) {
+		userDao.removeById(userId);
+	}
 }

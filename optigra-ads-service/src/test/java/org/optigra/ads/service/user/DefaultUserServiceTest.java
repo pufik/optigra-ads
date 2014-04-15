@@ -83,4 +83,30 @@ public class DefaultUserServiceTest {
 	    verify(userDao).getUsers(offset, limit);
 	    assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void testUpdateUser() throws Exception {
+		// Given
+		String email = "email";
+		User user = new User();
+		user.setEmail(email);
+
+		// When
+		unit.update(user);
+
+		// Then
+		verify(userDao).update(user);
+	}
+	
+	@Test
+	public void testDeleteUser() throws Exception {
+		// Given
+		Long userId = 1L;
+
+		// When
+		unit.deleteUser(userId);
+
+		// Then
+		verify(userDao).removeById(userId);
+	}
 }

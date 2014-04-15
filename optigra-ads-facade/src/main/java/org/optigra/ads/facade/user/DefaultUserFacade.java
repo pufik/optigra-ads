@@ -46,13 +46,20 @@ public class DefaultUserFacade implements UserFacade {
     }
 
     @Override
-    public void createUser(final UserDetailsResource userResource) {
-
+    public UserResource createUser(final UserDetailsResource userResource) {
         User user = userDetailsResourceConverter.convert(userResource);
-
         userService.createUser(user);
+        return userConverter.convert(user);
     }
 
+	@Override
+	public void updateUser(Long userId, UserDetailsResource userResource) {
+		User user = userService.getUserById(userId);
+		userDetailsResourceConverter.convert(userResource, user);
+		userService.update(user);
+	}
+
+    
     @Override
     public PagedResultResource<UserResource> getUsers(final int offset, final int limit) {
         
@@ -68,4 +75,9 @@ public class DefaultUserFacade implements UserFacade {
         return pagedResultResource;
     }
 
+	@Override
+	public void deleteUser(Long userId) {
+		userService.deleteUser(userId);
+	}
+    
 }

@@ -31,13 +31,13 @@ public class ResourceAdvertisingConverterTest {
         Advertising expected = new Advertising();
         expected.setDescription(description);
         expected.setDestinationUrl(destinationUrl);
-        expected.setId(id);
         expected.setImageUrl(imageUrl);
         expected.setLogoUrl(logoUrl);
         expected.setTitle(title);
         
         // When
         Advertising actual = unit.convert(source);
+        actual.setUpdateDate(null);
         
         // Then
         assertEquals(expected, actual);

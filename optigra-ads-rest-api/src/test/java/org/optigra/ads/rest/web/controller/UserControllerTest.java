@@ -1,12 +1,16 @@
 package org.optigra.ads.rest.web.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,6 +25,8 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.facade.resource.MessageResource;
+import org.optigra.ads.facade.resource.MessageType;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.user.UserDetailsResource;
@@ -71,7 +77,6 @@ public class UserControllerTest extends AbstractControllerTest {
     @Test
     public void testCreateUser() throws Exception {
         // Given
-        writeFromFields(true);
         String password = "password";
         String login = "login";
         Long id = 1L;
@@ -80,16 +85,20 @@ public class UserControllerTest extends AbstractControllerTest {
         userDetailsResource.setLogin(login);
         userDetailsResource.setId(id);
         
+        String request = getJson(userDetailsResource, true);
+        String response = getJson(userDetailsResource, false);
+        
+        when(userFacade.createUser(any(UserDetailsResource.class))).thenReturn(userDetailsResource);
+        
         // Then
         mockMvc.perform(post(ResourceUri.USER)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(userDetailsResource)))
-            .andExpect(status().isOk());
+                .content(request))
+            .andExpect(status().isOk())
+            .andExpect(content().string(response));
         
         verify(userFacade).createUser(userDetailsCaptor.capture());
         assertEquals(userDetailsResource, userDetailsCaptor.getValue());
-        
-        writeFromFields(false);
     }
     
     @Test
@@ -119,4 +128,43 @@ public class UserControllerTest extends AbstractControllerTest {
         
         verify(userFacade).getUsers(offset, limit);
     }
+    
+    @Test
+	public void testUpdate() throws Exception {
+        // Given
+        String password = "password";
+        String login = "login";
+        Long id = 1L;
+        UserDetailsResource userDetailsResource = new UserDetailsResource();
+        userDetailsResource.setPassword(password);
+        userDetailsResource.setLogin(login);
+        userDetailsResource.setId(id);
+        
+    	MessageResource messageResource = new MessageResource(MessageType.INFO, "User updated");
+        
+        String request = getJson(userDetailsResource, true);
+        String response = getJson(messageResource, false);
+        
+        // Then
+        mockMvc.perform(put("/user/{userId}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request))
+            .andExpect(status().isOk())
+            .andExpect(content().string(response));
+        
+        verify(userFacade).updateUser(eq(id), userDetailsCaptor.capture());
+        assertEquals(userDetailsResource, userDetailsCaptor.getValue());
+	}
+    
+    @Test
+	public void testDeleteUser() throws Exception {
+		// Given
+    	Long userId = 2L;
+
+		// Then
+    	mockMvc.perform(delete("/user/{userId}", userId))
+    		.andExpect(status().isOk());
+    	
+    	verify(userFacade).deleteUser(userId);
+	}
 }

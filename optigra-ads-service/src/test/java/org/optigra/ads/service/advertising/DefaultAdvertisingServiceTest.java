@@ -2,6 +2,7 @@ package org.optigra.ads.service.advertising;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -62,5 +63,48 @@ public class DefaultAdvertisingServiceTest {
         verify(advertisingDao).create(advertisingCaptor.capture());
         assertEquals(advertising, advertisingCaptor.getValue());
     }
+    
+    @Test
+	public void testGetAdvertising() throws Exception {
+		// Given
+    	Long advertisingId = 1L;
+    	
+    	Advertising expected = new Advertising();
+
+		// When
+    	when(advertisingDao.findById(anyLong())).thenReturn(expected);
+    	
+    	Advertising actual = unit.getAdvertising(advertisingId);
+
+		// Then
+    	verify(advertisingDao).findById(advertisingId);
+    	assertEquals(expected, actual);
+	}
+    
+    @Test
+	public void testUpdateAdvertising() throws Exception {
+		// Given
+    	Long id = 2L;
+    	Advertising advertising = new Advertising();
+		advertising.setId(id);
+
+		// When
+    	unit.updateAdvertising(advertising);
+
+		// Then
+    	verify(advertisingDao).update(advertising);
+	}
+    
+    @Test
+	public void testDeleteAdvertising() throws Exception {
+		// Given
+    	Long advertisingId = 1L;
+
+		// When
+    	unit.deleteAdvertising(advertisingId);
+
+		// Then
+    	verify(advertisingDao).removeById(advertisingId);
+	}
 }
 

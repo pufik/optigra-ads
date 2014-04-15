@@ -1,5 +1,6 @@
 package org.optigra.ads.dao.user;
 
+import org.optigra.ads.dao.Dao;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
 
@@ -12,7 +13,7 @@ import org.optigra.ads.model.user.User;
  * @author ivanursul
  *
  */
-public interface UserDao {
+public interface UserDao extends Dao<User, Long> {
     
     /**
      * Method provides user by his identifier

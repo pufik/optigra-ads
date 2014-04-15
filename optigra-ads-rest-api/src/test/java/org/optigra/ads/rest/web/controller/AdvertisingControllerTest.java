@@ -2,10 +2,13 @@ package org.optigra.ads.rest.web.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,18 +81,99 @@ public class AdvertisingControllerTest extends AbstractControllerTest {
     @Test
     public void testCreateAdvertising() throws Exception {
         // Given
-        writeFromFields(true);
+        String description = "description";
         AdvertisingResource advertisingResource = new AdvertisingResource();
-        MessageResource messageResource = new MessageResource(MessageType.INFO, "Advertising created");
+		advertisingResource.setDescription(description);
         
         // Then
+        when(advertisingFacade.createAdvertising(advertisingResource)).thenReturn(advertisingResource);
+        
+        String request = getJson(advertisingResource, true);
+        String response = getJson(advertisingResource, false);
+        
         mockMvc.perform(post("/advertising")
-                .content(objectMapper.writeValueAsString(advertisingResource))
+                .content(request)
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
+            .andExpect(content().string(response));
         
         verify(advertisingFacade).createAdvertising(advertisingCaptor.capture());
         assertEquals(advertisingResource, advertisingCaptor.getValue());
     }
+    
+    @Test
+	public void testUpdateAdvertising() throws Exception {
+		// Given
+    	Long advertisingId = 3L;
+    	String description = "description";
+    	String destinationUrl = "desctionation Url";
+    	String imageUrl = "image url";
+    	String logoUrl = "logo url";
+    	String title = "title";
+    	
+    	MessageResource messageResource = new MessageResource(MessageType.INFO, "Advertising updated");
+    	
+    	AdvertisingResource advertisingResource = new AdvertisingResource();
+		advertisingResource.setDescription(description);
+		advertisingResource.setDestinationUrl(destinationUrl);
+		advertisingResource.setImageUrl(imageUrl);
+		advertisingResource.setLogoUrl(logoUrl);
+		advertisingResource.setTitle(title);
+		advertisingResource.setUid(advertisingId);
+		
+        String request = getJson(advertisingResource, true);
+        String response = getJson(messageResource, false);
+		
+    	// Then
+		mockMvc.perform(put("/advertising/{advertisingId}", advertisingId)
+                .content(request)
+                .contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(content().string(response));
+		verify(advertisingFacade).updateAdvertising(advertisingId, advertisingResource);
+	}
+    
+    @Test
+	public void testGetAdvertising() throws Exception {
+		// Given
+    	Long advertisingId = 3L;
+    	String description = "description";
+    	String destinationUrl = "desctionation Url";
+    	String imageUrl = "image url";
+    	String logoUrl = "logo url";
+    	String title = "title";
+    	
+    	AdvertisingResource advertisingResource = new AdvertisingResource();
+		advertisingResource.setDescription(description);
+		advertisingResource.setDestinationUrl(destinationUrl);
+		advertisingResource.setImageUrl(imageUrl);
+		advertisingResource.setLogoUrl(logoUrl);
+		advertisingResource.setTitle(title);
+		advertisingResource.setUid(advertisingId);
+    	
+		// When
+		when(advertisingFacade.getAdvertising(anyLong())).thenReturn(advertisingResource);
+    	String response = getJson(advertisingResource, false);
+    	
+		// Then
+    	mockMvc.perform(get("/advertising/{advertisingId}", advertisingId))
+    		.andExpect(status().isOk())
+    		.andExpect(content().string(response));
+    	verify(advertisingFacade).getAdvertising(advertisingId);
+	}
+    
+    @Test
+	public void testDeleteAdvertising() throws Exception {
+		// Given
+    	Long advertisingId = 3L;
+    	
+    	MessageResource messageResource = new MessageResource(MessageType.INFO, "Advertising deleted");
+    	String response = getJson(messageResource, false);
+    	
+		// Then
+    	mockMvc.perform(delete("/advertising/{advertisingId}", advertisingId))
+    		.andExpect(status().isOk())
+    		.andExpect(content().string(response));
+    	verify(advertisingFacade).deleteAdvertising(advertisingId);
+	}
 }

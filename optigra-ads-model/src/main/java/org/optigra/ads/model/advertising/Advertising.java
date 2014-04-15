@@ -75,52 +75,63 @@ public class Advertising extends Model {
         this.destinationUrl = destinationUrl;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((destinationUrl == null) ? 0 : destinationUrl.hashCode());
-        result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
-        result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result
+				+ ((destinationUrl == null) ? 0 : destinationUrl.hashCode());
+		result = prime * result
+				+ ((imageUrl == null) ? 0 : imageUrl.hashCode());
+		result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Advertising other = (Advertising) obj;
-        if (description == null) {
-            if (other.description != null)
-                return false;
-        } else if (!description.equals(other.description))
-            return false;
-        if (destinationUrl == null) {
-            if (other.destinationUrl != null)
-                return false;
-        } else if (!destinationUrl.equals(other.destinationUrl))
-            return false;
-        if (imageUrl == null) {
-            if (other.imageUrl != null)
-                return false;
-        } else if (!imageUrl.equals(other.imageUrl))
-            return false;
-        if (logoUrl == null) {
-            if (other.logoUrl != null)
-                return false;
-        } else if (!logoUrl.equals(other.logoUrl))
-            return false;
-        if (title == null) {
-            if (other.title != null)
-                return false;
-        } else if (!title.equals(other.title))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Advertising other = (Advertising) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (destinationUrl == null) {
+			if (other.destinationUrl != null)
+				return false;
+		} else if (!destinationUrl.equals(other.destinationUrl))
+			return false;
+		if (imageUrl == null) {
+			if (other.imageUrl != null)
+				return false;
+		} else if (!imageUrl.equals(other.imageUrl))
+			return false;
+		if (logoUrl == null) {
+			if (other.logoUrl != null)
+				return false;
+		} else if (!logoUrl.equals(other.logoUrl))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Advertising [title=" + title + ", description=" + description
+				+ ", logoUrl=" + logoUrl + ", imageUrl=" + imageUrl
+				+ ", destinationUrl=" + destinationUrl + "]";
+	}
+    
 }

@@ -32,4 +32,23 @@ public interface AdvertisingService {
      */
     void createAdvertising(Advertising advertising);
 
+    /**
+     * Gets advertising by its unique parameter
+     * @param advertisingId
+     * @return
+     */
+	Advertising getAdvertising(Long advertisingId);
+
+	/**
+	 * Updates application
+	 * @param advertising
+	 */
+	void updateAdvertising(Advertising advertising);
+
+	/**
+	 * Deletes advertising by id
+	 * @param advertisingId
+	 */
+	void deleteAdvertising(Long advertisingId);
+
 }

@@ -31,7 +31,6 @@ public class UserDetailsResourceConverterTest {
         userResource.setImageUrl(imageUrl);
 
         User expected = new User();
-        expected.setId(id);
         expected.setLogin(login);
         expected.setPassword(password);
         expected.setRole(UserRole.USER);

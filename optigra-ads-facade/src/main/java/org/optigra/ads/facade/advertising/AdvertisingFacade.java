@@ -30,6 +30,26 @@ public interface AdvertisingFacade {
      * @author ivanursul
      * @param advertisingResource resource to be created.
      */
-    void createAdvertising(AdvertisingResource advertisingResource);
+    AdvertisingResource createAdvertising(AdvertisingResource advertisingResource);
+
+    /**
+     * Update method for advertising entity
+     * @param advertisingId
+     * @param resource
+     */
+	void updateAdvertising(Long advertisingId, AdvertisingResource resource);
+
+	/**
+	 * Gets a single object
+	 * @param advertisingId
+	 * @return
+	 */
+	AdvertisingResource getAdvertising(Long advertisingId);
+
+	/**
+	 * Method for deleting advertising
+	 * @param advertisingId
+	 */
+	void deleteAdvertising(Long advertisingId);
 
 }

@@ -38,18 +38,30 @@ public class UserController extends BaseController {
         return userFacade.getUsers(offset, limit);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = ResourceUri.USER_BY_ID, method = RequestMethod.GET)
     @ResponseBody
     public UserResource getUser(@PathVariable("id") final Long id) {
         return userFacade.getUserById(id);
     }
+    
+    @RequestMapping(value = ResourceUri.USER_BY_ID ,method = RequestMethod.PUT)
+    @ResponseBody
+    public MessageResource updateUser(@PathVariable("id") Long userId, @Valid @RequestBody final UserDetailsResource userResource) {
+    	userFacade.updateUser(userId, userResource);
+    	return new MessageResource(MessageType.INFO, "User updated");
+    }
+
+    @RequestMapping(value = ResourceUri.USER_BY_ID ,method = RequestMethod.DELETE)
+    @ResponseBody
+    public MessageResource deleteUser(@PathVariable("id") Long userId) {
+    	userFacade.deleteUser(userId);
+    	return new MessageResource(MessageType.INFO, "User deleted");
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public MessageResource createUser(@Valid @RequestBody final UserDetailsResource userResource) {
-
-        userFacade.createUser(userResource);
-
-        return new MessageResource(MessageType.INFO, "User successfully created");
+    public UserResource createUser(@Valid @RequestBody final UserDetailsResource userResource) {
+        return userFacade.createUser(userResource);
     }
+    
 }

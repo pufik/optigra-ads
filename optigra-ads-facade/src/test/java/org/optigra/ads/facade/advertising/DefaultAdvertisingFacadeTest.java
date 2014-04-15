@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -23,6 +24,9 @@ import org.optigra.ads.facade.resource.AdvertisingResource;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.model.advertising.Advertising;
+import org.optigra.ads.model.user.User;
+import org.optigra.ads.security.session.Session;
+import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.advertising.AdvertisingService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -48,6 +52,9 @@ public class DefaultAdvertisingFacadeTest {
     
     @Mock
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
+    
+    @Mock
+    private SessionService sessionService;
     
     @InjectMocks
     private DefaultAdvertisingFacade unit = new DefaultAdvertisingFacade();
@@ -91,13 +98,13 @@ public class DefaultAdvertisingFacadeTest {
         String logoUrl = "logo url";
         String title = "title";
         
-        AdvertisingResource advertisingResource = new AdvertisingResource();
-        advertisingResource.setDescription(description);
-        advertisingResource.setDestinationUrl(destinationUrl);
-        advertisingResource.setImageUrl(imageUrl);
-        advertisingResource.setLogoUrl(logoUrl);
-        advertisingResource.setTitle(title);
-        advertisingResource.setUid(id);
+        AdvertisingResource expected = new AdvertisingResource();
+        expected.setDescription(description);
+        expected.setDestinationUrl(destinationUrl);
+        expected.setImageUrl(imageUrl);
+        expected.setLogoUrl(logoUrl);
+        expected.setTitle(title);
+        expected.setUid(id);
         
         Advertising advertising = new Advertising();
         advertising.setDescription(description);
@@ -107,13 +114,100 @@ public class DefaultAdvertisingFacadeTest {
         advertising.setLogoUrl(logoUrl);
         advertising.setTitle(title);
         
-        // When
+        User user = new User();
+		Session session = new Session(user);
+		
+		// When
+        when(sessionService.getCurrentSession()).thenReturn(session);
         when(resourceAdvertisingConverter.convert(any(AdvertisingResource.class))).thenReturn(advertising);
+        when(advertisingConverter.convert(any(Advertising.class))).thenReturn(expected);
         
-        unit.createAdvertising(advertisingResource);
+        AdvertisingResource actual = unit.createAdvertising(expected);
         
         // Then
         verify(advertisingService).createAdvertising(advertisingCaptor.capture());
         assertEquals(advertising, advertisingCaptor.getValue());
+        assertEquals(expected, actual);
     }
+    
+    @Test
+	public void testUpdateAdvertising() throws Exception {
+		// Given
+    	Long advertisingId = 3L;
+    	String description = "description";
+    	String destinationUrl = "desctionation Url";
+    	String imageUrl = "image url";
+    	String logoUrl = "logo url";
+    	String title = "title";
+    	
+    	AdvertisingResource advertisingResource = new AdvertisingResource();
+		advertisingResource.setDescription(description);
+		advertisingResource.setDestinationUrl(destinationUrl);
+		advertisingResource.setImageUrl(imageUrl);
+		advertisingResource.setLogoUrl(logoUrl);
+		advertisingResource.setTitle(title);
+		advertisingResource.setUid(advertisingId);
+
+		Advertising advertising = new Advertising();
+		advertising.setDescription(description);
+		advertising.setDestinationUrl(destinationUrl);
+		advertising.setImageUrl(imageUrl);
+		advertising.setLogoUrl(logoUrl);
+		advertising.setTitle(title);
+		
+		// When
+		when(advertisingService.getAdvertising(anyLong())).thenReturn(advertising);
+		
+    	unit.updateAdvertising(advertisingId, advertisingResource);
+
+		// Then
+    	verify(resourceAdvertisingConverter).convert(advertisingResource, advertising);
+    	verify(advertisingService).updateAdvertising(advertising);
+	}
+    
+    @Test
+	public void testGetAdvertising() throws Exception {
+		// Given
+    	Long advertisingId = 1L;
+    	String description = "description";
+    	String destinationUrl = "desctionation Url";
+    	String imageUrl = "image url";
+    	String logoUrl = "logo url";
+    	String title = "title";
+    	
+    	AdvertisingResource expected = new AdvertisingResource();
+		expected.setDescription(description);
+		expected.setDestinationUrl(destinationUrl);
+		expected.setImageUrl(imageUrl);
+		expected.setLogoUrl(logoUrl);
+		expected.setTitle(title);
+		expected.setUid(advertisingId);
+    	
+		Advertising advertising = new Advertising();
+		advertising.setDescription(description);
+		advertising.setDestinationUrl(destinationUrl);
+		advertising.setImageUrl(imageUrl);
+		advertising.setLogoUrl(logoUrl);
+		advertising.setTitle(title);
+    	
+		// When
+    	when(advertisingService.getAdvertising(anyLong())).thenReturn(advertising);
+    	when(advertisingConverter.convert(any(Advertising.class))).thenReturn(expected);
+    	AdvertisingResource actual = unit.getAdvertising(advertisingId );
+
+		// Then
+    	assertEquals(expected, actual);
+	}
+    
+    @Test
+	public void testDeleteAdvertising() throws Exception {
+		// Given
+    	Long advertisingId = 1L;
+
+		// When
+    	unit.deleteAdvertising(advertisingId);
+
+		// Then
+    	verify(advertisingService).deleteAdvertising(advertisingId);
+	}
 }

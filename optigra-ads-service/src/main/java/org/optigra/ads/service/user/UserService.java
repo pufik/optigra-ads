@@ -55,4 +55,16 @@ public interface UserService {
      */
     PagedResult<User> getUsers(int offset, int limit);
 
+    /**
+     * Updates user
+     * @param user
+     */
+	void update(User user);
+
+	/**
+	 * Delete user.
+	 * @param userId
+	 */
+	void deleteUser(Long userId);
+
 }

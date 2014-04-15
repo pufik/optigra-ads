@@ -1,9 +1,12 @@
+package org.optigra.ads.integration.application
+
 import com.excilys.ebi.gatling.core.Predef._
 import com.excilys.ebi.gatling.http.Predef._
 import com.excilys.ebi.gatling.http.Headers._
 import akka.util.duration._
-import bootstrap._
-import assertions._
+import com.excilys.ebi.gatling.core.Predef.bootstrap._
+import com.excilys.ebi.gatling.core.Predef.assertions._
+import com.excilys.ebi.gatling.core.structure.ScenarioBuilder.configureScenario
 
 class ApplicationFlowScenario extends Simulation {
 

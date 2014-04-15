@@ -9,6 +9,7 @@ import org.optigra.ads.facade.resource.MessageType;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,16 +32,33 @@ public class AdvertisingController extends BaseController {
     @ResponseBody
     public PagedResultResource<AdvertisingResource> getAdvertisings(@RequestParam(value = "offset", defaultValue = "0") final int offset,
             @RequestParam(value = "limit", defaultValue = "20") final int limit) {
-
         return advertisingFacade.getAdvertisings(offset, limit);
+    }
+
+    @RequestMapping(value = ResourceUri.ADVERTISING_BY_ID, method = RequestMethod.GET)
+    @ResponseBody
+    public AdvertisingResource getAdvertising(@PathVariable("advertisingId") Long advertisingId) {
+    	return advertisingFacade.getAdvertising(advertisingId);
     }
     
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public MessageResource createAdvertising(@RequestBody final AdvertisingResource resource) {
-        
-        advertisingFacade.createAdvertising(resource);
-        
-        return new MessageResource(MessageType.INFO, "Advertising created");
+    public AdvertisingResource createAdvertising(@RequestBody final AdvertisingResource resource) {
+        return advertisingFacade.createAdvertising(resource);
+    }
+
+    @RequestMapping(value = ResourceUri.ADVERTISING_BY_ID,method = RequestMethod.PUT)
+    @ResponseBody
+    public MessageResource updateAdvertising(@PathVariable("advertisingId") Long advertisingId,
+    		@RequestBody final AdvertisingResource resource) {
+    	advertisingFacade.updateAdvertising(advertisingId, resource);
+    	return new MessageResource(MessageType.INFO, "Advertising updated");
+    }
+
+    @RequestMapping(value = ResourceUri.ADVERTISING_BY_ID,method = RequestMethod.DELETE)
+    @ResponseBody
+    public MessageResource deleteAdvertising(@PathVariable("advertisingId") Long advertisingId) {
+    	advertisingFacade.deleteAdvertising(advertisingId);
+    	return new MessageResource(MessageType.INFO, "Advertising deleted");
     }
 }
