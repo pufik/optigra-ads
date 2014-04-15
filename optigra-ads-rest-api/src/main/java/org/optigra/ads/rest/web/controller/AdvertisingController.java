@@ -61,4 +61,5 @@ public class AdvertisingController extends BaseController {
     	advertisingFacade.deleteAdvertising(advertisingId);
     	return new MessageResource(MessageType.INFO, "Advertising deleted");
     }
+    
 }
