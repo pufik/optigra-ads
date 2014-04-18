@@ -1,10 +1,6 @@
 package org.optigra.ads.dao.advertising;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -13,41 +9,25 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.dao.Query;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.pagination.PagedSearch;
+import org.optigra.ads.dao.persistence.PersistenceManager;
 import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.advertising.Advertising;
 import org.optigra.ads.model.user.User;
 import org.optigra.ads.model.user.UserRole;
-import org.optigra.ads.security.session.Session;
-import org.optigra.ads.security.session.SessionService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultAdvertisingDaoTest {
 
-    private static final String TABLE_TOKEN = "$table";
-    private static final String COUNT_QUERY = "SELECT COUNT(*) FROM " + TABLE_TOKEN + " a WHERE a IN(%s) ";
-
     @Mock
-    private EntityManager entityManager;
-
-    @Mock
-    private SessionService sessionService;
-
-    @Mock
-    private TypedQuery<Advertising> typedQuery;
-
-    @Mock
-    private TypedQuery<Long> longTypedQuery;
+    private PersistenceManager<Advertising, Long> persistenceManager;
 
     @InjectMocks
     private final DefaultAdvertisingDao unit = new DefaultAdvertisingDao();
@@ -55,37 +35,27 @@ public class DefaultAdvertisingDaoTest {
     @Test
     public void testGetAdvertisings() {
         // Given
-        int start = 0;
-        int offset = 20;
+        int offset = 0;
+        int limit = 20;
         long count = 100;
         User user1 = new User();
         user1.setRole(UserRole.ADMIN);
         Queries query = Queries.FIND_ADVERTISINGS;
         Map<String, Object> parameters = Collections.emptyMap();
-        PagedSearch search = new PagedSearch(start, offset, query, parameters);
+        Query<Advertising> jpQuery = new Query<Advertising>(Advertising.class, query.getQuery(), parameters);
+        PagedSearch<Advertising> search = new PagedSearch<>(offset, limit, jpQuery);
+
         Advertising entity1 = new Advertising();
         List<Advertising> entities = Arrays.asList(entity1);
-        PagedResult<Advertising> expected = new PagedResult<Advertising>(start, offset, count, entities);
-        String querySql = String.format(COUNT_QUERY, search.getQuery().getQuery()).replace(TABLE_TOKEN, Advertising.class.getSimpleName());
+        PagedResult<Advertising> expected = new PagedResult<Advertising>(offset, limit, count, entities);
 
         // When
-        when(entityManager.createQuery(eq(query.getQuery()), Matchers.<Class<Advertising>>any())).thenReturn(typedQuery);
-        when(entityManager.createQuery(eq(querySql), Matchers.<Class<Long>>any())).thenReturn(longTypedQuery);
-        when(typedQuery.getResultList()).thenReturn(entities);
-        when(longTypedQuery.getSingleResult()).thenReturn(count);
-        when(sessionService.getCurrentSession()).thenReturn(new Session(user1));
+        when(persistenceManager.search(search)).thenReturn(expected);
 
-        PagedResult<Advertising> actual = unit.getAdvertisings(start, offset);
+        PagedResult<Advertising> actual = unit.getAdvertisings(offset, limit);
 
         // Then
-        verify(entityManager).createQuery(query.getQuery(), Advertising.class);
-        verify(entityManager).createQuery(querySql, Long.class);
-
-        verify(typedQuery, times(0)).setParameter(anyString(), anyObject());
-        verify(longTypedQuery, times(0)).setParameter(anyString(), anyObject());
-
-        verify(typedQuery).setFirstResult(start);
-        verify(typedQuery).setMaxResults(offset);
+        verify(persistenceManager).search(search);
 
         assertEquals(expected, actual);
     }

@@ -5,23 +5,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.optigra.ads.dao.AbstractDao;
+import org.optigra.ads.dao.Query;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.pagination.PagedSearch;
 import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.application.Application;
 import org.springframework.stereotype.Repository;
 
-
 /**
  * Default implementation of Application Dao layer.
  *
  * @date Feb 12, 2014
  * @author ivanursul
- *
  */
 @Repository("applicationDao")
-public class DefaultApplicationDao extends AbstractDao<Application, Long>
-        implements ApplicationDao {
+public class DefaultApplicationDao extends AbstractDao<Application, Long> implements ApplicationDao {
 
     @Override
     protected Class<Application> getEntityClass() {
@@ -30,11 +28,10 @@ public class DefaultApplicationDao extends AbstractDao<Application, Long>
 
     @Override
     public PagedResult<Application> getApplications(final int offset, final int limit) {
+        Query<Application> query = new Query<Application>(getEntityClass(), Queries.FIND_APPLICATIONS.getQuery(), Collections.<String, Object> emptyMap());
+        PagedSearch<Application> search = new PagedSearch<>(offset, limit, query);
 
-        Queries query = Queries.FIND_APPLICATIONS;
-        PagedSearch pagedSearch = new PagedSearch(offset, limit, query, Collections.<String,Object>emptyMap());
-
-        return search(pagedSearch);
+        return search(search);
     }
 
     @Override
@@ -42,6 +39,6 @@ public class DefaultApplicationDao extends AbstractDao<Application, Long>
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("appId", applicationId);
 
-        return executeSingleResultNamedQuery(Queries.FIND_APPLICATION_BY_ID.getQueryName(), parameters);
+        return executeSingleResultQuery(Queries.FIND_APPLICATION_BY_ID.getQuery(), parameters);
     }
 }

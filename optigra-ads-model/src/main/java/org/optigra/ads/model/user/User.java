@@ -132,7 +132,7 @@ public class User implements Serializable {
 		return applications;
 	}
 
-	public void setApplications(List<Application> applications) {
+	public void setApplications(final List<Application> applications) {
 		this.applications = applications;
 	}
 
@@ -158,7 +158,7 @@ public class User implements Serializable {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -211,12 +211,9 @@ public class User implements Serializable {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", login=" + login + ", password=" + password
-				+ ", role=" + role + ", email=" + email + ", fullName="
-				+ fullName + ", imageUrl=" + imageUrl + ", advertising="
-				+ advertising + ", applications=" + applications + "]";
-	}
-	
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", login=" + login + ", password=" + password + ", role=" + role + ", email=" + email + ", fullName=" + fullName
+                + ", imageUrl=" + imageUrl + "]";
+    }
 }

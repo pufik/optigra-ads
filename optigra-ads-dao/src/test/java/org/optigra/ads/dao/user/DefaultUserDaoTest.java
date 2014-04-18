@@ -2,57 +2,40 @@ package org.optigra.ads.dao.user;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.dao.Query;
 import org.optigra.ads.dao.pagination.PagedResult;
+import org.optigra.ads.dao.pagination.PagedSearch;
+import org.optigra.ads.dao.persistence.PersistenceManager;
 import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.user.User;
 import org.optigra.ads.model.user.UserRole;
-import org.optigra.ads.security.session.Session;
-import org.optigra.ads.security.session.SessionService;
 
 
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultUserDaoTest {
 
-    private static final String TABLE_TOKEN = "$table";
-    private static final String COUNT_QUERY = "SELECT COUNT(*) FROM " + TABLE_TOKEN + " a WHERE a IN(%s) ";
-
     @Captor
     private ArgumentCaptor<User> userCaptor;
 
     @Mock
-    private EntityManager entityManager;
-
-    @Mock
-    private SessionService sessionService;
-
-    @Mock
-    private TypedQuery<User> typedQuery;
-
-    @Mock
-    private TypedQuery<Long> longTypedQuery;
+    private PersistenceManager<User, Long> persistenceManager;
 
     @InjectMocks
     private final DefaultUserDao unit = new DefaultUserDao();
@@ -65,11 +48,11 @@ public class DefaultUserDaoTest {
         expected.setId(userId);
 
         // When
-        when(entityManager.find(Matchers.<Class<User>>any(), anyLong())).thenReturn(expected);
+        when(persistenceManager.findById(User.class, userId)).thenReturn(expected);
         User actual = unit.findById(userId);
 
         // Then
-        verify(entityManager).find(User.class, userId);
+        verify(persistenceManager).findById(User.class, userId);
         assertEquals(expected, actual);
     }
 
@@ -83,9 +66,8 @@ public class DefaultUserDaoTest {
         // When
         unit.create(expected);
 
-        verify(entityManager).persist(userCaptor.capture());
-
         // Then
+        verify(persistenceManager).create(userCaptor.capture());
         assertEquals(expected, userCaptor.getValue());
     }
 
@@ -99,9 +81,8 @@ public class DefaultUserDaoTest {
         // When
         unit.remove(expected);
 
-        verify(entityManager).remove(userCaptor.capture());
-
         // Then
+        verify(persistenceManager).remove(userCaptor.capture());
         assertEquals(expected, userCaptor.getValue());
     }
 
@@ -115,9 +96,8 @@ public class DefaultUserDaoTest {
         // When
         unit.update(expected);
 
-        verify(entityManager).merge(userCaptor.capture());
-
         // Then
+        verify(persistenceManager).update(userCaptor.capture());
         assertEquals(expected, userCaptor.getValue());
     }
 
@@ -129,11 +109,11 @@ public class DefaultUserDaoTest {
         expected.setId(userId);
 
         // When
-        when(entityManager.find(Matchers.<Class<User>>any(), anyLong())).thenReturn(expected);
+        when(persistenceManager.findById(User.class, userId)).thenReturn(expected);
         User actual = unit.getUserById(userId);
 
         // Then
-        verify(entityManager).find(User.class, userId);
+        verify(persistenceManager).findById(User.class, userId);
         assertEquals(expected, actual);
     }
 
@@ -148,16 +128,17 @@ public class DefaultUserDaoTest {
         expected.setLogin(login);
         expected.setPassword(password);
 
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("login", login);
+        parameters.put("password", password);
+        Query<User> query = new Query<User>(User.class, Queries.FIND_USER_BY_LOGIN_AND_PASS.getQuery(), parameters);
+
+        when(persistenceManager.executeQuerySingleResult(query)).thenReturn(expected);
+
         // When
-        when(entityManager.createNamedQuery(anyString(), Matchers.<Class<User>>any())).thenReturn(typedQuery);
-        when(typedQuery.getSingleResult()).thenReturn(expected);
         User actual = unit.getUserByLoginAndPassword(login, password);
 
         // Then
-        verify(entityManager).createNamedQuery(Queries.FIND_USER_BY_LOGIN_AND_PASS.getQueryName(), User.class);
-        verify(typedQuery).setParameter("login", login);
-        verify(typedQuery).setParameter("password", password);
-        verify(typedQuery).getSingleResult();
         assertEquals(expected, actual);
     }
 
@@ -172,7 +153,7 @@ public class DefaultUserDaoTest {
         unit.createUser(user);
 
         // Then
-        verify(entityManager).persist(userCaptor.capture());
+        verify(persistenceManager).create(userCaptor.capture());
 
         assertEquals(user, userCaptor.getValue());
     }
@@ -186,26 +167,20 @@ public class DefaultUserDaoTest {
         User user1 = new User();
         user1.setRole(UserRole.ADMIN);
         List<User> entities = Arrays.asList(user1);
-        PagedResult<User> expected = new PagedResult<User>(offset, limit, count, entities);
+
         Queries query = Queries.FIND_USERS;
-        String querySql = String.format(COUNT_QUERY, query.getQuery()).replace(TABLE_TOKEN, User.class.getSimpleName());
+        Map<String, Object> parameters = Collections.emptyMap();
+        Query<User> jpQuery = new Query<User>(User.class, query.getQuery(), parameters );
+        PagedSearch<User> search = new PagedSearch<>(offset, limit, jpQuery);
+        PagedResult<User> expected = new PagedResult<User>(offset, limit, count, entities);
 
         // When
-        when(entityManager.createQuery(eq(query.getQuery()), Matchers.<Class<User>>any())).thenReturn(typedQuery);
-        when(typedQuery.getResultList()).thenReturn(entities);
-        when(entityManager.createQuery(eq(querySql), Matchers.<Class<Long>>any())).thenReturn(longTypedQuery);
-        when(longTypedQuery.getSingleResult()).thenReturn(count);
-        when(sessionService.getCurrentSession()).thenReturn(new Session(user1));
-
+        when(persistenceManager.search(search)).thenReturn(expected);
         PagedResult<User> actual = unit.getUsers(offset, limit);
 
         // Then
-        verify(entityManager).createQuery(query.getQuery(), User.class);
-        verify(entityManager).createQuery(querySql, Long.class);
-        verify(typedQuery, times(0)).setParameter(anyString(), anyObject());
-        verify(longTypedQuery, times(0)).setParameter(anyString(), anyObject());
-        verify(typedQuery).setFirstResult(offset);
-        verify(typedQuery).setMaxResults(limit);
+        verify(persistenceManager).search(search);
+
         assertEquals(expected, actual);
     }
 }

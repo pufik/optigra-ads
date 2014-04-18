@@ -14,4 +14,9 @@ public class Session {
     public User getUser() {
         return user;
     }
+
+    @Override
+    public String toString() {
+        return "Session [user=" + user + "]";
+    }
 }
