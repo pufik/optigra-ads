@@ -41,7 +41,13 @@ public class UserController extends BaseController {
     @RequestMapping(value = ResourceUri.USER_BY_ID, method = RequestMethod.GET)
     @ResponseBody
     public UserResource getUser(@PathVariable("id") final Long id) {
-        return userFacade.getUserById(id);
+        return userFacade.getUser(id);
+    }
+
+    @RequestMapping(value = ResourceUri.CURRENT, method = RequestMethod.GET)
+    @ResponseBody
+    public UserResource getCurrentUser() {
+    	return userFacade.getCurrentUser();
     }
     
     @RequestMapping(value = ResourceUri.USER_BY_ID ,method = RequestMethod.PUT)

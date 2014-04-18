@@ -8,6 +8,7 @@ import org.optigra.ads.facade.resource.MessageType;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.model.application.ApplicationStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,6 +57,7 @@ public class ApplicationController extends BaseController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ApplicationResource createApplication(@RequestBody final ApplicationResource applicationResource) {
+    	applicationResource.setStatus(ApplicationStatus.PENDING);
         return facade.createApplication(applicationResource);
     }
 

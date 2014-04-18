@@ -1,0 +1,101 @@
+<div id="wrapper">
+
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Optigra Ads</a>
+    </div>
+
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="lhs nav navbar-nav side-nav">
+        <li id="mainlhs" class="menuitem"><a href="#home"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li id="applicationlhs" class="menuitem active"><a href="#applications"><i class="fa fa-user"></i> Applications</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right navbar-user">
+
+        <li class="dropdown user-dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#"><i class="fa fa-user"></i> Profile</a></li>
+            <li><a href="#"><i class="fa fa-gear"></i> Settings</a></li>
+            <li class="divider"></li>
+            <li><a href="logout"><i class="fa fa-power-off"></i> Log Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="page-wrapper">
+	<div class="row">
+		<div class="col-md-8">
+			<form class="edit-application-form">
+				<legend><%= entity ? 'Edit' : 'New' %> Application</legend>
+				
+				<div>
+				   <label>Name</label> 
+				   <input class="form-control" name="name" type="text" value="<%= entity ? entity.get('name') : '' %>">
+				</div>
+
+				<div>
+				   <label>Status</label>
+				   <select class="form-control" name="status">
+				   
+		   			    <% _.each(['PENDING', 'PAID', 'UNPAID'], function(status) { %>
+		   			    	<% if(entity) { %>
+			   			    	<option value="<%=status %>" <%= entity.get('status') == status ? 'selected' : '' %> ><%=status%></option>
+		   			    	<% } else { %>
+			   			    	<option value="<%=status%>"><%=status%></option>
+		   			    	<%}%>
+					    <% }); %>
+
+				   </select> 
+				</div>
+	
+				<div>
+				   <label>Url</label> 
+				   <input class="form-control" name="url" type="text" value="<%= entity ? entity.get('url') : '' %>">
+				</div>
+
+				<div>
+				   <label>Group Id</label> 
+				   <input class="form-control" name="groupId" type="text" value="<%= entity ? entity.get('groupId') : '' %>">
+				</div>
+
+				<div>
+				   <label>Group Name</label> 
+				   <input class="form-control" name="groupName" type="text" value="<%= entity ? entity.get('groupName') : '' %>">
+				</div>
+
+				<br>
+				<div class="row">
+			         <div class="col-md-3">
+	                        Choose File...
+	                        <input type="file" name="file">
+	                 </div>
+			         <div class="col-md-4">
+			         <br>
+	                    <div id="prgDiv" class="progress">
+						  <div id="prgrs" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+						  </div>
+						</div>
+					</div>
+				</div>
+				<br>
+	            <input class="form-control" id="imageUrl" name="imageUrl" type="hidden" value="<%= entity ? entity.get('imageUrl') : '' %>">
+				<button id="saveApplicationBtn" class="btn"><%= entity ? 'Update' : 'Create' %></button>
+				<% if(entity) { %> 
+					<input type="hidden" name="applicationId" value="<%= entity.get('applicationId') %>" />
+					<button id="deleteApplication" data-user-id="<%= entity.get('applicationId') %>" class="btn btn-danger delete">Delete</button>
+				<% }; %>
+			</form>
+		</div>
+	</div>
+  </div>
+</div>

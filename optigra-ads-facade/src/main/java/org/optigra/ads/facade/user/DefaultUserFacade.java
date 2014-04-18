@@ -11,6 +11,7 @@ import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.user.UserDetailsResource;
 import org.optigra.ads.facade.resource.user.UserResource;
 import org.optigra.ads.model.user.User;
+import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.user.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,15 +36,27 @@ public class DefaultUserFacade implements UserFacade {
     
     @Resource(name = "pagedSearchConverter")
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
+
+    @Resource(name = "sessionService")
+    private SessionService sessionService;
     
     @Override
-    public UserResource getUserById(final Long id) {
+    public UserResource getUser(final Long id) {
         
         User user = userService.getUserById(id);
         UserResource userResource = userConverter.convert(user);
         
         return userResource;
     }
+    
+	@Override
+	public UserResource getCurrentUser() {
+        
+        User user = sessionService.getCurrentSession().getUser();
+        UserResource userResource = userConverter.convert(user);
+        
+        return userResource;
+	}
 
     @Override
     public UserResource createUser(final UserDetailsResource userResource) {
@@ -58,13 +71,11 @@ public class DefaultUserFacade implements UserFacade {
 		userDetailsResourceConverter.convert(userResource, user);
 		userService.update(user);
 	}
-
     
     @Override
     public PagedResultResource<UserResource> getUsers(final int offset, final int limit) {
         
         PagedResult<User> pagedResult = userService.getUsers(offset, limit);
-        
         List<UserResource> userResources = userConverter.convertAll(pagedResult.getEntities());
         
         PagedResultResource<UserResource> pagedResultResource = new PagedResultResource<>(ResourceUri.USER);

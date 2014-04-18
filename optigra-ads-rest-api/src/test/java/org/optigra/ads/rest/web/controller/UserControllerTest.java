@@ -66,7 +66,7 @@ public class UserControllerTest extends AbstractControllerTest {
         expectedResource.setLogin(login);
 
         // When
-        when(userFacade.getUserById(anyLong())).thenReturn(expectedResource);
+        when(userFacade.getUser(anyLong())).thenReturn(expectedResource);
         
         // Then
         mockMvc.perform(get(ResourceUri.USER + ResourceUri.SLASH + "{id}", userId))

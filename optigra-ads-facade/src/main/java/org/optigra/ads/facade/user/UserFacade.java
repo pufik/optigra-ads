@@ -17,9 +17,15 @@ public interface UserFacade {
      * @date Feb 13, 2014
      * @author ivanursul
      * @param id
-     * @return
+     * @return user resource
      */
-    UserResource getUserById(Long id);
+    UserResource getUser(Long id);
+
+    /**
+     * Gets current user from session
+     * @return user resource
+     */
+    UserResource getCurrentUser();
 
     /**
      * Method for creating new user.

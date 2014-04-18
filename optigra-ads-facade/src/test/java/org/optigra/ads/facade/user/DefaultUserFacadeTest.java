@@ -25,6 +25,8 @@ import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.user.UserDetailsResource;
 import org.optigra.ads.facade.resource.user.UserResource;
 import org.optigra.ads.model.user.User;
+import org.optigra.ads.security.session.Session;
+import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.user.UserService;
 
 /**
@@ -54,8 +56,14 @@ public class DefaultUserFacadeTest {
     private UserService userService;
     
     @Mock
+    private SessionService sessionService;
+    
+    @Mock
     private Converter<User, UserResource> userConverter;
     
+    @Mock
+    private Session session;
+
     @InjectMocks
     private DefaultUserFacade unit = new DefaultUserFacade();
     
@@ -71,13 +79,38 @@ public class DefaultUserFacadeTest {
         when(userService.getUserById(anyLong())).thenReturn(user);
         when(userConverter.convert(any(User.class))).thenReturn(expected);
         
-        UserResource actual = unit.getUserById(userId);
+        UserResource actual = unit.getUser(userId);
         
         // Then
         verify(userService).getUserById(userId);
         verify(userConverter).convert(user);
         
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetCurrentUser() {
+    	// Given
+    	Long userId = 1L;
+    	
+    	User user = new User();
+    	user.setId(userId);
+    	
+    	UserResource expected = new UserResource();
+
+    	// When
+    	when(sessionService.getCurrentSession()).thenReturn(session);
+    	when(session.getUser()).thenReturn(user);
+    	when(userConverter.convert(any(User.class))).thenReturn(expected);
+    	
+    	UserResource actual = unit.getCurrentUser();
+    	
+    	// Then
+    	verify(sessionService).getCurrentSession();
+    	verify(session).getUser();
+    	verify(userConverter).convert(user);
+    	
+    	assertEquals(expected, actual);
     }
     
     @Test
