@@ -24,4 +24,9 @@
 	
 	<bean id="defaultAuthenticationProvider" class="org.optigra.ads.security.DefaultAuthenticationProvider" />
 	
+	<!-- Permission resolvers -->
+	<alias name="emptyPermissionResolver" alias="ownerPermission" />
+	<alias name="emptyPermissionResolver" alias="queryPermission" />
+	<bean id="emptyPermissionResolver" name="emptyPermissionResolver" class="org.optigra.ads.security.permision.impl.EmptyPermission" />
+	
 </beans>

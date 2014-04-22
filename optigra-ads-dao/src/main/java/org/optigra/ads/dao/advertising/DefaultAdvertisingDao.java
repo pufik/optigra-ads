@@ -1,9 +1,9 @@
 package org.optigra.ads.dao.advertising;
 
 import java.util.Collections;
-import java.util.Map;
 
 import org.optigra.ads.dao.AbstractDao;
+import org.optigra.ads.dao.Query;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.pagination.PagedSearch;
 import org.optigra.ads.model.Queries;
@@ -24,10 +24,8 @@ public class DefaultAdvertisingDao extends AbstractDao<Advertising, Long> implem
 
     @Override
     public PagedResult<Advertising> getAdvertisings(final int offset, final int limit) {
-
-        Queries query = Queries.FIND_ADVERTISINGS;
-        Map<String, Object> parameters = Collections.emptyMap();
-        PagedSearch search = new PagedSearch(offset, limit, query, parameters);
+        Query<Advertising> query = new Query<Advertising>(getEntityClass(), Queries.FIND_ADVERTISINGS.getQuery(), Collections.<String, Object> emptyMap());
+        PagedSearch<Advertising> search = new PagedSearch<>(offset, limit, query);
 
         return search(search);
     }
