@@ -20,7 +20,6 @@ define([
 					o[this.name] = this.value || '';
 				}
 			});
-			
 			return o;
 		};
 		
