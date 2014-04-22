@@ -87,7 +87,7 @@
 			        <td><%= entity.groupId %></td>
 			        <td><%= entity.groupName %></td>
 			        <td><%= entity.status %></td>
-			        <td><img src="/optigra-ads-rest-api/api/content<%=entity.imageUrl%>" class="img-circle" width="60px" height="60px" ></td>
+			        <td><img src="<%=entity.imageUrl%>" class="img-circle" width="60px" height="60px" ></td>
 			        <td><a class="btn" href="#/applications/edit/<%=entity.applicationId %>">Edit</a></td>
 			      </tr>
 			    <% }); %>

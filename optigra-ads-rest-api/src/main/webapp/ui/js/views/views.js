@@ -1,6 +1,7 @@
 define([
-        'jquery'
-      ], function($, Spinner){
+        'jquery',
+        'apiutils'
+      ], function($, ApiUtils){
 	
 		var htmlEncode = function(value) {
 			return $('<div/>').text(value).html();
@@ -38,14 +39,15 @@ define([
 				success: function(data, textStatus, jqXHR)
 				{
 					if(typeof data.error === 'undefined') {
-						$("input[name='imageUrl']").val(data.path);
+						var url = ApiUtils.webServiceUrl() + '/content' + data.path;
+						$("input[name='imageUrl']").val(url);
 					} else {
-						console.log('ERRORS: ' + data.error);
+						console.error('ERRORS: ' + data.error);
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown)
 				{
-					console.log('Errors during upload: ' + textStatus);
+					console.error('Errors during upload: ' + textStatus);
 				},
 				xhr: function(){
 					var xhr = $.ajaxSettings.xhr() ;
@@ -54,7 +56,9 @@ define([
 						$("#prgrs").css("width", progress + "%");	
 					} ;
 					xhr.upload.onload = function(){
-						setTimeout(function() {$("#prgrs").css("width", "0%");},1000);
+						setTimeout(function() {
+								$("#prgrs").css("width", "0%");
+							}, 1000);
 					};
 					
 					return xhr ;

@@ -16,6 +16,7 @@ require.config({
     templates: '../templates',
 
     settings: 'settings/pre-settings',
+    apiutils: 'settings/apiutils',
     security: 'libs/settings/security',
 
     ui: 'ui/ui'
