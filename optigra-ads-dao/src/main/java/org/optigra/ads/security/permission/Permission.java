@@ -1,4 +1,4 @@
-package org.optigra.ads.security.permision;
+package org.optigra.ads.security.permission;
 
 /**
  * Permission check

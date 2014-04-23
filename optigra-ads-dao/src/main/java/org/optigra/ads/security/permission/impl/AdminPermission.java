@@ -1,8 +1,8 @@
-package org.optigra.ads.security.permision.impl;
+package org.optigra.ads.security.permission.impl;
 
 import org.optigra.ads.model.user.User;
 import org.optigra.ads.model.user.UserRole;
-import org.optigra.ads.security.permision.Permission;
+import org.optigra.ads.security.permission.Permission;
 
 /**
  * Administrator permission check

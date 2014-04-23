@@ -1,4 +1,4 @@
-package org.optigra.ads.security.permision.impl;
+package org.optigra.ads.security.permission.impl;
 
 import org.optigra.ads.dao.Query;
 import org.optigra.ads.security.session.Session;

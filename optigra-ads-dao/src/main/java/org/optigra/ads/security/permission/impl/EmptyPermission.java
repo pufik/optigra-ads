@@ -1,6 +1,6 @@
-package org.optigra.ads.security.permision.impl;
+package org.optigra.ads.security.permission.impl;
 
-import org.optigra.ads.security.permision.Permission;
+import org.optigra.ads.security.permission.Permission;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

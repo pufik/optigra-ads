@@ -1,8 +1,8 @@
-package org.optigra.ads.security.permision.impl;
+package org.optigra.ads.security.permission.impl;
 
 import org.optigra.ads.model.Model;
 import org.optigra.ads.model.user.User;
-import org.optigra.ads.security.permision.Permission;
+import org.optigra.ads.security.permission.Permission;
 
 /**
  * Entity owner permission check
