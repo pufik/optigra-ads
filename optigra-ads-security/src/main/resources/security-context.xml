@@ -25,8 +25,34 @@
 	<bean id="defaultAuthenticationProvider" class="org.optigra.ads.security.DefaultAuthenticationProvider" />
 	
 	<!-- Permission resolvers -->
-	<alias name="emptyPermissionResolver" alias="ownerPermission" />
-	<alias name="emptyPermissionResolver" alias="queryPermission" />
-	<bean id="emptyPermissionResolver" name="emptyPermissionResolver" class="org.optigra.ads.security.permission.impl.EmptyPermission" />
+	<alias name="ownerAdminPermissionResolver" alias="ownerPermission" />
+	<alias name="queryAdminPermissionResolver" alias="queryPermission" />
 	
+	<bean id="ownerAdminPermissionResolver" name="ownerAdminPermissionResolver" class="org.optigra.ads.security.permission.impl.AdminPermission">
+		<property name="nextPermision">
+			<bean class="org.optigra.ads.security.permission.impl.UserEntityPermission">
+				<property name="nextPermision">
+					<bean class="org.optigra.ads.security.permission.impl.OwnerPermission">
+						<property name="nextPermision">
+							<bean class="org.optigra.ads.security.permission.impl.DeniedPermission" />
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="queryAdminPermissionResolver" name="queryAdminPermissionResolver" class="org.optigra.ads.security.permission.impl.AdminPermission">
+		<property name="nextPermision">
+			<bean class="org.optigra.ads.security.permission.impl.AuthenticateUserPermission">
+				<property name="nextPermision">
+					<bean class="org.optigra.ads.security.permission.impl.UserEntityEnhancementPermission">
+						<property name="nextPermision">
+							<bean class="org.optigra.ads.security.permission.impl.EntityOwnerEnhancementPermision" />
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
 </beans>

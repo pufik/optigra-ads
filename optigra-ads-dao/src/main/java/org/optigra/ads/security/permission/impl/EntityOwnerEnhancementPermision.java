@@ -1,5 +1,8 @@
 package org.optigra.ads.security.permission.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.optigra.ads.dao.Query;
 import org.optigra.ads.model.Model;
 import org.optigra.ads.model.user.User;
@@ -17,9 +20,12 @@ public class EntityOwnerEnhancementPermision<T extends Model> implements Permiss
         User currentUser = context.getSession().getUser();
 
         String updatedQuery = getEnhancedQuery(originalQuery, query.getEntityClass());
-
         query.setQuery(updatedQuery);
-        query.getParameters().put(OWNER, currentUser);
+
+        Map<String, Object> parameters = new HashMap<String, Object>(context.getQuery().getParameters());
+        parameters.put(OWNER, currentUser);
+        query.setParameters(parameters);
+
         context.setQuery(query);
     }
 

@@ -1,10 +1,8 @@
 package org.optigra.ads.security.permission.impl;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +19,7 @@ import org.optigra.ads.security.permission.Permission;
 import org.optigra.ads.security.session.Session;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserEntityPermisionTest {
+public class UserEntityPermissionTest {
 
     @Mock
     private Permission<PermissionContext<?>> nextPermision;
@@ -30,9 +28,9 @@ public class UserEntityPermisionTest {
     private final UserEntityPermission unit = new UserEntityPermission();
 
     @Test
-    public void testCheck() throws Exception {
+    public void testCheckWhenUserEntity() throws Exception {
         // Given
-        String jpQuery = "SELECT u FROM User u";
+        String jpQuery = "QUERY";
         Map<String, Object> parameters = new HashMap<String, Object>();
         User user = new User();
         user.setRole(UserRole.ADMIN);
@@ -42,23 +40,17 @@ public class UserEntityPermisionTest {
         context.setSession(session);
         context.setQuery(query);
 
-        String expectedJpQuery = "SELECT u FROM User u WHERE u IN(SELECT u FROM User u) AND u = :user";
-        Map<String, Object> expectedParameters = Collections.<String, Object> singletonMap("user", user);
-        Query<User> expectedQuery = new Query<User>(User.class, expectedJpQuery, expectedParameters);
-
         // When
         unit.check(context);
-        Query<User> actualQuery = context.getQuery();
 
         // Then
-        assertEquals(expectedQuery, actualQuery);
         verifyZeroInteractions(nextPermision);
     }
 
     @Test
-    public void testCheckNextPermission() throws Exception {
+    public void testCheckWhenNotUserEntity() throws Exception {
         // Given
-        String jpQuery = "SELECT u FROM User u";
+        String jpQuery = "QUERY";
         Map<String, Object> parameters = new HashMap<String, Object>();
         User user = new User();
         user.setRole(UserRole.ADMIN);

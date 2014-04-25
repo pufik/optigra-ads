@@ -49,17 +49,17 @@ public class UserController extends BaseController {
     public UserResource getCurrentUser() {
     	return userFacade.getCurrentUser();
     }
-    
+
     @RequestMapping(value = ResourceUri.USER_BY_ID ,method = RequestMethod.PUT)
     @ResponseBody
-    public MessageResource updateUser(@PathVariable("id") Long userId, @Valid @RequestBody final UserDetailsResource userResource) {
+    public MessageResource updateUser(@PathVariable("id") final Long userId, @Valid @RequestBody final UserDetailsResource userResource) {
     	userFacade.updateUser(userId, userResource);
     	return new MessageResource(MessageType.INFO, "User updated");
     }
 
     @RequestMapping(value = ResourceUri.USER_BY_ID ,method = RequestMethod.DELETE)
     @ResponseBody
-    public MessageResource deleteUser(@PathVariable("id") Long userId) {
+    public MessageResource deleteUser(@PathVariable("id") final Long userId) {
     	userFacade.deleteUser(userId);
     	return new MessageResource(MessageType.INFO, "User deleted");
     }
@@ -69,5 +69,5 @@ public class UserController extends BaseController {
     public UserResource createUser(@Valid @RequestBody final UserDetailsResource userResource) {
         return userFacade.createUser(userResource);
     }
-    
+
 }

@@ -15,10 +15,14 @@ import org.optigra.ads.security.permission.Permission;
 import org.optigra.ads.security.permission.impl.PermissionContext;
 import org.optigra.ads.security.session.Session;
 import org.optigra.ads.security.session.SessionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository("persistenceManager")
 public class SecuredPersistenceManager<T, I> implements PersistenceManager<T, I> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecuredPersistenceManager.class);
 
     private static final String COUNT_QUERY = "SELECT COUNT(*) FROM %s a WHERE a IN(%s) ";
 
@@ -45,6 +49,8 @@ public class SecuredPersistenceManager<T, I> implements PersistenceManager<T, I>
 
         PermissionContext<T> context = new PermissionContext<>(getSession(), entity);
 
+        LOG.info(String.format("Check permission for entity [%s] with permission context [%s] ", entity, context));
+
         ownerPermision.check(context);
 
         return entity;
@@ -53,6 +59,8 @@ public class SecuredPersistenceManager<T, I> implements PersistenceManager<T, I>
     @Override
     public void update(final T entity) {
         PermissionContext<T> context = new PermissionContext<>(getSession(), entity);
+
+        LOG.info(String.format("Check permission for entity [%s] with permission context [%s] ", entity, context));
 
         ownerPermision.check(context);
 
@@ -63,6 +71,8 @@ public class SecuredPersistenceManager<T, I> implements PersistenceManager<T, I>
     public void remove(final T entity) {
         PermissionContext<T> context = new PermissionContext<>(getSession(), entity);
 
+        LOG.info(String.format("Check permission for entity [%s] with permission context [%s] ", entity, context));
+
         ownerPermision.check(context);
 
         entityManager.remove(entity);
@@ -72,6 +82,8 @@ public class SecuredPersistenceManager<T, I> implements PersistenceManager<T, I>
     @Override
     public T executeQuerySingleResult(final Query<T> query) {
         PermissionContext<T> context = new PermissionContext<>(getSession(), query);
+
+        LOG.info(String.format("Check permission for query [%s] with permission context [%s] ", query, context));
 
         queryPermision.check(context);
 
@@ -84,6 +96,9 @@ public class SecuredPersistenceManager<T, I> implements PersistenceManager<T, I>
     @Override
     public List<T> executeQuery(final Query<T> query) {
         PermissionContext<T> context = new PermissionContext<>(getSession(), query);
+
+        LOG.info(String.format("Check permission for query [%s] with permission context [%s] ", query, context));
+
         queryPermision.check(context);
 
         Query<T> finalQuery = context.getQuery();
@@ -95,6 +110,8 @@ public class SecuredPersistenceManager<T, I> implements PersistenceManager<T, I>
     @Override
     public PagedResult<T> search(final PagedSearch<T> searchRequest) {
         PermissionContext<T> context = new PermissionContext<>(getSession(), searchRequest.getQuery());
+
+        LOG.info(String.format("Check permission for search [%s] with permission context [%s] ", searchRequest, context));
 
         queryPermision.check(context);
 
@@ -121,6 +138,8 @@ public class SecuredPersistenceManager<T, I> implements PersistenceManager<T, I>
 
     private <M> TypedQuery<M> createQuery(final String querySql, final Map<String, Object> parameters, final Class<M> clazz) {
         TypedQuery<M> typedQuery = entityManager.createQuery(querySql, clazz);
+
+        LOG.info(String.format("Create JPQL: query=[%s]; parameters=[%s] ", querySql, parameters));
 
         for (String key : parameters.keySet()) {
             typedQuery.setParameter(key, parameters.get(key));
