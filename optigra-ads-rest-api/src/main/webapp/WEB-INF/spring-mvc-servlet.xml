@@ -14,7 +14,7 @@
 	<context:property-placeholder properties-ref="applicationConfiguration"/>
 	
 	<mvc:annotation-driven>
-		<mvc:message-converters register-defaults="false">
+		<mvc:message-converters register-defaults="true">
 			<ref bean="jacksonMessageConverter" />
 		</mvc:message-converters>
 	</mvc:annotation-driven>
