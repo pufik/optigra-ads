@@ -2,9 +2,9 @@ package org.optigra.ads.dao.persistence;
 
 import java.util.List;
 
-import org.optigra.ads.dao.Query;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.pagination.PagedSearch;
+import org.optigra.ads.model.query.Query;
 
 /**
  * Persistence manager.

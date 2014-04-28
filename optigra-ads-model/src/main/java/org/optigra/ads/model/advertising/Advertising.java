@@ -7,7 +7,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.optigra.ads.model.Model;
-import org.optigra.ads.model.Queries;
+import org.optigra.ads.model.query.Queries;
 
 /**
  * @date Feb 18, 2014

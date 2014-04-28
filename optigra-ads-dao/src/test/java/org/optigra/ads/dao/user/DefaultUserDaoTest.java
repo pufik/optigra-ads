@@ -18,11 +18,11 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.dao.Query;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.pagination.PagedSearch;
 import org.optigra.ads.dao.persistence.PersistenceManager;
-import org.optigra.ads.model.Queries;
+import org.optigra.ads.model.query.Queries;
+import org.optigra.ads.model.query.Query;
 import org.optigra.ads.model.user.User;
 import org.optigra.ads.model.user.UserRole;
 
