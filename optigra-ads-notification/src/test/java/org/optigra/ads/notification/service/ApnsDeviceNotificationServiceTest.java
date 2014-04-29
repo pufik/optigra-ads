@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.model.device.ApnsNotifiableDevice;
+import org.optigra.ads.apns.model.device.ApnsNotifiableDevice;
 
 import com.notnoop.apns.APNS;
 import com.notnoop.apns.ApnsService;

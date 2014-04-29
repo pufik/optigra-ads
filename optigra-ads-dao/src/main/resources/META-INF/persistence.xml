@@ -6,6 +6,9 @@
         <class>org.optigra.ads.model.user.User</class>
         <class>org.optigra.ads.model.application.Application</class>
         <class>org.optigra.ads.model.advertising.Advertising</class>
+        <class>org.optigra.ads.model.device.Device</class>
+        <class>org.optigra.ads.model.device.DeviceApplication</class>
+        <class>org.optigra.ads.model.device.DeviceAction</class>
         
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

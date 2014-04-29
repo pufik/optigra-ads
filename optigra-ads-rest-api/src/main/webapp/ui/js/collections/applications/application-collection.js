@@ -4,10 +4,10 @@ define([
   'backbone',
   
   'models/applications/application-model'
-], function($, _, Backbone, ProjectModel){
+], function($, _, Backbone, Model){
   var ProjectsCollection = Backbone.Collection.extend({
 	url:'/api/application',
-    model: ProjectModel,
+    model: Model,
     
     initialize: function(){
 

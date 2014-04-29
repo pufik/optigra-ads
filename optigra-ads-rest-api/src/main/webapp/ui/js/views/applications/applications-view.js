@@ -27,8 +27,6 @@ define([
 					count: data[0].count
 				};
 				
-				console.log(model);
-				
 				var rendered = _.template(ApplicationListTemplate, model);
 				
 				that.$el.children().remove();

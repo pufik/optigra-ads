@@ -16,7 +16,7 @@ define([
 	    
 	    events: {
 	      'click #saveApplicationBtn': 'saveApplication',
-	      'click #deleteApplication': 'deleteApplication',
+	      'click #deleteApplicationBtn': 'deleteApplication',
 	      'change input[type=file]': 'uploadFile'
 	    },
 	    

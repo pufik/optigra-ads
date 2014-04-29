@@ -1,4 +1,5 @@
-package org.optigra.ads.model.device;
+package org.optigra.ads.apns.model.device;
+
 
 public class ApnsNotifiableDevice implements Device{
 	

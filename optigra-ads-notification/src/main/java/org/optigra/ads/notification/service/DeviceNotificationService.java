@@ -1,6 +1,6 @@
 package org.optigra.ads.notification.service;
 
-import org.optigra.ads.model.device.Device;
+import org.optigra.ads.apns.model.device.Device;
 
 public interface DeviceNotificationService<T extends Device> {
 	

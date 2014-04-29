@@ -50,6 +50,9 @@ public class DefaultUserFacadeTest {
     private Converter<UserDetailsResource, User> userDetailsResourceConverter;
     
     @Mock
+    private Converter<UserDetailsResource, User> putUserDetailsResourceConverter;
+    
+    @Mock
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
     
     @Mock
@@ -187,7 +190,7 @@ public class DefaultUserFacadeTest {
     	unit.updateUser(userId, userResource);
 
 		// Then
-    	verify(userDetailsResourceConverter).convert(userResource, user);
+    	verify(putUserDetailsResourceConverter).convert(userResource, user);
     	verify(userService).update(user);
 	}
     

@@ -33,6 +33,9 @@ public class DefaultUserFacade implements UserFacade {
 
     @Resource(name = "userDetailsResourceConverter")
     private Converter<UserDetailsResource, User> userDetailsResourceConverter;
+
+    @Resource(name = "putUserDetailsResourceConverter")
+    private Converter<UserDetailsResource, User> putUserDetailsResourceConverter;
     
     @Resource(name = "pagedSearchConverter")
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
@@ -68,7 +71,7 @@ public class DefaultUserFacade implements UserFacade {
 	@Override
 	public void updateUser(Long userId, UserDetailsResource userResource) {
 		User user = userService.getUserById(userId);
-		userDetailsResourceConverter.convert(userResource, user);
+		putUserDetailsResourceConverter.convert(userResource, user);
 		userService.update(user);
 	}
     

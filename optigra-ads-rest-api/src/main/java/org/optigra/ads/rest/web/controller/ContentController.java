@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class ContentController {
+public class ContentController extends BaseController {
 
     @Resource(name = "contentFacade")
     private ContentFacade contentFacade;
