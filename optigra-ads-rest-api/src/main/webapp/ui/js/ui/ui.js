@@ -22,7 +22,6 @@ define([
 			};
 
 	var progressBar = function(element) {
-		
 		var target = document.getElementById(element);
 		if(target !== null) {
 			target.innerHTML = "<div class=\"modal-body\" ><div style=\"height:400px\"><span id=\"searching_spinner_center\" style=\"position: absolute;display: block;top: 50%;left: 50%;\"></span></div></div>";
