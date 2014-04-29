@@ -15,5 +15,4 @@ public enum ContentStrategy {
     public String getPath() {
         return path;
     }
-    
 }
