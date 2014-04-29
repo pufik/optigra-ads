@@ -1,6 +1,6 @@
 package org.optigra.ads.dao.pagination;
 
-import org.optigra.ads.dao.Query;
+import org.optigra.ads.model.query.Query;
 
 /**
  * Class for paged queries.

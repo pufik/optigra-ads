@@ -17,6 +17,7 @@ repositories {
 
 dependencies {
     compile project(':optigra-ads-model')
+    compile project(':optigra-ads-security')
 
     compile 'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final'
 }

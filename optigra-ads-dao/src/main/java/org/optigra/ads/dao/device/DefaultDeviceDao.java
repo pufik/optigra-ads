@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.optigra.ads.dao.AbstractDao;
-import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.device.Device;
+import org.optigra.ads.model.query.Queries;
 import org.springframework.stereotype.Repository;
 
 @Repository("deviceDao")

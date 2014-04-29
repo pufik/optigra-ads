@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.pagination.PagedSearch;
 import org.optigra.ads.dao.persistence.PersistenceManager;
+import org.optigra.ads.model.query.Query;
 
 /**
  * Abstract Dao class, that will be responsible for basic operations.

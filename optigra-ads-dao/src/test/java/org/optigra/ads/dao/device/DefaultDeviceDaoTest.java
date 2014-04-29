@@ -13,10 +13,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.dao.Query;
 import org.optigra.ads.dao.persistence.PersistenceManager;
-import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.device.Device;
+import org.optigra.ads.model.query.Queries;
+import org.optigra.ads.model.query.Query;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultDeviceDaoTest {

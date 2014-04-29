@@ -9,7 +9,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.optigra.ads.model.Model;
-import org.optigra.ads.model.Queries;
+import org.optigra.ads.model.query.Queries;
 
 /**
  * Application entity.

@@ -18,9 +18,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.optigra.ads.model.Queries;
 import org.optigra.ads.model.advertising.Advertising;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.query.Queries;
 
 /**
  * User entity.

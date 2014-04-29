@@ -16,7 +16,6 @@ repositories {
 }
 
 dependencies {
-    compile project(':optigra-ads-service')
     compile project(':optigra-ads-model')
 
     testCompile group: 'junit', name: 'junit', version: '4.+'
