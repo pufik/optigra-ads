@@ -57,7 +57,7 @@ public class ApplicationController extends BaseController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ApplicationResource createApplication(@RequestBody final ApplicationResource applicationResource) {
-    	applicationResource.setStatus(ApplicationStatus.PENDING);
+    	applicationResource.setStatus(ApplicationStatus.UNPAID);
         return facade.createApplication(applicationResource);
     }
 

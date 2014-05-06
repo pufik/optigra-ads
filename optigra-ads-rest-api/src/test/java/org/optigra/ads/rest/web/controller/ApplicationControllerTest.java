@@ -71,15 +71,15 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         String url = "url";
         resource.setName(name);
         resource.setApplicationId(applicationId);
-        resource.setStatus(ApplicationStatus.PENDING);
+        resource.setStatus(ApplicationStatus.UNPAID);
         resource.setUrl(url);
-        
+
         // When
         when(facade.createApplication(any(ApplicationResource.class))).thenReturn(resource);
-        
+
         String request = getJson(resource, true);
         String response = getJson(resource, false);
-        
+
         // Then
         mockMvc.perform(post(ResourceUri.APPLICATION)
                 .content(request)
@@ -179,7 +179,7 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         verify(facade).deleteApplication(stringCaptor.capture());
         assertEquals(applicationId, stringCaptor.getValue());
     }
-    
+
     @Test
     public void testUpdateApplication() throws Exception {
         // Given
@@ -189,7 +189,7 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         String imageUrl = "imageUrl";
         String name = "name";
         String url = "url";
-        
+
         ApplicationResource applicationResource = new ApplicationResource();
         applicationResource.setApplicationId(applicationId);
         applicationResource.setGroupId(groupId);
@@ -203,12 +203,12 @@ public class ApplicationControllerTest extends AbstractControllerTest {
 
         // Then
         String request = getJson(applicationResource, true);
-        
+
         mockMvc.perform(put("/application/{appId}", applicationId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(request))
             .andExpect(status().isOk());
-        
+
         verify(facade).updateApplication(eq(applicationId), applicationCaptor.capture());
         assertEquals(applicationResource, applicationCaptor.getValue());
     }
