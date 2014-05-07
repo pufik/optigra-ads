@@ -8,5 +8,6 @@ include ':optigra-ads-security'
 include ':optigra-ads-rest-api'
 include ':optigra-ads-notification'
 include ':optigra-ads-integration'
+include ':optigra-ads-mailing'
 
 include ':optigra-ads-database'

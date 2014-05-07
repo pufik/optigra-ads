@@ -39,16 +39,16 @@ public class DefaultUserFacade implements UserFacade {
     
     @Resource(name = "pagedSearchConverter")
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
-
+    
     @Resource(name = "sessionService")
     private SessionService sessionService;
     
     @Override
     public UserResource getUser(final Long id) {
-        
-        User user = userService.getUserById(id);
+    	
+    	User user = userService.getUserById(id);
         UserResource userResource = userConverter.convert(user);
-        
+
         return userResource;
     }
     

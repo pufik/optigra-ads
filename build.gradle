@@ -61,7 +61,9 @@ subprojects {
         }
         
         compile 'commons-fileupload:commons-fileupload:1.2.2'
+        compile 'org.apache.commons:commons-lang3:3.0'
         compile 'org.tuckey:urlrewritefilter:3.2.0'
+        
     }
 
     jar {

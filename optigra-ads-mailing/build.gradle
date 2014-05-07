@@ -7,7 +7,7 @@ version = '1.0'
 
 jar {
     manifest {
-        attributes 'optigra': 'ads', 'facade': version
+        attributes 'optigra': 'ads', 'mailing': version
     }
 }
 
@@ -16,10 +16,10 @@ repositories {
 }
 
 dependencies {
-    compile project(':optigra-ads-common')
-    compile project(':optigra-ads-service')
+	compile project(':optigra-ads-model')
 
-    testCompile group: 'junit', name: 'junit', version: '4.+'
+	compile 'javax.mail:mail:1.4.1'
+	compile 'com.github.jknack:handlebars:1.3.1'
 }
 
 test {

@@ -38,7 +38,7 @@ public class DefaultApplicationFacade implements ApplicationFacade {
 
     @Resource(name = "sessionService")
     private SessionService sessionService;
-
+    
     @Override
     public ApplicationResource createApplication(final ApplicationResource applicationResource) {
 

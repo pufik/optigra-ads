@@ -18,6 +18,7 @@ public interface UserFacade {
      * @author ivanursul
      * @param id
      * @return user resource
+     * @throws Exception 
      */
     UserResource getUser(Long id);
 
