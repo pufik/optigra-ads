@@ -5,6 +5,8 @@ import org.optigra.ads.model.device.Device;
 
 public interface DeviceDao extends Dao<Device, Long> {
 
-	Device getDeviceByUid(String deviceUid);
+    Device getDeviceByUid(String deviceUid);
+
+    Device getDeviceByUidAndAplication(String deviceUid, String application);
 
 }

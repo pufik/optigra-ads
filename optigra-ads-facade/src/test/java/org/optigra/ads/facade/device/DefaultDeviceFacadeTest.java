@@ -25,119 +25,147 @@ import org.optigra.ads.service.device.DeviceService;
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultDeviceFacadeTest {
 
-	@Mock
-	private Converter<DeviceResource, Device> deviceResourceConverter;
-	
-	@Mock
-	private Converter<Device, DeviceResource> deviceConverter;
-	
-	@Mock
-	private DeviceService deviceService;
-	
-	@Mock
+    @Mock
+    private Converter<DeviceResource, Device> deviceResourceConverter;
+
+    @Mock
+    private Converter<Device, DeviceResource> deviceConverter;
+
+    @Mock
+    private DeviceService deviceService;
+
+    @Mock
     private SessionService sessionService;
-	
-	@InjectMocks
-	private DefaultDeviceFacade unit = new DefaultDeviceFacade();
-	
-	@Test
-	public void testCreateDevice() throws Exception {
-		// Given
-		String deviceToken = "device token";
-		String deviceUid = "new device token";
-		
-		DeviceResource deviceResource = new DeviceResource();
-		deviceResource.setDeviceToken(deviceToken);
-		deviceResource.setDeviceUid(deviceUid);
 
-		User owner = new User();
-		Date createDate = Calendar.getInstance().getTime();
-		Date updateDate = Calendar.getInstance().getTime();
+    @InjectMocks
+    private final DefaultDeviceFacade unit = new DefaultDeviceFacade();
 
-		Device device = new Device();
-		device.setCreateDate(createDate);
-		device.setDeviceToken(deviceToken);
-		device.setDeviceUid(deviceUid);
-		device.setOwner(owner);
-		device.setUpdateDate(updateDate);
-		
-		// When
-		when(sessionService.getCurrentSession()).thenReturn(new Session(owner));
-		when(deviceResourceConverter.convert(any(DeviceResource.class))).thenReturn(device);
-		
-		unit.createDevice(deviceResource);
+    @Test
+    public void testCreateDevice() throws Exception {
+        // Given
+        String deviceToken = "device token";
+        String deviceUid = "new device token";
 
-		// Then
-		verify(deviceService).createDevice(device);
-	}
-	
-	@Test
-	public void testUpdateDevice() throws Exception {
-		// Given
-		String deviceToken = "device token";
-		String deviceUid = "new device token";
-		
-		DeviceResource deviceResource = new DeviceResource();
-		deviceResource.setDeviceToken(deviceToken);
-		deviceResource.setDeviceUid(deviceUid);
+        DeviceResource deviceResource = new DeviceResource();
+        deviceResource.setDeviceToken(deviceToken);
+        deviceResource.setDeviceUid(deviceUid);
 
-		User owner = new User();
-		Date createDate = Calendar.getInstance().getTime();
-		Date updateDate = Calendar.getInstance().getTime();
+        User owner = new User();
+        Date createDate = Calendar.getInstance().getTime();
+        Date updateDate = Calendar.getInstance().getTime();
 
-		Device device = new Device();
-		device.setCreateDate(createDate);
-		device.setDeviceToken(deviceToken);
-		device.setDeviceUid(deviceUid);
-		device.setOwner(owner);
-		device.setUpdateDate(updateDate);
-		
-		// When
-		when(deviceService.getDeviceByUid(anyString())).thenReturn(device);
-		
-		unit.updateDevice(deviceUid, deviceResource);
+        Device device = new Device();
+        device.setCreateDate(createDate);
+        device.setDeviceToken(deviceToken);
+        device.setDeviceUid(deviceUid);
+        device.setOwner(owner);
+        device.setUpdateDate(updateDate);
 
-		// Then
-		verify(deviceResourceConverter).convert(deviceResource, device);
-		verify(deviceService).updateDevice(device);
-	}
-	
-	@Test
-	public void testDeleteDevice() throws Exception {
-		// Given
-		String deviceUid = "deviceUid";
+        // When
+        when(sessionService.getCurrentSession()).thenReturn(new Session(owner));
+        when(deviceResourceConverter.convert(any(DeviceResource.class))).thenReturn(device);
 
-		// When
-		unit.deleteDevice(deviceUid);
+        unit.createDevice(deviceResource);
 
-		// Then
-		verify(deviceService).deleteDevice(deviceUid);
-	}
-	
-	@Test
-	public void testGetDevice() throws Exception {
-		// Given
-		String deviceUid = "deviceUid";
-		String deviceToken = "deviceToken";
+        // Then
+        verify(deviceService).createDevice(device);
+    }
 
-		Device device = new Device();
-		device.setDeviceToken(deviceToken);
-		device.setDeviceUid(deviceUid);
+    @Test
+    public void testUpdateDevice() throws Exception {
+        // Given
+        String deviceToken = "device token";
+        String deviceUid = "new device token";
 
-		DeviceResource expected = new DeviceResource();
-		expected.setDeviceToken(deviceToken);
-		expected.setDeviceUid(deviceUid);
-		
-		// When
-		when(deviceService.getDeviceByUid(anyString())).thenReturn(device);
-		when(deviceConverter.convert(any(Device.class))).thenReturn(expected);
-		
-		DeviceResource actual = unit.getDevice(deviceUid);
+        DeviceResource deviceResource = new DeviceResource();
+        deviceResource.setDeviceToken(deviceToken);
+        deviceResource.setDeviceUid(deviceUid);
 
-		// Then
-		verify(deviceService).getDeviceByUid(deviceUid);
-		verify(deviceConverter).convert(device);
-		
-		assertEquals(expected, actual);
-	}
+        User owner = new User();
+        Date createDate = Calendar.getInstance().getTime();
+        Date updateDate = Calendar.getInstance().getTime();
+
+        Device device = new Device();
+        device.setCreateDate(createDate);
+        device.setDeviceToken(deviceToken);
+        device.setDeviceUid(deviceUid);
+        device.setOwner(owner);
+        device.setUpdateDate(updateDate);
+
+        // When
+        when(deviceService.getDeviceByUid(anyString())).thenReturn(device);
+
+        unit.updateDevice(deviceUid, deviceResource);
+
+        // Then
+        verify(deviceResourceConverter).convert(deviceResource, device);
+        verify(deviceService).updateDevice(device);
+    }
+
+    @Test
+    public void testDeleteDevice() throws Exception {
+        // Given
+        String deviceUid = "deviceUid";
+
+        // When
+        unit.deleteDevice(deviceUid);
+
+        // Then
+        verify(deviceService).deleteDevice(deviceUid);
+    }
+
+    @Test
+    public void testGetDevice() throws Exception {
+        // Given
+        String deviceUid = "deviceUid";
+        String deviceToken = "deviceToken";
+
+        Device device = new Device();
+        device.setDeviceToken(deviceToken);
+        device.setDeviceUid(deviceUid);
+
+        DeviceResource expected = new DeviceResource();
+        expected.setDeviceToken(deviceToken);
+        expected.setDeviceUid(deviceUid);
+
+        // When
+        when(deviceService.getDeviceByUid(anyString())).thenReturn(device);
+        when(deviceConverter.convert(any(Device.class))).thenReturn(expected);
+
+        DeviceResource actual = unit.getDevice(deviceUid);
+
+        // Then
+        verify(deviceService).getDeviceByUid(deviceUid);
+        verify(deviceConverter).convert(device);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testGetDeviceByUidAndApplicationId() throws Exception {
+        // Given
+        String deviceUid = "deviceUid";
+        String deviceToken = "deviceToken";
+        String applicationId = "deviceUid";
+
+        Device device = new Device();
+        device.setDeviceToken(deviceToken);
+        device.setDeviceUid(deviceUid);
+
+        DeviceResource expected = new DeviceResource();
+        expected.setDeviceToken(deviceToken);
+        expected.setDeviceUid(deviceUid);
+
+        // When
+        when(deviceService.getDeviceByUidAndApplicationId(anyString(), anyString())).thenReturn(device);
+        when(deviceConverter.convert(any(Device.class))).thenReturn(expected);
+
+        DeviceResource actual = unit.getDeviceByUidAndApplication(deviceUid, applicationId);
+
+        // Then
+        verify(deviceService).getDeviceByUidAndApplicationId(deviceUid, applicationId);
+        verify(deviceConverter).convert(device);
+
+        assertEquals(expected, actual);
+    }
 }

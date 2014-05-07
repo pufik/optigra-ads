@@ -5,9 +5,11 @@ import javax.annotation.Resource;
 import org.optigra.ads.messaging.model.Email;
 import org.optigra.ads.messaging.sender.EmailSenderAdapter;
 import org.optigra.ads.messaging.template.TemplateProvider;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service("mailService")
+@Async
 public class DefaultMailService implements MailService {
 
 	@Resource(name = "templateProvider")

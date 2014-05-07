@@ -44,7 +44,7 @@
 	
 	<bean id="queryAdminPermissionResolver" name="queryAdminPermissionResolver" class="org.optigra.ads.security.permission.impl.AdminPermission">
 		<property name="nextPermision">
-			<bean class="org.optigra.ads.security.permission.impl.AuthenticateUserPermission">
+			<bean class="org.optigra.ads.security.permission.impl.TransperentQueryPermission">
 				<property name="nextPermision">
 					<bean class="org.optigra.ads.security.permission.impl.UserEntityEnhancementPermission">
 						<property name="nextPermision">

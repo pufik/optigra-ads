@@ -69,45 +69,119 @@
         	onUpdate="CASCADE"
         />
     </changeSet>
-    
-    <changeSet id="createAdvertisingTable" author="Iurii Parfeniuk">
-        <createTable tableName="advertising">
-            <column name="entity_id" type="bigint" autoIncrement="true">
+   
+    <changeSet id="createDeviceTable" author="Ivan Ursul">
+        <createTable tableName="device">
+            <column name="entity_id" type="bigint" autoIncrement="true" >
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="owner_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="title" type="varchar(255)">
-            	<constraints nullable="false"/>
-            </column>
-            <column name="description" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="destination_url" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="logo_url" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="image_url" type="varchar(255)" >
-                <constraints nullable="false"/>
-            </column>
-            <column name="create_date" type="TIMESTAMP">
+    		<column name="create_date" type="TIMESTAMP">
     			<constraints nullable="false"/>
     		</column>
     		<column name="update_date" type="TIMESTAMP">
     			<constraints nullable="false"/>
     		</column>
+
+            <column name="device_uid" type="varchar(255)">
+            	<constraints nullable="false" unique="true"/>
+            </column>
+            <column name="device_token" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
-       
-       <!-- Foreign constraints --> 
+        
+        <!-- Foreign constraints -->
         <addForeignKeyConstraint
-        	constraintName="advertising_user_fk" 
-        	baseTableName="advertising" baseColumnNames="owner_id"  
+        	constraintName="device_user_fk"
+        	baseTableName="device" baseColumnNames="owner_id"
         	referencedTableName="c_user" referencedColumnNames="user_id"
         	onDelete="CASCADE"
-        	onUpdate="CASCADE"
-        />
+        	onUpdate="CASCADE" />
+    </changeSet>
+
+    <changeSet id="createDeviceApplicationTable" author="Ivan Ursul">
+        <createTable tableName="device_application">
+            <column name="entity_id" type="bigint" autoIncrement="true" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>  		
+            <column name="device_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="application_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>            
+        </createTable>
+        
+        <!-- Foreign constraints -->
+        <addForeignKeyConstraint
+        	constraintName="deviceapplication_application_fk"
+        	baseTableName="device_application" baseColumnNames="application_id"
+        	referencedTableName="application" referencedColumnNames="entity_id"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE" />
+
+        <addForeignKeyConstraint
+        	constraintName="deviceapplication_device_fk"
+        	baseTableName="device_application" baseColumnNames="device_id"
+        	referencedTableName="device" referencedColumnNames="entity_id"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE" />
+    </changeSet>
+
+    <changeSet id="createDeviceActionTable" author="Ivan Ursul">
+        <createTable tableName="device_action">
+            <column name="entity_id" type="bigint" autoIncrement="true" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="owner_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+    		<column name="update_date" type="TIMESTAMP">
+    			<constraints nullable="false"/>
+    		</column>            
+    		<column name="create_date" type="TIMESTAMP">
+    			<constraints nullable="false"/>
+    		</column>
+            <column name="device_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="application_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="from_view" type="varchar(255)">
+            	<constraints nullable="false" />
+            </column>
+            <column name="to_view" type="varchar(255)">
+            	<constraints nullable="false" />
+            </column>                                    
+            <column name="count" type="int">
+            	<constraints nullable="false" />
+            </column>                                    
+        </createTable>
+        
+        <!-- Foreign constraints -->
+        <addForeignKeyConstraint
+        	constraintName="deviceaction_user_fk"
+        	baseTableName="device_action" baseColumnNames="owner_id"
+        	referencedTableName="c_user" referencedColumnNames="user_id"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE" />
+        	
+        <addForeignKeyConstraint
+        	constraintName="deviceaction_application_fk"
+        	baseTableName="device_action" baseColumnNames="application_id"
+        	referencedTableName="application" referencedColumnNames="entity_id"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE" />
+
+        <addForeignKeyConstraint
+        	constraintName="deviceaction_device_fk"
+        	baseTableName="device_action" baseColumnNames="device_id"
+        	referencedTableName="device" referencedColumnNames="entity_id"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE" />
     </changeSet>
 </databaseChangeLog>

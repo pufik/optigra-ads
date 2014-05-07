@@ -14,5 +14,12 @@
         	<column name="role" value="ADMIN" />
         </insert>
     </changeSet>
+    <changeSet id="insertAnonymous" author="Iurii Parfeniuk">
+        <insert tableName="c_user" schemaName="public">
+        	<column name="login" value="anonymous" />
+        	<column name="password" value="" />
+        	<column name="role" value="ANONYMOUS" />
+        </insert>
+    </changeSet>
     
 </databaseChangeLog>

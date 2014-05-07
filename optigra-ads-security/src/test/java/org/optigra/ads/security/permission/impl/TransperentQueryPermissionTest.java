@@ -16,13 +16,13 @@ import org.optigra.ads.model.user.User;
 import org.optigra.ads.security.permission.Permission;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AuthenticateUserPermissionTest {
+public class TransperentQueryPermissionTest {
 
     @Mock
     private Permission<PermissionContext<?>> nextPermision;
 
     @InjectMocks
-    private final AuthenticateUserPermission unit = new AuthenticateUserPermission();
+    private final TransperentQueryPermission unit = new TransperentQueryPermission();
 
     @Test
     public void testCheck() throws Exception {
@@ -41,7 +41,7 @@ public class AuthenticateUserPermissionTest {
     @Test
     public void testCheckWhenNextPermission() throws Exception {
         // Given
-        Query<User> query = new Query<User>(User.class, Queries.FIND_ADVERTISINGS_QUERY, Collections.<String, Object> emptyMap());
+        Query<User> query = new Query<User>(User.class, Queries.FIND_APPLICATIONS_QUERY, Collections.<String, Object> emptyMap());
         PermissionContext<User> context = new PermissionContext<>();
         context.setQuery(query);
 

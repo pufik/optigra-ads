@@ -1,5 +1,8 @@
 package org.optigra.ads.security.permission.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.optigra.ads.model.query.Queries;
 import org.optigra.ads.security.permission.Permission;
 
@@ -9,13 +12,20 @@ import org.optigra.ads.security.permission.Permission;
  * @date Apr 23, 2014
  * @author Iurii Parfeniuk
  */
-public class AuthenticateUserPermission implements Permission<PermissionContext<?>> {
+public class TransperentQueryPermission implements Permission<PermissionContext<?>> {
 
     private Permission<PermissionContext<?>> nextPermision;
 
+    private static final Set<String> transperentQueries;
+    static {
+        transperentQueries = new HashSet<>();
+        transperentQueries.add(Queries.FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY);
+        transperentQueries.add(Queries.FIND_DEVICE_BY_UID_AND_APPLICATION_QUERY);
+    }
+
     @Override
     public void check(final PermissionContext<?> context) {
-        if (!Queries.FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY.equals(context.getQuery().getQuery())) {
+        if (!transperentQueries.contains(context.getQuery().getQuery())) {
             nextPermision.check(context);
         }
     }

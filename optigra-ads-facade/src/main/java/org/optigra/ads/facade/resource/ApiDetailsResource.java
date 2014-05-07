@@ -29,7 +29,7 @@ public final class ApiDetailsResource extends Resource {
     public ApiDetailsResource() {
         super();
         this.version = API_VERSION;
-        this.resources = Arrays.asList(ResourceUri.ADVERTISING, ResourceUri.APPLICATION, ResourceUri.USER);
+        this.resources = Arrays.asList(ResourceUri.APPLICATION, ResourceUri.USER, ResourceUri.DEVICE);
         this.description = OPTIGRA_ADS_REST_API;
     }
 

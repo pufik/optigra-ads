@@ -81,6 +81,7 @@ public class PagedResult<E> {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(final Object obj) {
         if (this == obj)
@@ -89,7 +90,7 @@ public class PagedResult<E> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        PagedResult other = (PagedResult) obj;
+        PagedResult<E> other = (PagedResult<E>) obj;
         if (count != other.count)
             return false;
         if (entities == null) {
