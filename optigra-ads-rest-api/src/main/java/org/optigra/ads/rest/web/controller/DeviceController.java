@@ -41,10 +41,10 @@ public class DeviceController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public MessageResource createDevice(@RequestBody final DeviceResource deviceResource) {
-        deviceFacade.createDevice(deviceResource);
+    public DeviceResource createDevice(@RequestBody final DeviceResource deviceResource) {
+        LOG.info(String.format("Create device request: %s", deviceResource));
 
-        return new MessageResource(MessageType.INFO, "Device created");
+        return deviceFacade.createDevice(deviceResource);
     }
 
     @RequestMapping(value = ResourceUri.ID, method = RequestMethod.PUT)

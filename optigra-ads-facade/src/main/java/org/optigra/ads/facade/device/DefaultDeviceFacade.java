@@ -33,12 +33,14 @@ public class DefaultDeviceFacade implements DeviceFacade {
     private SessionService sessionService;
 
 	@Override
-	public void createDevice(final DeviceResource deviceResource) {
+	public DeviceResource createDevice(final DeviceResource deviceResource) {
 		Device device = deviceResourceConverter.convert(deviceResource);
 		device.setOwner(sessionService.getCurrentSession().getUser());
 		device.setCreateDate(new Date());
 
 		deviceService.createDevice(device);
+
+		return deviceConverter.convert(device);
 	}
 
 	@Override

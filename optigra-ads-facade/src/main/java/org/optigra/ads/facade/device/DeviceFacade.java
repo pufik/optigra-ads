@@ -4,7 +4,7 @@ import org.optigra.ads.facade.resource.device.DeviceResource;
 
 public interface DeviceFacade {
 
-    void createDevice(DeviceResource deviceResource);
+    DeviceResource createDevice(DeviceResource deviceResource);
 
     void updateDevice(String deviceUid, DeviceResource deviceResource);
 

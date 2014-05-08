@@ -24,7 +24,9 @@ class DeviceFlowScenario extends Simulation {
 			.basicAuth("admin", "admin")
 			.body("""{"deviceToken":"${deviceToken}","deviceUid":"${deviceUid}"}""")
 			.asJSON
-			.check(status.is(200)))
+			.check(status.is(200))
+			.check(jsonPath("$.deviceUid").find.is("${deviceUid}"))
+			.check(jsonPath("$.deviceToken").find.is("${deviceToken}")))
 	.pause(500 milliseconds, 2 seconds)
     	.exec(
       		http("Get device")
