@@ -28,6 +28,9 @@ public class DefaultUserFacade implements UserFacade {
     @Resource(name = "userService")
     private UserService userService;
     
+    @Resource(name = "sessionService")
+    private SessionService sessionService;
+
     @Resource(name = "userConverter")
     private Converter<User, UserResource> userConverter;
 
@@ -39,9 +42,6 @@ public class DefaultUserFacade implements UserFacade {
     
     @Resource(name = "pagedSearchConverter")
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
-    
-    @Resource(name = "sessionService")
-    private SessionService sessionService;
     
     @Override
     public UserResource getUser(final Long id) {

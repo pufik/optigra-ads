@@ -33,7 +33,7 @@ public class DefaultMailServiceTest {
 	private DefaultMailService unit = new DefaultMailService();
 	
 	@Test
-	public void testSend() throws Exception {
+	public void testSend() {
 		// Given
 		String emailAddress = "simple.mail@gmail.com";
 		Recipient recipient = new Recipient();
@@ -53,7 +53,7 @@ public class DefaultMailServiceTest {
 	}
 	
 	@Test
-	public void testSendWithTemplate() throws Exception {
+	public void testSendWithTemplate() {
 		// Given
 		String emailAddress = "simple.mail@gmail.com";
 		Recipient recipient = new Recipient();

@@ -18,5 +18,5 @@ public interface MailService {
 	 * @param data
 	 * @throws Exception 
 	 */
-	<T> void send(Email email, String templateId, T data) throws Exception;
+	void send(Email email, String templateId, Object data);
 }

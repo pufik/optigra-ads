@@ -1,7 +1,10 @@
 package org.optigra.ads.messaging.template;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
 
+import org.optigra.ads.messagin.exception.MailException;
 import org.springframework.stereotype.Component;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -14,9 +17,16 @@ public class DefaultTemplateProvider implements TemplateProvider {
 	private Handlebars handlebars;
 	
 	@Override
-	public <T> String process(String templateId, T data) throws Exception {
-		Template template = handlebars.compile(templateId);
-		return template.apply(data);
+	public String process(String templateId, Object data) {
+		String renderedTemplate;
+		try {
+			Template template = handlebars.compile(templateId);
+			renderedTemplate = template.apply(data);
+		} catch (IOException e) {
+			throw new MailException();
+		}
+		
+		return renderedTemplate;
 	}
 
 }
