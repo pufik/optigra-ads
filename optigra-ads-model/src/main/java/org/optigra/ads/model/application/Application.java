@@ -1,15 +1,21 @@
 package org.optigra.ads.model.application;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.optigra.ads.model.Model;
-import org.optigra.ads.model.query.Queries;
+import org.optigra.ads.model.device.Device;
+import org.optigra.ads.model.device.DeviceAction;
 
 /**
  * Application entity.
@@ -19,8 +25,6 @@ import org.optigra.ads.model.query.Queries;
  */
 @Entity
 @Table(name = "application")
-@NamedQueries({ @NamedQuery(name = Queries.FIND_APPLICATIONS_QUERY_NAME, query = Queries.FIND_APPLICATIONS_QUERY),
-        @NamedQuery(name = Queries.FIND_APPLICATION_BY_ID_QUERY_NAME, query = Queries.FIND_APPLICATION_BY_ID_QUERY) })
 public class Application extends Model {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +49,12 @@ public class Application extends Model {
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    @ManyToMany(mappedBy = "applications", fetch = FetchType.LAZY)
+    private List<Device> devices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DeviceAction> actions = new ArrayList<>();
 
     public String getApplicationId() {
         return applicationId;
@@ -100,6 +110,22 @@ public class Application extends Model {
 
     public void setImageUrl(final String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public List<Device> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(final List<Device> devices) {
+        this.devices = devices;
+    }
+
+    public List<DeviceAction> getActions() {
+        return actions;
+    }
+
+    public void setActions(final List<DeviceAction> actions) {
+        this.actions = actions;
     }
 
     @Override

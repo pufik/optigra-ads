@@ -13,14 +13,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.optigra.ads.model.advertising.Advertising;
 import org.optigra.ads.model.application.Application;
-import org.optigra.ads.model.query.Queries;
 
 /**
  * User entity.
@@ -29,10 +25,9 @@ import org.optigra.ads.model.query.Queries;
  */
 @Entity
 @Table(name = "c_user")
-@NamedQueries({ @NamedQuery(name = Queries.FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY_NAME, query = Queries.FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY),
-        @NamedQuery(name = Queries.FIND_USERS_QUERY_NAME, query = Queries.FIND_USERS_QUERY) })
 public class User implements Serializable {
-    private static final long serialVersionUID = 4388457091152861411L;
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,9 +52,6 @@ public class User implements Serializable {
 
     @Column(name = "image_url")
     private String imageUrl;
-
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Advertising> advertising = new ArrayList<>();
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Application> applications = new ArrayList<>();
@@ -120,21 +112,13 @@ public class User implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public List<Advertising> getAdvertising() {
-        return advertising;
-    }
-
-    public void setAdvertising(final List<Advertising> advertising) {
-        this.advertising = advertising;
-    }
-
     public List<Application> getApplications() {
-		return applications;
-	}
+        return applications;
+    }
 
-	public void setApplications(final List<Application> applications) {
-		this.applications = applications;
-	}
+    public void setApplications(final List<Application> applications) {
+        this.applications = applications;
+    }
 
     @Override
     public int hashCode() {
