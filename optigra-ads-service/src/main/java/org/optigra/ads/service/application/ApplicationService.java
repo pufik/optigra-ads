@@ -1,7 +1,7 @@
 package org.optigra.ads.service.application;
 
-import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.pagination.PagedResult;
 
 /**
  * Service interface for facade layer.

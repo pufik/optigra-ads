@@ -17,10 +17,10 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.dao.pagination.PagedResult;
-import org.optigra.ads.dao.pagination.PagedSearch;
 import org.optigra.ads.dao.persistence.PersistenceManager;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.pagination.PagedResult;
+import org.optigra.ads.model.pagination.PagedSearch;
 import org.optigra.ads.model.query.Queries;
 import org.optigra.ads.model.query.Query;
 

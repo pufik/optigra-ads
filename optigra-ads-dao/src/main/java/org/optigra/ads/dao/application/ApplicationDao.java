@@ -1,8 +1,8 @@
 package org.optigra.ads.dao.application;
 
 import org.optigra.ads.dao.Dao;
-import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.pagination.PagedResult;
 
 /**
  * @date Feb 12, 2014
@@ -28,4 +28,5 @@ public interface ApplicationDao extends Dao<Application, Long> {
      * @return application
      */
     Application getApplicationById(String applicationId);
+    
 }

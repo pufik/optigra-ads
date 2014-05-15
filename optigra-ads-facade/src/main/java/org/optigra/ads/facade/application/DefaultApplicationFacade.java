@@ -5,14 +5,17 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.optigra.ads.dao.pagination.PagedResult;
+import org.optigra.ads.apns.model.notification.Notification;
 import org.optigra.ads.facade.converter.Converter;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.notification.NotificationResource;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.application.ApplicationService;
+import org.optigra.ads.service.notification.NotificationService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +35,15 @@ public class DefaultApplicationFacade implements ApplicationFacade {
 
     @Resource(name = "applicationConverter")
     private Converter<Application, ApplicationResource> applicationConverter;
+    
+    @Resource(name = "notificationResourceConverter")
+    private Converter<NotificationResource, Notification> notificationResourceConverter;
 
     @Resource(name = "applicationService")
     private ApplicationService applicationService;
+    
+    @Resource(name = "notificationService")
+    private NotificationService notificationService;
 
     @Resource(name = "sessionService")
     private SessionService sessionService;
@@ -99,4 +108,12 @@ public class DefaultApplicationFacade implements ApplicationFacade {
 
         applicationService.updateApplication(application);
     }
+
+	@Override
+	public void sendApnsMessage(String applicationId, NotificationResource notificationResource) {
+		Notification notification = notificationResourceConverter.convert(notificationResource);
+		Application application = applicationService.getApplication(applicationId);
+		
+		notificationService.send(application,  notification);
+	}
 }

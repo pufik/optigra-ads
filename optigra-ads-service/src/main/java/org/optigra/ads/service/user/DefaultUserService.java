@@ -2,8 +2,8 @@ package org.optigra.ads.service.user;
 
 import javax.annotation.Resource;
 
-import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.user.UserDao;
+import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

@@ -5,8 +5,8 @@ import java.util.UUID;
 import javax.annotation.Resource;
 
 import org.optigra.ads.dao.application.ApplicationDao;
-import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.pagination.PagedResult;
 import org.springframework.stereotype.Service;
 
 /**

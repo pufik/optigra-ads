@@ -19,6 +19,8 @@ dependencies {
     compile project(':optigra-ads-dao')
     compile project(':optigra-ads-content')
     compile project(':optigra-ads-common')
+    compile project(':optigra-ads-common')
+    compile project(':optigra-ads-notification')
     
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }

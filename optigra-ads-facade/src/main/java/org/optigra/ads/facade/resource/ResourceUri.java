@@ -35,6 +35,8 @@ public final class ResourceUri {
 
     public static final String CURRENT = SLASH + "current";
 
+	public static final String APPLICATION_NOTIFICATION = APPLICATION_BY_ID + SLASH + "notification";
+
     /**
      * Default constructor.
      *

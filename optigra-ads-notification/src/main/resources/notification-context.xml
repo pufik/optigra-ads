@@ -8,10 +8,10 @@
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
 	">
 
-	<context:component-scan base-package="org.optigra.ads.service.notification" />
+	<context:component-scan base-package="org.optigra.ads.notification" />
 
 	<bean name="apnsServiceFactoryBean" class="org.optigra.ads.notification.bean.ApnsServiceFactoryBean">
-		<property name="certificate" value="apns_cert.p12" />
+		<property name="certificateResource" value="classpath:apns_cert.p12" />
 		<property name="certificatePassword" value="cert_pass" />
 	</bean>
 </beans>

@@ -1,7 +1,7 @@
 package org.optigra.ads.dao.user;
 
 import org.optigra.ads.dao.Dao;
-import org.optigra.ads.dao.pagination.PagedResult;
+import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
 
 

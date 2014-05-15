@@ -1,4 +1,4 @@
-package org.optigra.ads.dao.pagination;
+package org.optigra.ads.model.pagination;
 
 import java.util.List;
 

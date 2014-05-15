@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.optigra.ads.dao.AbstractDao;
-import org.optigra.ads.dao.pagination.PagedResult;
-import org.optigra.ads.dao.pagination.PagedSearch;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.pagination.PagedResult;
+import org.optigra.ads.model.pagination.PagedSearch;
 import org.optigra.ads.model.query.Queries;
 import org.optigra.ads.model.query.Query;
 import org.springframework.stereotype.Repository;

@@ -17,9 +17,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.optigra.ads.dao.application.ApplicationDao;
-import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.model.application.ApplicationStatus;
+import org.optigra.ads.model.pagination.PagedResult;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultApplicationServiceTest {

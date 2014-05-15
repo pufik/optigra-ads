@@ -1,7 +1,6 @@
 package org.optigra.ads.notification.bean;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -16,13 +15,6 @@ public class ApnsServiceFactoryBeanTest {
 	@Before
 	public void setUp() {
 		unit = new ApnsServiceFactoryBean(); 
-	}
-	
-	@Test
-	public void testGetObject() throws Exception {
-		unit.setCertificate("apns_cert.p12");
-		unit.setCertificatePassword("cert_pass");
-		assertNotNull(unit.getObject());
 	}
 	
 	@Test

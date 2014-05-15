@@ -2,6 +2,7 @@ package org.optigra.ads.facade.application;
 
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.notification.NotificationResource;
 
 /**
  * Facade layer for Application Domain Set.
@@ -71,4 +72,6 @@ public interface ApplicationFacade {
      * @param applicationResource
      */
     void updateApplication(String applicationId, ApplicationResource applicationResource);
+
+	void sendApnsMessage(String applicationId, NotificationResource notificationResource);
 }

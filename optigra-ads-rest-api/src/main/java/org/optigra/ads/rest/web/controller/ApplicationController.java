@@ -8,7 +8,10 @@ import org.optigra.ads.facade.resource.MessageType;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.notification.NotificationResource;
 import org.optigra.ads.model.application.ApplicationStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(value = ResourceUri.APPLICATION)
 public class ApplicationController extends BaseController {
-
+	private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
+	
     @Resource(name = "applicationFacade")
     private ApplicationFacade facade;
 
@@ -34,7 +38,6 @@ public class ApplicationController extends BaseController {
     @ResponseBody
     public PagedResultResource<ApplicationResource> getApplications(@RequestParam(value = "offset", defaultValue = "0") final int offset,
             @RequestParam(value = "limit", defaultValue = "20") final int limit) {
-
         return facade.getApplications(offset, limit);
     }
 
@@ -77,5 +80,15 @@ public class ApplicationController extends BaseController {
         facade.deleteApplication(applicationId);
 
         return new MessageResource(MessageType.INFO, "Application deleted");
+    }
+
+    @RequestMapping(value = ResourceUri.APPLICATION_NOTIFICATION, method = RequestMethod.POST)
+    @ResponseBody
+    public MessageResource sendApnsMessage(@PathVariable("appId") final String applicationId,
+    		@RequestBody NotificationResource resource) {
+    	logger.info("Sending application: {} to Application with Id: {}", resource, applicationId);
+    	
+    	facade.sendApnsMessage(applicationId, resource);
+    	return new MessageResource(MessageType.INFO, "Messages are going to be sent");
     }
 }

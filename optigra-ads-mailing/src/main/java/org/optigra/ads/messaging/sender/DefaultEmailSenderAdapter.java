@@ -21,15 +21,17 @@ import org.springframework.util.Assert;
 
 @Component("emailSenderAdapter")
 public class DefaultEmailSenderAdapter implements EmailSenderAdapter {
-
 	private static final Logger LOG = LoggerFactory.getLogger(DefaultEmailSenderAdapter.class);
+
+	private static final String EXCEPTION_MESSAGE = "Exception occurs during email sending";
+
 	
 	@Resource(name = "mailSender")
 	private JavaMailSender mailSender;
 	
 	@Override
 	public void send(Email email) {
-		Assert.notNull(mailSender, "Email object cannot be null");
+		Assert.notNull(email, "Email object cannot be null");
 		LOG.info(MessageFormat.format("Sending mail: {0}", email));
 		
 		MimeMessage message = mailSender.createMimeMessage();
@@ -44,8 +46,8 @@ public class DefaultEmailSenderAdapter implements EmailSenderAdapter {
 		
 			mailSender.send(message);
 		} catch (MessagingException e) {
-			LOG.error("Exception occurs during email sending", e);
-			throw new MailException();
+			LOG.error(EXCEPTION_MESSAGE, e);
+			throw new MailException(EXCEPTION_MESSAGE, e);
 		}
 		
 	}
@@ -59,5 +61,5 @@ public class DefaultEmailSenderAdapter implements EmailSenderAdapter {
 		
 		return set.toArray(new String[set.size()]);
 	}
-	
+ 
 }

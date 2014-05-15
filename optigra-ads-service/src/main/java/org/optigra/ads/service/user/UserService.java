@@ -1,6 +1,6 @@
 package org.optigra.ads.service.user;
 
-import org.optigra.ads.dao.pagination.PagedResult;
+import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
 
 /**

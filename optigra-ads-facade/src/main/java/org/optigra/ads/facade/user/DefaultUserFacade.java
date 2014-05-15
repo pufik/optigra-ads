@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.facade.converter.Converter;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.user.UserDetailsResource;
 import org.optigra.ads.facade.resource.user.UserResource;
+import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
 import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.user.UserService;

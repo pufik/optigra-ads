@@ -31,6 +31,7 @@ import org.optigra.ads.facade.resource.MessageType;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.notification.NotificationResource;
 import org.optigra.ads.model.application.ApplicationStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -212,4 +213,29 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         verify(facade).updateApplication(eq(applicationId), applicationCaptor.capture());
         assertEquals(applicationResource, applicationCaptor.getValue());
     }
+    
+    @Test
+	public void testSendApnsMessage() throws Exception {
+		// Given
+    	String applicationId = "appId";
+    	String message = "some messaage";
+    	String title = "title";
+    	NotificationResource notificationResource = new NotificationResource();
+		notificationResource.setMessage(message);
+		notificationResource.setTitle(title);
+    	
+		MessageResource messageResource = new MessageResource(MessageType.INFO, "Messages are going to be sent");
+    	// When
+		String request = getJson(notificationResource, true);
+		String response = getJson(messageResource, false);
+		
+		// Then
+    	mockMvc.perform(post("/application/{appId}/notification", applicationId)
+    			.contentType(MediaType.APPLICATION_JSON)
+    			.content(request))
+    		.andExpect(status().isOk())
+    		.andExpect(content().string(response));
+    		
+    	verify(facade).sendApnsMessage(applicationId, notificationResource);
+	}
 }

@@ -1,37 +1,42 @@
 package org.optigra.ads.notification.bean;
 
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.core.io.Resource;
 
 import com.notnoop.apns.APNS;
 import com.notnoop.apns.ApnsService;
 
 public class ApnsServiceFactoryBean implements FactoryBean<ApnsService> {
 
-	private String certificate;
-	
+	private Resource certificateResource;
+
 	private String certificatePassword;
 	
+	@Override
 	public ApnsService getObject() throws Exception {
 		return APNS
 			.newService()
 			.withCert(
-				Thread.currentThread().getContextClassLoader().getResource(certificate).getPath(),
+					certificateResource.getInputStream(),
 					certificatePassword).withSandboxDestination().build();
 	}
 
+	@Override
 	public Class<? extends ApnsService> getObjectType() {
 		return ApnsService.class;
 	}
 
+	@Override
 	public boolean isSingleton() {
 		return true;
-	}
-
-	public void setCertificate(String certificate) {
-		this.certificate = certificate;
 	}
 
 	public void setCertificatePassword(String certificatePassword) {
 		this.certificatePassword = certificatePassword;
 	}
+
+	public void setCertificateResource(Resource certificateResource) {
+		this.certificateResource = certificateResource;
+	}
+	
 }

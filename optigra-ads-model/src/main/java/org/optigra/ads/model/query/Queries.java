@@ -24,6 +24,7 @@ public class Queries {
 
     public static final String FIND_DEVICE_BY_UID_AND_APPLICATION_QUERY_NAME = "Device.findDeviceByUidAndApplication";
     public static final String FIND_DEVICE_BY_UID_AND_APPLICATION_QUERY = "SELECT device FROM Device device JOIN device.applications application WHERE device.deviceUid = :deviceUid AND application.applicationId = :applicationId";
+    public static final String FIND_DEVICES_FROM_APPLICATION = "SELECT d FROM Application a JOIN a.devices d WHERE a=:application";
 
     // Queries
     public static final Queries FIND_USER_BY_LOGIN_AND_PASS = new Queries(FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY_NAME, FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY);

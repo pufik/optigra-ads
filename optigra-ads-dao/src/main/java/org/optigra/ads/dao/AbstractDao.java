@@ -4,9 +4,9 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.optigra.ads.dao.pagination.PagedResult;
-import org.optigra.ads.dao.pagination.PagedSearch;
 import org.optigra.ads.dao.persistence.PersistenceManager;
+import org.optigra.ads.model.pagination.PagedResult;
+import org.optigra.ads.model.pagination.PagedSearch;
 import org.optigra.ads.model.query.Query;
 
 /**

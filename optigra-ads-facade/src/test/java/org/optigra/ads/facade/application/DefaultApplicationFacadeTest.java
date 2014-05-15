@@ -19,18 +19,21 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.dao.pagination.PagedResult;
+import org.optigra.ads.apns.model.notification.Notification;
 import org.optigra.ads.facade.converter.Converter;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.Resource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.notification.NotificationResource;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.model.application.ApplicationStatus;
+import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
 import org.optigra.ads.security.session.Session;
 import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.application.ApplicationService;
+import org.optigra.ads.service.notification.NotificationService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultApplicationFacadeTest {
@@ -56,9 +59,15 @@ public class DefaultApplicationFacadeTest {
 
     @Mock
     private Converter<ApplicationResource, Application> applicationResourceConverter;
+    
+    @Mock
+    private Converter<NotificationResource, Notification> notificationResourceConverter;
 
     @Mock
     private ApplicationService applicationService;
+    
+    @Mock
+    private NotificationService notificationService;
 
     @Mock
     private SessionService sessionService;
@@ -223,4 +232,34 @@ public class DefaultApplicationFacadeTest {
         verify(applicationService).updateApplication(applicationCaptor.capture());
         assertEquals(application, applicationCaptor.getValue());
     }
+    
+    @Test
+	public void testSendApnsMessage() throws Exception {
+		// Given
+    	String applicationId = "appId";
+    	String message = "Message";
+    	String title = "title";
+    	
+    	NotificationResource notificationResource = new NotificationResource();
+		notificationResource.setMessage(message);
+		notificationResource.setTitle(title);
+
+		Notification notification = new Notification();
+		notification.setMessage(message);
+		notification.setTitle(title);
+
+		Application application = new Application();
+		application.setApplicationId(applicationId);
+		
+		// When
+		when(notificationResourceConverter.convert(any(NotificationResource.class))).thenReturn(notification);
+		when(applicationService.getApplication(anyString())).thenReturn(application);
+		
+    	unit.sendApnsMessage(applicationId, notificationResource);
+
+		// Then
+    	verify(applicationService).getApplication(applicationId);
+    	verify(notificationResourceConverter).convert(notificationResource);
+    	verify(notificationService).send(application, notification);
+	}
 }

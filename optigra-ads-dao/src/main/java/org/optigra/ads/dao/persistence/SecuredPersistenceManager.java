@@ -8,8 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.optigra.ads.dao.pagination.PagedResult;
-import org.optigra.ads.dao.pagination.PagedSearch;
+import org.optigra.ads.model.pagination.PagedResult;
+import org.optigra.ads.model.pagination.PagedSearch;
 import org.optigra.ads.model.query.Query;
 import org.optigra.ads.security.permission.Permission;
 import org.optigra.ads.security.permission.impl.PermissionContext;

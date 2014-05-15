@@ -16,8 +16,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.dao.pagination.PagedResult;
 import org.optigra.ads.dao.user.UserDao;
+import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
 import org.optigra.ads.model.user.UserRole;
 

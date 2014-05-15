@@ -13,6 +13,7 @@
 			classpath*:dao-context.xml
 			classpath*:security-context.xml
 			classpath*:content-context.xml
+			classpath*:notification-context.xml
 		</param-value>
 	</context-param>
 	
