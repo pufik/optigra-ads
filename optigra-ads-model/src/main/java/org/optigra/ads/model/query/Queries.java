@@ -26,6 +26,9 @@ public class Queries {
     public static final String FIND_DEVICE_BY_UID_AND_APPLICATION_QUERY = "SELECT device FROM Device device JOIN device.applications application WHERE device.deviceUid = :deviceUid AND application.applicationId = :applicationId";
     public static final String FIND_DEVICES_FROM_APPLICATION = "SELECT d FROM Application a JOIN a.devices d WHERE a=:application";
 
+    public static final String FIND_CERTIFICATE_BY_APPLICATION_QUERY_NAME = "Certificate.findCertificateByApplication";
+    public static final String FIND_CERTIFICATE_BY_APPLICATION_QUERY = "SELECT c FROM Certificate c WHERE c.application=:application";
+
     // Queries
     public static final Queries FIND_USER_BY_LOGIN_AND_PASS = new Queries(FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY_NAME, FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY);
     public static final Queries FIND_APPLICATIONS = new Queries(FIND_APPLICATIONS_QUERY_NAME, FIND_APPLICATIONS_QUERY);
@@ -33,6 +36,7 @@ public class Queries {
     public static final Queries FIND_USERS = new Queries(FIND_USERS_QUERY_NAME, FIND_USERS_QUERY);
     public static final Queries FIND_DEVICE_BY_UID = new Queries(FIND_DEVICE_BY_UID_QUERY_NAME, FIND_DEVICE_BY_UID_QUERY);
     public static final Queries FIND_DEVICE_BY_UID_AND_APPLICATION = new Queries(FIND_DEVICE_BY_UID_AND_APPLICATION_QUERY_NAME, FIND_DEVICE_BY_UID_AND_APPLICATION_QUERY);
+	public static final Queries FIND_CERTIFICATE_BY_APPLICATION = new Queries(FIND_CERTIFICATE_BY_APPLICATION_QUERY_NAME, FIND_CERTIFICATE_BY_APPLICATION_QUERY);
 
     private final String queryName;
     private final String query;

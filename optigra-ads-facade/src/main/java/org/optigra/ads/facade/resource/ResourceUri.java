@@ -37,6 +37,9 @@ public final class ResourceUri {
 
 	public static final String APPLICATION_NOTIFICATION = APPLICATION_BY_ID + SLASH + "notification";
 
+	public static final String CERTIFICATE = APPLICATION_BY_ID + SLASH + "certificate";
+	public static final String CERTIFICATE_BY_ID =  "/{appId:.*}/certificate/{certificateId}";
+
     /**
      * Default constructor.
      *

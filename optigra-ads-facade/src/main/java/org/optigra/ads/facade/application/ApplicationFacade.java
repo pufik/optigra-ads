@@ -2,6 +2,7 @@ package org.optigra.ads.facade.application;
 
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.certificate.CertificateResource;
 import org.optigra.ads.facade.resource.notification.NotificationResource;
 
 /**
@@ -73,5 +74,41 @@ public interface ApplicationFacade {
      */
     void updateApplication(String applicationId, ApplicationResource applicationResource);
 
-	void sendApnsMessage(String applicationId, NotificationResource notificationResource);
+    /**
+     * 
+     * @param applicationId
+     * @param notificationResource
+     */
+	void sendNotificationMessage(String applicationId, NotificationResource notificationResource);
+
+	/**
+	 * Method for creating apns certificate
+	 * @param applicationId
+	 * @param resource
+	 */
+	void createCertificate(String applicationId, CertificateResource resource);
+
+	/**
+	 * Update method for certificates
+	 * @param applicationId
+	 * @param certificateId
+	 * @param resource
+	 */
+	void updateCertificate(String applicationId, Long certificateId, CertificateResource resource);
+
+	/**
+	 * Gets certificate for application
+	 * 
+	 * @param applicationId
+	 * @return
+	 */
+	CertificateResource getCertificate(String applicationId);
+
+	/**
+	 * 
+	 * Method for deleting certificate
+	 * 
+	 * @param applicationId
+	 */
+	void deleteCertificate(String applicationId);
 }

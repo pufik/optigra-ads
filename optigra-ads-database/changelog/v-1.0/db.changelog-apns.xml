@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="createApnsCerificateTable" author="Ivan Ursul">
+        <createTable tableName="apns_certificate">
+            <column name="entity_id" type="bigint" autoIncrement="true" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="owner_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+    		<column name="update_date" type="TIMESTAMP">
+    			<constraints nullable="false"/>
+    		</column>            
+    		<column name="create_date" type="TIMESTAMP">
+    			<constraints nullable="false"/>
+    		</column>
+            <column name="application_id" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="path" type="varchar(255)">
+            	<constraints nullable="false" unique="true" />
+            </column>
+            <column name="password" type="varchar(255)">
+            	<constraints nullable="false" />
+            </column>
+        </createTable> 
+        <!-- Foreign constraints -->
+        <addForeignKeyConstraint
+        	constraintName="apns_certificate_user_fk"
+        	baseTableName="apns_certificate" baseColumnNames="owner_id"
+        	referencedTableName="c_user" referencedColumnNames="user_id"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE" />
+        	
+        <addForeignKeyConstraint
+        	constraintName="apns_certificate_application_fk"
+        	baseTableName="apns_certificate" baseColumnNames="application_id"
+        	referencedTableName="application" referencedColumnNames="entity_id"
+        	onDelete="CASCADE"
+        	onUpdate="CASCADE" />
+        	
+    </changeSet>
+    
+</databaseChangeLog>

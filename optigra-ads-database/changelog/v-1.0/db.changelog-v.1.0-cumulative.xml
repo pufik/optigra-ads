@@ -7,5 +7,6 @@
 
   <include file="db.changelog-bootstrap.xml" relativeToChangelogFile="true"/>
   <include file="db.changelog-bootstrap-data.xml" relativeToChangelogFile="true"/>
+  <include file="db.changelog-apns.xml" relativeToChangelogFile="true"/>
   
 </databaseChangeLog>

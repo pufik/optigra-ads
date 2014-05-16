@@ -1,6 +1,7 @@
 package org.optigra.ads.rest.web.controller;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import org.optigra.ads.facade.application.ApplicationFacade;
 import org.optigra.ads.facade.resource.MessageResource;
@@ -8,6 +9,7 @@ import org.optigra.ads.facade.resource.MessageType;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.certificate.CertificateResource;
 import org.optigra.ads.facade.resource.notification.NotificationResource;
 import org.optigra.ads.model.application.ApplicationStatus;
 import org.slf4j.Logger;
@@ -32,54 +34,41 @@ public class ApplicationController extends BaseController {
 	private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
 	
     @Resource(name = "applicationFacade")
-    private ApplicationFacade facade;
+    private ApplicationFacade applicationFacade;
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public PagedResultResource<ApplicationResource> getApplications(@RequestParam(value = "offset", defaultValue = "0") final int offset,
             @RequestParam(value = "limit", defaultValue = "20") final int limit) {
-        return facade.getApplications(offset, limit);
+        return applicationFacade.getApplications(offset, limit);
     }
 
     @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.GET)
     @ResponseBody
     public ApplicationResource getApplication(@PathVariable("appId") final String applicationId) {
-
-        return facade.getApplication(applicationId);
+        return applicationFacade.getApplication(applicationId);
     }
 
     @RequestMapping(value = ResourceUri.APPLICATION_STATUS, method = RequestMethod.GET)
     @ResponseBody
     public MessageResource getApplicationStatus(@PathVariable("appId") final String applicationId) {
-
-        String status = facade.getApplicationStatus(applicationId);
-
+        String status = applicationFacade.getApplicationStatus(applicationId);
         return new MessageResource(MessageType.INFO, status);
+    }
+    
+    @RequestMapping(value = ResourceUri.CERTIFICATE, method = RequestMethod.GET)
+    @ResponseBody
+    public CertificateResource getCertificate(@PathVariable("appId") String applicationId) {
+    	return applicationFacade.getCertificate(applicationId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public ApplicationResource createApplication(@RequestBody final ApplicationResource applicationResource) {
+    	logger.info("Creating application: {}", applicationResource);
+    	
     	applicationResource.setStatus(ApplicationStatus.UNPAID);
-        return facade.createApplication(applicationResource);
-    }
-
-    @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.PUT)
-    @ResponseBody
-    public MessageResource updateApplication(@PathVariable("appId") final String applicationId, @RequestBody final ApplicationResource applicationResource) {
-
-        facade.updateApplication(applicationId, applicationResource);
-
-        return new MessageResource(MessageType.INFO, "Application Updated");
-    }
-
-    @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.DELETE)
-    @ResponseBody
-    public MessageResource deleteApplication(@PathVariable("appId") final String applicationId) {
-
-        facade.deleteApplication(applicationId);
-
-        return new MessageResource(MessageType.INFO, "Application deleted");
+        return applicationFacade.createApplication(applicationResource);
     }
 
     @RequestMapping(value = ResourceUri.APPLICATION_NOTIFICATION, method = RequestMethod.POST)
@@ -88,7 +77,56 @@ public class ApplicationController extends BaseController {
     		@RequestBody NotificationResource resource) {
     	logger.info("Sending application: {} to Application with Id: {}", resource, applicationId);
     	
-    	facade.sendApnsMessage(applicationId, resource);
+    	applicationFacade.sendNotificationMessage(applicationId, resource);
     	return new MessageResource(MessageType.INFO, "Messages are going to be sent");
+    }
+    
+    @RequestMapping(value = ResourceUri.CERTIFICATE, method = RequestMethod.POST)
+    @ResponseBody
+    public MessageResource createApnsCertificate(@PathVariable("appId") String applicationId,
+    		@Valid @RequestBody CertificateResource resource) {
+    	logger.info("Creating certificate for applicationId: {} , {}", applicationId, resource);
+    	
+    	applicationFacade.createCertificate(applicationId, resource);
+    	return new MessageResource(MessageType.INFO, "Certificate created");
+    }
+
+    @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.PUT)
+    @ResponseBody
+    public MessageResource updateApplication(@PathVariable("appId") final String applicationId,
+    		@RequestBody final ApplicationResource applicationResource) {
+        logger.info("Updating application, id: {}, resource: {}", applicationId, applicationResource);
+        
+    	applicationFacade.updateApplication(applicationId, applicationResource);
+        return new MessageResource(MessageType.INFO, "Application Updated");
+    }
+    
+    @RequestMapping(value = ResourceUri.CERTIFICATE_BY_ID, method = RequestMethod.PUT)
+    @ResponseBody
+    public MessageResource updateCertificate(@PathVariable("appId") String applicationId,
+    		@PathVariable("certificateId") Long certificateId,
+    		@Valid @RequestBody CertificateResource resource) {
+    	logger.info("Updating certificate for {} , id: {}, resource: {}", applicationId, certificateId, resource);
+    	
+    	applicationFacade.updateCertificate(applicationId, certificateId, resource);
+    	return new MessageResource(MessageType.INFO, "Certificate updated");
+    }
+
+    @RequestMapping(value = ResourceUri.APPLICATION_BY_ID, method = RequestMethod.DELETE)
+    @ResponseBody
+    public MessageResource deleteApplication(@PathVariable("appId") final String applicationId) {
+        logger.info("Deleting application: {}", applicationId);
+    	
+    	applicationFacade.deleteApplication(applicationId);
+        return new MessageResource(MessageType.INFO, "Application deleted");
+    }
+
+    @RequestMapping(value = ResourceUri.CERTIFICATE, method = RequestMethod.DELETE)
+    @ResponseBody
+    public MessageResource deleteCertificate(@PathVariable("appId") String applicationId) {
+    	logger.info("Deleting certificate for {}", applicationId);
+    	
+    	applicationFacade.deleteCertificate(applicationId);
+    	return new MessageResource(MessageType.INFO, "Certificate deleted");
     }
 }
