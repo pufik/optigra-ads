@@ -15,7 +15,8 @@ repositories {
 
 dependencies {
 	compile project(':optigra-ads-model')
-	compile project(':optigra-ads-dao')
+	compile project(':optigra-ads-service')
+	
     compile 'commons-collections:commons-collections:3.2'
     compile 'com.notnoop.apns:apns:0.2.3'
     compile 'org.slf4j:slf4j-api:1.5.6'

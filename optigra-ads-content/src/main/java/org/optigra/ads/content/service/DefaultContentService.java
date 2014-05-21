@@ -5,8 +5,6 @@ import java.io.InputStream;
 import javax.annotation.Resource;
 
 import org.optigra.ads.content.dao.ContentRepository;
-import org.optigra.ads.content.exception.ContentException;
-import org.optigra.ads.content.exception.ContentNotFoundException;
 import org.optigra.ads.content.model.Content;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +15,17 @@ public class DefaultContentService implements ContentService {
 	private ContentRepository contentRepository;
 
 	@Override
-	public InputStream getContentByUuid(final String id) throws ContentNotFoundException {
+	public InputStream getContentByUuid(final String id) {
 		return contentRepository.getContentByUuid(id);
 	}
 	
 	@Override
-	public InputStream getContentByPath(final String path) throws ContentNotFoundException {
+	public InputStream getContentByPath(final String path) {
 	    return contentRepository.getContentByPath(path);
 	}
 
 	@Override
-	public String storeContent(final Content content) throws ContentException {
+	public String storeContent(final Content content) {
 		return contentRepository.storeContent(content);
 	}
 

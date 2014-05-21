@@ -1,8 +1,8 @@
 package org.optigra.ads.notification.reader;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -14,17 +14,17 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.optigra.ads.dao.device.DeviceDao;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.model.device.Device;
 import org.optigra.ads.model.pagination.BaseSearch;
 import org.optigra.ads.model.pagination.PagedResult;
+import org.optigra.ads.service.device.DeviceService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DeviceItemReaderTest {
 
 	@Mock
-	private DeviceDao deviceDao;
+	private DeviceService deviceService;
 	
 	@InjectMocks
 	private DeviceItemReader unit = new DeviceItemReader();
@@ -46,11 +46,11 @@ public class DeviceItemReaderTest {
 		PagedResult<Device> expected = new PagedResult<Device>(start, limit, count, entities);
 		
 		// When
-		when(deviceDao.getApplicationDevices(any(Application.class), anyInt(), anyInt())).thenReturn(expected);
+		when(deviceService.getApplicationDevices(anyString(), anyInt(), anyInt())).thenReturn(expected);
 		PagedResult<Device> actual = unit.getItems(application, search);
 
 		// Then
-		verify(deviceDao).getApplicationDevices(application, start, limit);
+		verify(deviceService).getApplicationDevices(applicationId, start, limit);
 		assertEquals(expected, actual);
 	}
 }

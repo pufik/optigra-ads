@@ -15,9 +15,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.apns.model.device.ApnsNotifiableDevice;
 import org.optigra.ads.apns.model.notification.Notification;
 import org.optigra.ads.model.application.Application;
 import org.optigra.ads.model.device.Device;
@@ -25,6 +27,8 @@ import org.optigra.ads.model.pagination.BaseSearch;
 import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.notification.processor.ItemProcessor;
 import org.optigra.ads.notification.reader.ItemReader;
+import org.optigra.ads.notification.service.ApnsDeviceNotificationService;
+import org.optigra.ads.notification.service.DeviceNotificationService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ApnsBatchExecutorTest {
@@ -68,13 +72,15 @@ public class ApnsBatchExecutorTest {
 		List<Device> entities = Arrays.asList(device1);
 		PagedResult<Device> pagedResult = new PagedResult<Device>(start, limit, count, entities);
 		
+		DeviceNotificationService<ApnsNotifiableDevice> deviceNotificationService = new ApnsDeviceNotificationService();
+
 		// When
 		when(itemReader.getItems(any(Application.class), any(BaseSearch.class))).thenReturn(pagedResult);
-		unit.process(application, notification);
+		unit.process(application, notification, deviceNotificationService);
 
 		// Then
 		int loopCount = (int) (count / limit);
-		verify(itemProcessor, times(loopCount)).process(anyListOf(Device.class), any(Notification.class));
+		verify(itemProcessor, times(loopCount)).process(Matchers.<DeviceNotificationService<ApnsNotifiableDevice>>any(), anyListOf(Device.class), any(Notification.class));
 	}
 
 	@Test
@@ -98,12 +104,14 @@ public class ApnsBatchExecutorTest {
 		List<Device> entities = Arrays.asList(device1);
 		PagedResult<Device> pagedResult = new PagedResult<Device>(start, limit, count, entities);
 		
+		DeviceNotificationService<ApnsNotifiableDevice> deviceNotificationService = new ApnsDeviceNotificationService();
+		
 		// When
 		when(itemReader.getItems(any(Application.class), any(BaseSearch.class))).thenReturn(pagedResult);
-		unit.process(application, notification);
+		unit.process(application, notification, deviceNotificationService);
 		
 		// Then
 		int loopCount = (int) BigDecimal.valueOf(count).divide(BigDecimal.valueOf(limit), RoundingMode.UP).longValue();
-		verify(itemProcessor, times(loopCount)).process(anyListOf(Device.class), any(Notification.class));
+		verify(itemProcessor, times(loopCount)).process(Matchers.<DeviceNotificationService<ApnsNotifiableDevice>>any(), anyListOf(Device.class), any(Notification.class));
 	}
 }

@@ -1,6 +1,7 @@
 package org.optigra.ads.service.device;
 
 import org.optigra.ads.model.device.Device;
+import org.optigra.ads.model.pagination.PagedResult;
 
 public interface DeviceService {
 
@@ -13,5 +14,7 @@ public interface DeviceService {
     Device getDeviceByUid(String deviceUid);
 
     Device getDeviceByUidAndApplicationId(String deviceUid, String applicationId);
+
+	PagedResult<Device> getApplicationDevices(String applicationId, int offset, int limit);
 
 }

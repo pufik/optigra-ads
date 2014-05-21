@@ -78,7 +78,7 @@
 				<div class="row">
 			         <div class="col-md-3">
 	                        Choose File...
-	                        <input type="file" name="file">
+	                        <input id="applicationFile" type="file" name="file">
 	                 </div>
 			         <div class="col-md-4">
 			         <br>
@@ -97,6 +97,122 @@
 				<% }; %>
 			</form>
 		</div>
+ 		<% if(entity) { %>
+			    <br>
+			    <div class="col-md-4">
+			    	<div class="panel panel-info">
+				    	<div class="panel-heading">
+				    		<div class="panel-title">Certificate section</div>
+				    	</div>	
+			    		<div class="panel-body">
+			    			<div id="certificateSectionDiv">
+								<a class="btn btn-info form-control" id="addCertificate">Add/Change Certificate</a>
+			    			</div>
+			    			<br>
+			    			<div id="apnsNotificationSectionDiv">
+								<a class="btn btn-info form-control" id="showNotificationDialogBtn">Send Notification</a>
+			    			</div>
+			    		</div>
+			    	</div>
+			    </div> 
+	    <% }; %>
 	</div>
   </div>
 </div>
+
+
+<div id="certificateModalDialog" class="modal fade" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Creating new certificate</h4>
+            </div>
+            <div class="modal-body">
+			<form class="edit-certificate-form">
+				<legend><%= entity ? 'Edit' : 'New' %> Application</legend>
+				
+				<div>
+				   <label>Password</label> 
+				   <input class="form-control" name="password" type="text" value="<%= certificate ? certificate.get('password') : '' %>">
+				</div>
+				
+
+				<br>
+				<div class="row">
+			         <div class="col-md-3">
+	                        Choose File...
+	                        <input id="certificateFile" type="file" name="file">
+	                 </div>
+			         <div class="col-md-4">
+			         <br>
+	                    <div id="prgDiv" class="progress">
+						  <div id="prgrsCertificate" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+						  </div>
+						</div>
+					</div>
+				</div>
+				<br>
+
+				<input type="hidden" id="certificatePath" name="path" value="<%= certificate ? certificate.get('path'): '' %>">
+
+				<% if(certificate) { %>
+					<input type="hidden" id="id" name="id" value="<%= certificate.get('id') %>" />
+				<% } %>
+
+				<% if(entity) { %> 
+					<input type="hidden" name="applicationId" value="<%= entity ? entity.get('applicationId') : ''  %>" />
+				<% }; %>
+			</form>
+			
+			<% if(entity) { %> 
+				<button id="saveCertificateBtn" class="btn"><%= certificate ? 'Update' : 'Create' %></button>
+			<% }; %>
+			<% if(certificate) { %> 
+				<button id="deleteCertificateBtn" data-user-id="<%= certificate ? certificate.get('applicationId') : '' %>" class="btn btn-danger delete">Delete</button>
+			<% }; %>
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="apnsNotificationDialog" class="modal fade" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Creating new certificate</h4>
+            </div>
+            <div class="modal-body">
+				<form class="send-notification-form">
+					<legend>Send Notification Form</legend>
+
+					<div>
+					   <label>Title</label> 
+					   <input class="form-control" name="title" type="text">
+					</div>
+	
+					<div>
+					   <label>Message</label> 
+					   <input class="form-control" name="message" type="text">
+					</div>
+					
+				</form>
+				<br>
+				<% if(entity) { %> 
+					<button id="crateNotificationBtn" class="btn">Send</button>
+				<% }; %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<% if(entity) { %> 
+	<input type="hidden" id="applicationId" value="<%= entity ? entity.get('applicationId') : ''  %>" />
+<% }; %>

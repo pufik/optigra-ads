@@ -14,14 +14,13 @@ import org.optigra.ads.notification.exception.NotificationException;
 import org.optigra.ads.notification.service.DeviceNotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component("itemProcessor")
+@Async
 public class DefaultItemProcessor implements ItemProcessor {
 	private static final Logger logger = LoggerFactory.getLogger(DefaultItemProcessor.class);
-
-	@Resource(name = "apnsDeviceNotificationService")
-	private DeviceNotificationService<ApnsNotifiableDevice> notificationService;
 
 	@Resource(name = "notificationMessageConverter")
 	private Converter<Notification, String> notificationConverter;
@@ -30,10 +29,14 @@ public class DefaultItemProcessor implements ItemProcessor {
 	private Converter<Device, ApnsNotifiableDevice> deviceConverter;
 
 	@Override
-	public void process(List<Device> devices, Notification notification) {
+	public void process(DeviceNotificationService<ApnsNotifiableDevice> notificationService, List<Device> devices, Notification notification) {
 		String message = notificationConverter.convert(notification);
 		logger.info("Sending apns, message: {}, batch size: {},", message, devices.size());
 
+		processLoop(devices, message, notificationService);
+	}
+
+	private void processLoop(List<Device> devices, String message, DeviceNotificationService<ApnsNotifiableDevice> notificationService) {
 		for (Device device : devices) {
 			ApnsNotifiableDevice apnsDevice = null;
 			try {
@@ -48,7 +51,6 @@ public class DefaultItemProcessor implements ItemProcessor {
 				throw new NotificationException(expectionMessage, e);
 			}
 		}
-
 	}
 
 }

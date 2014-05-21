@@ -43,7 +43,7 @@ public class JcrRepositoryImpl implements ContentRepository {
 	private JcrSessionFactory sessionFactory;
 	
 	@Override
-	public String storeContent(final Content content) throws ContentException {
+	public String storeContent(final Content content) {
 		Session session = null;
 		String contentId = null;
 		try {
@@ -144,7 +144,7 @@ public class JcrRepositoryImpl implements ContentRepository {
 
 
 	@Override
-	public InputStream getContentByUuid(final String id) throws ContentNotFoundException {
+	public InputStream getContentByUuid(final String id) {
 		Assert.hasText(id, "ContentId cannot be null");
 		Session session = null;
 		InputStream stream = null;
@@ -164,7 +164,7 @@ public class JcrRepositoryImpl implements ContentRepository {
 
 
     @Override
-    public InputStream getContentByPath(final String path) throws ContentNotFoundException {
+    public InputStream getContentByPath(final String path) {
         Assert.hasText(path, "Path cannot be null");
         Session session = null;
         InputStream stream = null;

@@ -23,7 +23,7 @@ define([
 			return o;
 		};
 		
-		var registerUploadFile = function(file) {
+		var registerUploadFile = function(file, sucessCallback, progressCallback) {
 			var data = new FormData();
 			data.append("file", file);
 			
@@ -38,8 +38,7 @@ define([
 				success: function(data, textStatus, jqXHR)
 				{
 					if(typeof data.error === 'undefined') {
-						var url = ApiUtils.webServiceUrl() + '/content' + data.path;
-						$("input[name='imageUrl']").val(url);
+						sucessCallback(data);
 					} else {
 						console.error('ERRORS: ' + data.error);
 					}
@@ -51,8 +50,7 @@ define([
 				xhr: function(){
 					var xhr = $.ajaxSettings.xhr() ;
 					xhr.upload.onprogress = function(evt){ 
-						var progress = evt.loaded/evt.total*100;
-						$("#prgrs").css("width", progress + "%");	
+						progressCallback(evt);
 					} ;
 					xhr.upload.onload = function(){
 						setTimeout(function() {
@@ -67,15 +65,26 @@ define([
 		
 		var uploadEvent = function(event) {
 	    	var file = event.target.files[0];
-	    	registerUploadFile(file);
+	    	registerUploadFile(file, function(data){
+				var url = ApiUtils.webServiceUrl() + '/content' + data.path;
+				$("input[name='imageUrl']").val(url);	    		
+	    	},function(evt) {
+				var progress = evt.loaded/evt.total*100;
+				$("#prgrs").css("width", progress + "%");	
+	    	});
 	    }
-		
+
+		var uploadCustomEvent = function(event, sucessCallback, processCallback) {
+	    	var file = event.target.files[0];
+	    	registerUploadFile(file, sucessCallback, processCallback);
+	    }
       	
       	return {
       		serializeObject:serializeObject,
       		htmlEncode:htmlEncode,
       		registerUploadFile:registerUploadFile,
-      		uploadEvent:uploadEvent
+      		uploadEvent:uploadEvent,
+      		uploadCustomEvent:uploadCustomEvent
       	};
       	
 });

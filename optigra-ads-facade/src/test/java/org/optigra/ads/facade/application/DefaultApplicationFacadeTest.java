@@ -10,6 +10,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +21,9 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.optigra.ads.apns.model.device.ApnsNotifiableDevice;
 import org.optigra.ads.apns.model.notification.Notification;
+import org.optigra.ads.content.service.ContentService;
 import org.optigra.ads.facade.converter.Converter;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.Resource;
@@ -33,11 +36,14 @@ import org.optigra.ads.model.application.ApplicationStatus;
 import org.optigra.ads.model.certificate.Certificate;
 import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.model.user.User;
+import org.optigra.ads.notification.executor.NotificationBatchExecutor;
+import org.optigra.ads.notification.lookup.DeviceNotificationLookupService;
+import org.optigra.ads.notification.service.ApnsDeviceNotificationService;
+import org.optigra.ads.notification.service.DeviceNotificationService;
 import org.optigra.ads.security.session.Session;
 import org.optigra.ads.security.session.SessionService;
 import org.optigra.ads.service.application.ApplicationService;
 import org.optigra.ads.service.certificate.CertificateService;
-import org.optigra.ads.service.notification.NotificationService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultApplicationFacadeTest {
@@ -79,13 +85,22 @@ public class DefaultApplicationFacadeTest {
     private ApplicationService applicationService;
     
     @Mock
-    private NotificationService notificationService;
-
-    @Mock
     private SessionService sessionService;
 
+    @Mock
+	private DeviceNotificationLookupService<ApnsNotifiableDevice> notificationLookupService;
+	
+    @Mock
+	private ContentService contentService;
+    
+    @Mock
+	private NotificationBatchExecutor notificationBatchExecutor;
+
     @InjectMocks
-    private final ApplicationFacade unit = new DefaultApplicationFacade();
+    private final DefaultApplicationFacade unit = new DefaultApplicationFacade();
+
+    @Mock
+	private InputStream inputStream;
 
     @Test
     public void testCreateApplication() {
@@ -262,16 +277,24 @@ public class DefaultApplicationFacadeTest {
 		Application application = new Application();
 		application.setApplicationId(applicationId);
 		
+		Certificate certificate = new Certificate();
+		certificate.setApplication(application);
+		
+		DeviceNotificationService<ApnsNotifiableDevice> deviceNotificationService = new ApnsDeviceNotificationService();
+
 		// When
 		when(notificationResourceConverter.convert(any(NotificationResource.class))).thenReturn(notification);
 		when(applicationService.getApplication(anyString())).thenReturn(application);
+		when(certificateService.getCertificateByApplication(anyString())).thenReturn(certificate);
+		when(contentService.getContentByPath(anyString())).thenReturn(inputStream);
+		when(notificationLookupService.lookup(any(InputStream.class), any(Certificate.class))).thenReturn(deviceNotificationService);
 		
     	unit.sendNotificationMessage(applicationId, notificationResource);
 
 		// Then
     	verify(applicationService).getApplication(applicationId);
     	verify(notificationResourceConverter).convert(notificationResource);
-    	verify(notificationService).send(application, notification);
+    	verify(notificationBatchExecutor).process(application, notification, deviceNotificationService);
 	}
     
     @Test

@@ -210,8 +210,40 @@
 	                        </wadl:representation>
 	                    </wadl:response>
 	        	</wadl:method>
-	        </wadl:resource>
-     	
+        </wadl:resource>
+     
+     
+        <wadl:resource path="application/{applicationId}/notification">
+        <wadl:doc title="Description">Push Notifications for Admins</wadl:doc>
+	
+	        <wadl:method name="POST" id="sendPushNotification">
+	        	<wadl:doc>Send Push Notification</wadl:doc>
+	        	        <wadl:request>
+	                        <wadl:param name="authorization" style="header" type="xs:string" required="true">
+	                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
+	                        </wadl:param>
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+									{ "title" :  "Attention",
+									  "message" : "Buy apple"
+									}
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:request>
+	                    <wadl:response status="200">
+	                        <wadl:doc title="OK" />
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+									{ "message" : "Messages are going to be sent",
+									  "status" : null,
+									  "type" : "INFO"
+									}
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:response>
+	        	</wadl:method>
+        </wadl:resource>
+        
      	<wadl:resource path="user">
         <wadl:doc title="Description">User management methods</wadl:doc>
         	<wadl:method name="GET" id="getUsers">
