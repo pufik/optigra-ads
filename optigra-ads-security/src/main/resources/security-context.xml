@@ -15,6 +15,12 @@
 		<!--TODO: Should be changed when  security strategy will be approved -->
 		<security:intercept-url pattern="/api/user/**" method="POST"  access="permitAll"/>
 		<security:intercept-url pattern="/api/user/current" method="GET"  access="permitAll"/>
+		<!-- Device actions are not secured -->
+		<security:intercept-url pattern="/api/device/**" method="GET"  access="permitAll"/>
+		<security:intercept-url pattern="/api/device/**" method="POST"  access="permitAll"/>
+		<security:intercept-url pattern="/api/device/**" method="PUT"  access="permitAll"/>
+		<security:intercept-url pattern="/api/device/**" method="DELETE"  access="permitAll"/>
+		
 		<security:intercept-url pattern="/**"  access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
 	</security:http>
 	
@@ -24,9 +30,14 @@
 	
 	<bean id="defaultAuthenticationProvider" class="org.optigra.ads.security.DefaultAuthenticationProvider" />
 	
+	<alias name="webSessionService" alias="sessionService"/>
+	<bean  name="webSessionService" id="webSessionService" class="org.optigra.ads.security.session.WebSessionService">
+		<property name="defaultUser" ref="anonymousUser" />
+	</bean>
+	
 	<!-- Permission resolvers -->
 	<alias name="ownerAdminPermissionResolver" alias="ownerPermission" />
-	<alias name="queryAdminPermissionResolver" alias="queryPermission" />
+	<alias name="transperentQueryPermissionResolver" alias="queryPermission" />
 	
 	<bean id="ownerAdminPermissionResolver" name="ownerAdminPermissionResolver" class="org.optigra.ads.security.permission.impl.AdminPermission">
 		<property name="nextPermision">
@@ -42,9 +53,9 @@
 		</property>
 	</bean>
 	
-	<bean id="queryAdminPermissionResolver" name="queryAdminPermissionResolver" class="org.optigra.ads.security.permission.impl.AdminPermission">
+	<bean id="transperentQueryPermissionResolver" name="transperentQueryPermissionResolver" class="org.optigra.ads.security.permission.impl.TransperentQueryPermission">
 		<property name="nextPermision">
-			<bean class="org.optigra.ads.security.permission.impl.TransperentQueryPermission">
+			<bean class="org.optigra.ads.security.permission.impl.AdminPermission">
 				<property name="nextPermision">
 					<bean class="org.optigra.ads.security.permission.impl.UserEntityEnhancementPermission">
 						<property name="nextPermision">
@@ -54,5 +65,13 @@
 				</property>
 			</bean>
 		</property>
+	</bean>
+	
+	<!-- Default system Users -->
+	<bean name="anonymousUser" id="anonymousUser" class="org.optigra.ads.model.user.User">
+		<property name="id" value="2" />
+		<property name="login" value="anonymous" />
+		<property name="password" value="" />
+		<property name="role" value="ANONYMOUS" />
 	</bean>
 </beans>

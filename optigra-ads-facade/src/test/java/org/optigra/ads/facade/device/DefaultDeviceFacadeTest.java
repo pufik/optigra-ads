@@ -3,6 +3,7 @@ package org.optigra.ads.facade.device;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,10 +17,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.optigra.ads.facade.converter.Converter;
 import org.optigra.ads.facade.resource.device.DeviceResource;
+import org.optigra.ads.model.application.Application;
 import org.optigra.ads.model.device.Device;
 import org.optigra.ads.model.user.User;
 import org.optigra.ads.security.session.Session;
 import org.optigra.ads.security.session.SessionService;
+import org.optigra.ads.service.application.ApplicationService;
 import org.optigra.ads.service.device.DeviceService;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,6 +36,9 @@ public class DefaultDeviceFacadeTest {
 
     @Mock
     private DeviceService deviceService;
+
+    @Mock
+    private ApplicationService applicationService;
 
     @Mock
     private SessionService sessionService;
@@ -167,5 +173,59 @@ public class DefaultDeviceFacadeTest {
         verify(deviceConverter).convert(device);
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testAddDeviceByUidAndApplicationId() throws Exception {
+        // Given
+        String deviceUid = "deviceUid";
+        String deviceToken = "deviceToken";
+        String applicationId = "deviceUid";
+
+        Application application = new Application();
+        application.setApplicationId(applicationId);
+
+        Device device = new Device();
+        device.setDeviceToken(deviceToken);
+        device.setDeviceUid(deviceUid);
+
+        when(deviceService.getDeviceByUid(anyString())).thenReturn(device);
+        when(applicationService.getApplication(anyString())).thenReturn(application );
+
+        // When
+        unit.addAplicationForDevice(deviceUid, applicationId);
+
+        // Then
+        verify(deviceService).getDeviceByUid(deviceUid);
+        verify(applicationService).getApplication(applicationId);
+        verify(deviceService).updateDevice(device);
+    }
+
+    @Test
+    public void testAddDeviceByUidAndApplicationIdWhenAppllciationExists() throws Exception {
+        // Given
+        String deviceUid = "deviceUid";
+        String deviceToken = "deviceToken";
+        String applicationId = "deviceUid";
+
+        Application application = new Application();
+        application.setApplicationId(applicationId);
+
+        Device device = new Device();
+        device.setDeviceToken(deviceToken);
+        device.setDeviceUid(deviceUid);
+        device.getApplications().add(application);
+
+        when(deviceService.getDeviceByUid(anyString())).thenReturn(device);
+        when(applicationService.getApplication(anyString())).thenReturn(application );
+
+        // When
+        unit.addAplicationForDevice(deviceUid, applicationId);
+
+        // Then
+        verify(deviceService).getDeviceByUid(deviceUid);
+        verify(applicationService).getApplication(applicationId);
+
+        verify(deviceService, never()).updateDevice(device);
     }
 }

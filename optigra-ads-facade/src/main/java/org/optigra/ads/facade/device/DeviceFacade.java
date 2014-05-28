@@ -13,4 +13,6 @@ public interface DeviceFacade {
     DeviceResource getDevice(String deviceUid);
 
     DeviceResource getDeviceByUidAndApplication(String deviceUid, String applicationId);
+
+    void addAplicationForDevice(String deviceUid, String applicationId);
 }

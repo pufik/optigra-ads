@@ -1,12 +1,8 @@
 package org.optigra.ads.security.session;
 
-import javax.annotation.PostConstruct;
-
 import org.optigra.ads.model.user.User;
-import org.optigra.ads.model.user.UserRole;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Session service for web-based session
@@ -14,16 +10,9 @@ import org.springframework.stereotype.Component;
  * @date Mar 24, 2014
  * @author Iurii Parfeniuk
  */
-@Component("sessionService")
 public class WebSessionService implements SessionService {
 
     private User defaultUser;
-
-    @PostConstruct
-    public void init() {
-        defaultUser = new User();
-        defaultUser.setRole(UserRole.ANONYMOUS);
-    }
 
     @Override
     public Session getCurrentSession() {
@@ -39,11 +28,17 @@ public class WebSessionService implements SessionService {
             Object userDetails = auth.getDetails();
             if (userDetails instanceof User) {
                 principal = (User) userDetails;
-            } else {
-                throw new IllegalArgumentException();
             }
         }
 
         return principal;
+    }
+
+    public User getDefaultUser() {
+        return defaultUser;
+    }
+
+    public void setDefaultUser(final User defaultUser) {
+        this.defaultUser = defaultUser;
     }
 }

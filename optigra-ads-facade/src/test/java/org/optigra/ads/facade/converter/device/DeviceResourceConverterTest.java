@@ -8,14 +8,14 @@ import org.optigra.ads.model.device.Device;
 
 public class DeviceResourceConverterTest {
 
-	private DeviceResourceConverter unit = new DeviceResourceConverter();
-	
+	private final DeviceResourceConverter unit = new DeviceResourceConverter();
+
 	@Test
 	public void testConvert() throws Exception {
 		// Given
 		String deviceToken = "device token";
 		String deviceUid = "device uid";
-		
+
 		DeviceResource source =  new DeviceResource();
 		source.setDeviceToken(deviceToken);
 		source.setDeviceUid(deviceUid);
@@ -23,7 +23,7 @@ public class DeviceResourceConverterTest {
 		Device expected = new Device();
 		expected.setDeviceToken(deviceToken);
 		expected.setDeviceUid(deviceUid);
-		
+
 		// When
 		Device actual = unit.convert(source);
 		actual.setUpdateDate(null);

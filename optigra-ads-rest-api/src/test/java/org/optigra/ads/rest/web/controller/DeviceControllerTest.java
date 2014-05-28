@@ -1,6 +1,7 @@
 package org.optigra.ads.rest.web.controller;
 
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -17,6 +18,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.optigra.ads.facade.device.DeviceFacade;
+import org.optigra.ads.facade.resource.MessageResource;
+import org.optigra.ads.facade.resource.MessageType;
 import org.optigra.ads.facade.resource.device.DeviceResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,7 +30,7 @@ public class DeviceControllerTest extends AbstractControllerTest {
 
 	@Mock
 	private DeviceFacade deviceFacade;
-	
+
     @InjectMocks
     private final DeviceController unit = new DeviceController();
 
@@ -55,11 +58,11 @@ public class DeviceControllerTest extends AbstractControllerTest {
     			.contentType(MediaType.APPLICATION_JSON)
     			.content(request))
     		.andExpect(status().isOk());
-    	
+
     	// Verify
     	verify(deviceFacade).createDevice(deviceResource);
 	}
-    
+
     @Test
 	public void testUpdateDevice() throws Exception {
 		// Given
@@ -72,7 +75,7 @@ public class DeviceControllerTest extends AbstractControllerTest {
 
 		// When
 		String request = getJson(deviceResource, true);
-		
+
 		// Then
     	mockMvc.perform(put("/device/{deviceUid}", deviceUid)
     			.contentType(MediaType.APPLICATION_JSON)
@@ -80,19 +83,19 @@ public class DeviceControllerTest extends AbstractControllerTest {
     		.andExpect(status().isOk());
     	verify(deviceFacade).updateDevice(deviceUid, deviceResource);
 	}
-    
+
     @Test
 	public void testDeleteDevice() throws Exception {
 		// Given
     	String deviceUid = "device uid";
-    	
+
 		// Then
     	mockMvc.perform(delete("/device/{deviceUid}", deviceUid))
     		.andExpect(status().isOk());
-    	
+
     	verify(deviceFacade).deleteDevice(deviceUid);
 	}
-    
+
     @Test
 	public void testGetDevice() throws Exception {
 		// Given
@@ -102,7 +105,7 @@ public class DeviceControllerTest extends AbstractControllerTest {
     	DeviceResource deviceResource = new DeviceResource();
     	deviceResource.setDeviceUid(deviceUid);
 		deviceResource.setDeviceToken(deviceToken);
-    	
+
 		// When
 		when(deviceFacade.getDevice(anyString())).thenReturn(deviceResource);
     	String response = getJson(deviceResource, false);
@@ -113,4 +116,47 @@ public class DeviceControllerTest extends AbstractControllerTest {
     		.andExpect(content().string(response));
     	verify(deviceFacade).getDevice(deviceUid);
 	}
+
+    @Test
+    public void testGetDeviceByApplication() throws Exception {
+     // Given
+        String deviceUid = "device uid";
+        String deviceToken = "device Token";
+        String applicationId = "application UId";
+
+        DeviceResource deviceResource = new DeviceResource();
+        deviceResource.setDeviceUid(deviceUid);
+        deviceResource.setDeviceToken(deviceToken);
+
+        // When
+        when(deviceFacade.getDeviceByUidAndApplication(anyString(), anyString())).thenReturn(deviceResource);
+        String response = getJson(deviceResource, false);
+
+        // Then
+        mockMvc.perform(get("/device/{deviceUid}/application/{applicationId}", deviceUid, applicationId))
+            .andExpect(status().isOk())
+            .andExpect(content().string(response));
+
+        verify(deviceFacade).getDeviceByUidAndApplication(deviceUid, applicationId);
+    }
+
+    @Test
+    public void testAddApllicationForDevice() throws Exception {
+        // Given
+        String deviceUid = "device uid";
+        String applicationId = "application UId";
+
+        MessageResource messageResource = new MessageResource(MessageType.INFO, "Application was attached to device");
+
+        // When
+        doNothing().when(deviceFacade).addAplicationForDevice(anyString(), anyString());
+        String response = getJson(messageResource, false);
+
+        // Then
+        mockMvc.perform(post("/device/{deviceUid}/application/{applicationId}", deviceUid, applicationId))
+            .andExpect(status().isOk())
+            .andExpect(content().string(response));
+
+        verify(deviceFacade).addAplicationForDevice(deviceUid, applicationId);
+    }
 }

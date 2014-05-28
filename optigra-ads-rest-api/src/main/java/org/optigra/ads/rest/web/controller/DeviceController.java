@@ -34,15 +34,24 @@ public class DeviceController extends BaseController {
     @RequestMapping(value = ResourceUri.DEVICE_APPLICATION, method = RequestMethod.GET)
     @ResponseBody
     public DeviceResource getDeviceByApplication(@PathVariable("deviceId") final String deviceUid, @PathVariable("applicationId") final String applicationId) {
-        LOG.info(String.format("Get device information for device UID: [%s] and Application UID: [%s]", deviceUid, applicationId));
+        LOG.info("Get device information for device UID: [{}] and Application UID: [{}]", deviceUid, applicationId);
 
         return deviceFacade.getDeviceByUidAndApplication(deviceUid, applicationId);
+    }
+
+    @RequestMapping(value = ResourceUri.DEVICE_APPLICATION, method = RequestMethod.POST)
+    @ResponseBody
+    public MessageResource addApllicationForDevice(@PathVariable("deviceId") final String deviceUid, @PathVariable("applicationId") final String applicationId) {
+        LOG.info("Add device UID: [{}] for Application UID: [{}]", deviceUid, applicationId);
+        deviceFacade.addAplicationForDevice(deviceUid, applicationId);
+
+        return new MessageResource(MessageType.INFO, "Application was attached to device");
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public DeviceResource createDevice(@RequestBody final DeviceResource deviceResource) {
-        LOG.info(String.format("Create device request: %s", deviceResource));
+        LOG.info("Create device request: {}", deviceResource);
 
         return deviceFacade.createDevice(deviceResource);
     }
@@ -50,6 +59,7 @@ public class DeviceController extends BaseController {
     @RequestMapping(value = ResourceUri.ID, method = RequestMethod.PUT)
     @ResponseBody
     public MessageResource updateDevice(@PathVariable("id") final String deviceUid, @RequestBody final DeviceResource deviceResource) {
+        deviceResource.setDeviceUid(deviceUid);
         deviceFacade.updateDevice(deviceUid, deviceResource);
 
         return new MessageResource(MessageType.INFO, "Device updated");

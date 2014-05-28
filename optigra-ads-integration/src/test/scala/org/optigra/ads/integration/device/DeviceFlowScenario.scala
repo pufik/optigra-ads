@@ -16,48 +16,46 @@ class DeviceFlowScenario extends Simulation {
 
   val deviceDetails = csv("device.csv").queue
 
-  val scn = scenario("Insert Device Scenario")
+  val scn = scenario("Manage Device Scenario")
 	.feed(deviceDetails)
-	.exec(
-                http("Insert Device")
-		      	.post("/device")
-			.basicAuth("admin", "admin")
-			.body("""{"deviceToken":"${deviceToken}","deviceUid":"${deviceUid}"}""")
-			.asJSON
-			.check(status.is(200))
-			.check(jsonPath("$.deviceUid").find.is("${deviceUid}"))
-			.check(jsonPath("$.deviceToken").find.is("${deviceToken}")))
+		.exec(
+            http("Get device")
+	      	.get("/device/${deviceUid}")
+	      	.check(status.is(400)))
+		.exec(
+            http("Insert Device")
+	      	.post("/device")
+	      	.body("""{"deviceToken":"${deviceToken}","deviceUid":"${deviceUid}"}""")
+	      	.asJSON
+	      	.check(status.is(200))
+	      	.check(jsonPath("$.deviceUid").find.is("${deviceUid}"))
+		    .check(jsonPath("$.deviceToken").find.is("${deviceToken}")))
 	.pause(500 milliseconds, 2 seconds)
     	.exec(
       		http("Get device")
-        		.get("/device/${deviceUid}")
-			.basicAuth("admin", "admin")
-        		.check(status.is(200))
+        	.get("/device/${deviceUid}")
+        	.check(status.is(200))
 			.check(jsonPath("$.deviceUid").find.is("${deviceUid}"))
 			.check(jsonPath("$.deviceToken").find.is("${deviceToken}")))
     	.exec(
       		http("Update device")
-        		.put("/device/${deviceUid}")
-			.basicAuth("admin", "admin")
+        	.put("/device/${deviceUid}")
 			.body("""{"deviceToken":"${newDeviceToken}","deviceUid":"${deviceUid}"}""")
 			.asJSON
-        		.check(status.is(200)))
+        	.check(status.is(200)))
     	.exec(
       		http("Get updated device")
-        		.get("/device/${deviceUid}")
-			.basicAuth("admin", "admin")
-        		.check(status.is(200))
+        	.get("/device/${deviceUid}")
+        	.check(status.is(200))
 			.check(jsonPath("$.deviceToken").find.is("${newDeviceToken}")))
     	.exec(
       		http("Delete device")
-        		.delete("/device/${deviceUid}")
-			.basicAuth("admin", "admin")
-        		.check(status.is(200)))
+        	.delete("/device/${deviceUid}")
+        	.check(status.is(200)))
     	.exec(
       		http("Get defunct device")
-        		.get("/device/${deviceUid}")
-			.basicAuth("admin", "admin")
-        		.check(status.is(400)))
+        	.get("/device/${deviceUid}")
+        	.check(status.is(400)))
 
   setUp(
     scn.users(1).protocolConfig(httpConf)

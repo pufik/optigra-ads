@@ -11,18 +11,17 @@ import org.springframework.stereotype.Component;
 public class DeviceResourceConverter extends AbstractConverter<DeviceResource, Device> {
 
 	@Override
-	public Device convert(DeviceResource source, Device target) {
-		
+	public Device convert(final DeviceResource source, final Device target) {
+
 		target.setUpdateDate(new Date());
 		target.setDeviceToken(source.getDeviceToken());
 		target.setDeviceUid(source.getDeviceUid());
-		
+
 		return target;
 	}
 
 	@Override
-	public Device convert(DeviceResource source) {
+	public Device convert(final DeviceResource source) {
 		return convert(source, new Device());
 	}
-
 }

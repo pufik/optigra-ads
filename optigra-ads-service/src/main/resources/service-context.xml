@@ -28,5 +28,4 @@
 		</property>
 		<property name="ignoreResourceNotFound" value="false" />
 	</bean>
-	
 </beans>

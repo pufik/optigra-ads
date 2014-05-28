@@ -80,7 +80,7 @@
                         <wadl:param name="authorization" style="header" type="xsi:string" required="true">
                             <wadl:doc>HTTP Basic Authentication</wadl:doc>
                         </wadl:param>
-                        <wadl:param name="applicationId" style="template" type="xs:integer" required="true">
+                        <wadl:param name="applicationId" style="template" type="xs:string" required="true">
                             <wadl:doc>Application unique identifier</wadl:doc>
                         </wadl:param>
                         <wadl:representation mediaType="application/json">
@@ -151,7 +151,7 @@
 	                        <wadl:param name="authorization" style="header" type="xs:string" required="true">
 	                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
 	                        </wadl:param>
-	                        <wadl:param name="applicationId" style="template" type="xs:integer" required="true">
+	                        <wadl:param name="applicationId" style="template" type="xs:string" required="true">
                             	<wadl:doc>Application unique identifier</wadl:doc>
                         	</wadl:param>
 	                        <wadl:representation mediaType="application/json">
@@ -188,7 +188,7 @@
 	                        <wadl:param name="authorization" style="header" type="xs:string" required="true">
 	                            <wadl:doc>HTTP Basic Authentication</wadl:doc>
 	                        </wadl:param>
-	                        <wadl:param name="applicationId" style="template" type="xs:integer" required="true">
+	                        <wadl:param name="applicationId" style="template" type="xs:string" required="true">
                             	<wadl:doc>Application unique identifier</wadl:doc>
                         	</wadl:param>
 	                        <wadl:representation mediaType="application/json">
@@ -211,7 +211,6 @@
 	                    </wadl:response>
 	        	</wadl:method>
         </wadl:resource>
-     
      
         <wadl:resource path="application/{applicationId}/notification">
         <wadl:doc title="Description">Push Notifications for Admins</wadl:doc>
@@ -244,6 +243,173 @@
 	        	</wadl:method>
         </wadl:resource>
         
+         <wadl:resource path="device/{deviceId}">
+        <wadl:doc title="Description">Device management methods</wadl:doc>
+        	<wadl:method name="GET" id="getDeviceById">
+        			<wadl:doc>Get device details</wadl:doc>
+        	        <wadl:request>
+                        <wadl:param name="deviceId" style="template" type="xs:string" required="true">
+                            <wadl:doc>Device unique identifier</wadl:doc>
+                        </wadl:param>
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/device/mydevice1
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:request>
+                    <wadl:response status="200">
+                        <wadl:doc title="OK" />
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								{
+								  "id" : 42,
+								  "deviceUid" : "ddd-555",
+								  "deviceToken" : "fmmm12345",
+								  "uri" : "/device/ddd-555"
+								}
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:response>
+        	</wadl:method>
+	        <wadl:method name="POST" id="createDevice">
+	        	<wadl:doc>Create Device</wadl:doc>
+	        	        <wadl:request>
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+	                            {
+								  "deviceUid" : "ddd-555",
+								  "deviceToken" : "fmmm12345"
+								}									
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:request>
+	                    <wadl:response status="200">
+	                        <wadl:doc title="OK" />
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+								    {
+									  "id" : 42,
+									  "deviceUid" : "ddd-555",
+									  "deviceToken" : "fmmm12345",
+									  "uri" : "/device/ddd-555"
+									}
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:response>
+	        	</wadl:method>
+	        	<wadl:method name="PUT" id="updateDevice">
+	        		<wadl:doc>Update device's information</wadl:doc>
+	        	        <wadl:request>
+	                        <wadl:param name="deviceId" style="template" type="xs:string" required="true">
+                            	<wadl:doc>Device unique identifier</wadl:doc>
+                        	</wadl:param>
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+								 	{
+									  "deviceToken" : "tytyt"
+									}
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:request>
+	                    <wadl:response status="200">
+	                        <wadl:doc title="OK" />
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+								    {
+									  "type" : "INFO",
+									  "status" : null,
+									  "message" : "Device updated"
+									}
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:response>
+	        	</wadl:method>
+	        	<wadl:method name="DELETE" id="removeDevice">
+	        		<wadl:doc>Remove device</wadl:doc>
+	        	        <wadl:request>
+	                        <wadl:param name="deviceId" style="template" type="xs:integer" required="true">
+                            	<wadl:doc>Device unique identifier</wadl:doc>
+                        	</wadl:param>
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+									 http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/device/ddd-555
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:request>
+	                    <wadl:response status="200">
+	                        <wadl:doc title="OK" />
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+	                            	{
+									  "type" : "INFO",
+									  "status" : null,
+									  "message" : "Device deleted"
+									}
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:response>
+	        	</wadl:method>
+        </wadl:resource>
+        <wadl:resource path="device/{deviceId}/application/{applicationId}">
+        	<wadl:method name="GET" id="getDeviceByApplication">
+       			<wadl:doc>Get device by application</wadl:doc>
+       	        <wadl:request>
+                       <wadl:param name="deviceId" style="template" type="xs:string" required="true">
+                           <wadl:doc>Device unique identifier</wadl:doc>
+                       </wadl:param>
+                       <wadl:param name="applicationId" style="template" type="xs:string" required="true">
+                           <wadl:doc>Application unique identifier</wadl:doc>
+                       </wadl:param>
+                       <wadl:representation mediaType="application/json">
+                           <wadl:doc>
+							http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/device/ddd-5551/application/75c68bf0-1f17-453e-bf28-1cc7a22177de
+                           </wadl:doc>
+                       </wadl:representation>
+                   </wadl:request>
+                   <wadl:response status="200">
+                       <wadl:doc title="OK" />
+                       <wadl:representation mediaType="application/json">
+                           <wadl:doc>
+							{
+							  "id" : 42,
+							  "deviceUid" : "ddd-555",
+							  "deviceToken" : "fmmm12345",
+							  "uri" : "/device/ddd-555"
+							}
+                           </wadl:doc>
+                       </wadl:representation>
+                   </wadl:response>
+       		</wadl:method>
+       		<wadl:method name="PUT" id="attachApplicationToDevice">
+       			<wadl:doc>Attach application to device</wadl:doc>
+       	        <wadl:request>
+                       <wadl:param name="deviceId" style="template" type="xs:string" required="true">
+                           <wadl:doc>Device unique identifier</wadl:doc>
+                       </wadl:param>
+                       <wadl:param name="applicationId" style="template" type="xs:string" required="true">
+                           <wadl:doc>Application unique identifier</wadl:doc>
+                       </wadl:param>
+                       <wadl:representation mediaType="application/json">
+                           <wadl:doc>
+							http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/device/ddd-5551/application/75c68bf0-1f17-453e-bf28-1cc7a22177de
+                           </wadl:doc>
+                       </wadl:representation>
+                   </wadl:request>
+                   <wadl:response status="200">
+                       <wadl:doc title="OK" />
+                       <wadl:representation mediaType="application/json">
+                           <wadl:doc>
+							{
+							  "type" : "INFO",
+							  "status" : null,
+							  "message" : "Application was attached to device"
+							}
+                           </wadl:doc>
+                       </wadl:representation>
+                   </wadl:response>
+       		</wadl:method>
+        </wadl:resource>
+
      	<wadl:resource path="user">
         <wadl:doc title="Description">User management methods</wadl:doc>
         	<wadl:method name="GET" id="getUsers">
@@ -319,6 +485,7 @@
                     </wadl:response>
         	</wadl:method>
         </wadl:resource>
+       
         <wadl:resource path="content">
         <wadl:doc title="Description">Content management methods</wadl:doc>
         	<wadl:method name="GET" id="getContent">
