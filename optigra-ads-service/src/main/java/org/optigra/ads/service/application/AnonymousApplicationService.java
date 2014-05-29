@@ -18,7 +18,7 @@ public class AnonymousApplicationService extends DefaultApplicationService {
 
     @Override
     public Application getApplication(final String applicationId) {
-        logger.info("Retrieve Apploication for Anonymous user by application ID: [{}]", applicationId);
+        logger.info("Retrieve Application for Anonymous user by application ID: [{}]", applicationId);
 
         return applicationDao.getApplicationById(applicationId);
     }

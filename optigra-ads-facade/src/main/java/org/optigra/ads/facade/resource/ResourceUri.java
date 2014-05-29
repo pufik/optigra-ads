@@ -34,6 +34,8 @@ public final class ResourceUri {
     public static final String DEVICE_APPLICATION = "/{deviceId}/application/{applicationId}";
 
     public static final String CURRENT = SLASH + "current";
+    public static final String STATUS = SLASH + "status";
+
 
 	public static final String APPLICATION_NOTIFICATION = APPLICATION_BY_ID + SLASH + "notification";
 

@@ -13,9 +13,11 @@ import org.optigra.ads.facade.converter.Converter;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.application.ApplicationStatusResource;
 import org.optigra.ads.facade.resource.certificate.CertificateResource;
 import org.optigra.ads.facade.resource.notification.NotificationResource;
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.application.ApplicationStatus;
 import org.optigra.ads.model.certificate.Certificate;
 import org.optigra.ads.model.pagination.PagedResult;
 import org.optigra.ads.notification.executor.NotificationBatchExecutor;
@@ -43,37 +45,38 @@ public class DefaultApplicationFacade implements ApplicationFacade {
 
     @Resource(name = "applicationConverter")
     private Converter<Application, ApplicationResource> applicationConverter;
-    
+
     @Resource(name = "notificationResourceConverter")
     private Converter<NotificationResource, Notification> notificationResourceConverter;
-    
+
     @Resource(name = "certificateResourceConverter")
     private Converter<CertificateResource, Certificate> certificateResourceConverter;
 
     @Resource(name = "certificateConverter")
     private Converter<Certificate, CertificateResource> certificateConverter;
-    
+
     @Resource(name = "certificateService")
     private CertificateService certificateService;
-    
+
     @Resource(name = "applicationService")
     private ApplicationService applicationService;
-    
+
+    @Resource(name = "anonymousApplicationService")
+    private ApplicationService anonymousAccessApplicationService;
+
     @Resource(name = "sessionService")
     private SessionService sessionService;
-    
-    
-	@Resource(name = "apnsBatchExecutor")
-	private NotificationBatchExecutor notificationBatchExecutor;
-    
+
+    @Resource(name = "apnsBatchExecutor")
+    private NotificationBatchExecutor notificationBatchExecutor;
+
     // TODO: Place new staff in better position
-	@Resource(name = "apnsNotificationLookupService")
-	private DeviceNotificationLookupService<ApnsNotifiableDevice> notificationLookupService;
-	
-	@Resource(name = "contentService")
-	private ContentService contentService;
-    
-    
+    @Resource(name = "apnsNotificationLookupService")
+    private DeviceNotificationLookupService<ApnsNotifiableDevice> notificationLookupService;
+
+    @Resource(name = "contentService")
+    private ContentService contentService;
+
     @Override
     public ApplicationResource createApplication(final ApplicationResource applicationResource) {
         Application application = applicationResourceConverter.convert(applicationResource);
@@ -97,8 +100,11 @@ public class DefaultApplicationFacade implements ApplicationFacade {
     }
 
     @Override
-    public String getApplicationStatus(final String applicationId) {
-        return applicationService.getApplicationStatus(applicationId);
+    public ApplicationStatusResource getApplicationStatus(final String applicationId) {
+        ApplicationStatus status = anonymousAccessApplicationService.getApplicationStatus(applicationId);
+        ApplicationStatusResource statusResource = new ApplicationStatusResource(applicationId, status);
+
+        return statusResource;
     }
 
     @Override
@@ -119,42 +125,42 @@ public class DefaultApplicationFacade implements ApplicationFacade {
         applicationService.updateApplication(application);
     }
 
-	@Override
-	public void sendNotificationMessage(String applicationId, NotificationResource notificationResource) {
-		Notification notification = notificationResourceConverter.convert(notificationResource);
-		Application application = applicationService.getApplication(applicationId);
-		
-		Certificate certificate = certificateService.getCertificateByApplication(applicationId);
-		InputStream inputStream = contentService.getContentByPath(certificate.getPath());
-		DeviceNotificationService<ApnsNotifiableDevice> apnsNotificationService = notificationLookupService.lookup(inputStream, certificate);
-		
-		notificationBatchExecutor.process(application,  notification, apnsNotificationService);
-	}
+    @Override
+    public void sendNotificationMessage(final String applicationId, final NotificationResource notificationResource) {
+        Notification notification = notificationResourceConverter.convert(notificationResource);
+        Application application = applicationService.getApplication(applicationId);
 
-	@Override
-	public void createCertificate(String applicationId, CertificateResource resource) {
-		Certificate certificate = certificateResourceConverter.convert(resource);
-		certificate.setOwner(sessionService.getCurrentSession().getUser());   
-		certificate.setCreateDate(new Date());                      
-		
-		certificateService.createCertificate(applicationId, certificate);
-	}
+        Certificate certificate = certificateService.getCertificateByApplication(applicationId);
+        InputStream inputStream = contentService.getContentByPath(certificate.getPath());
+        DeviceNotificationService<ApnsNotifiableDevice> apnsNotificationService = notificationLookupService.lookup(inputStream, certificate);
 
-	@Override
-	public void updateCertificate(String applicationId, Long certificateId, CertificateResource resource) {
-		Certificate certificate = certificateService.getCertificate(certificateId);
-		certificateResourceConverter.convert(resource, certificate);
-		certificateService.updateCertificate(certificate);
-	}
+        notificationBatchExecutor.process(application, notification, apnsNotificationService);
+    }
 
-	@Override
-	public CertificateResource getCertificate(String applicationId) {
-		Certificate certificate = certificateService.getCertificateByApplication(applicationId);
-		return certificateConverter.convert(certificate);
-	}
+    @Override
+    public void createCertificate(final String applicationId, final CertificateResource resource) {
+        Certificate certificate = certificateResourceConverter.convert(resource);
+        certificate.setOwner(sessionService.getCurrentSession().getUser());
+        certificate.setCreateDate(new Date());
 
-	@Override
-	public void deleteCertificate(String applicationId) {
-		certificateService.deleteCertificate(applicationId);
-	}
+        certificateService.createCertificate(applicationId, certificate);
+    }
+
+    @Override
+    public void updateCertificate(final String applicationId, final Long certificateId, final CertificateResource resource) {
+        Certificate certificate = certificateService.getCertificate(certificateId);
+        certificateResourceConverter.convert(resource, certificate);
+        certificateService.updateCertificate(certificate);
+    }
+
+    @Override
+    public CertificateResource getCertificate(final String applicationId) {
+        Certificate certificate = certificateService.getCertificateByApplication(applicationId);
+        return certificateConverter.convert(certificate);
+    }
+
+    @Override
+    public void deleteCertificate(final String applicationId) {
+        certificateService.deleteCertificate(applicationId);
+    }
 }

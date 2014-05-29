@@ -31,6 +31,7 @@ import org.optigra.ads.facade.resource.MessageType;
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.application.ApplicationStatusResource;
 import org.optigra.ads.facade.resource.certificate.CertificateResource;
 import org.optigra.ads.facade.resource.notification.NotificationResource;
 import org.optigra.ads.model.application.ApplicationStatus;
@@ -139,15 +140,14 @@ public class ApplicationControllerTest extends AbstractControllerTest {
     public void testCheckApplicationStatus() throws Exception {
         // Given
         String applicationId = "ds4324kj23k5j23bn5";
-        String status = ApplicationStatus.PENDING.name();
-        MessageResource messageResource = new MessageResource(MessageType.INFO, status);
+        ApplicationStatusResource status = new ApplicationStatusResource(applicationId, ApplicationStatus.UNPAID);
 
         // When
         when(applicationFacade.getApplicationStatus(anyString())).thenReturn(status);
 
         // Then
         mockMvc.perform(get("/application/{appId}/status", applicationId)).andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(messageResource)));
+                .andExpect(content().string(objectMapper.writeValueAsString(status)));
     }
 
     @Test
@@ -214,7 +214,7 @@ public class ApplicationControllerTest extends AbstractControllerTest {
         verify(applicationFacade).updateApplication(eq(applicationId), applicationCaptor.capture());
         assertEquals(applicationResource, applicationCaptor.getValue());
     }
-    
+
     @Test
 	public void testSendApnsMessage() throws Exception {
 		// Given
@@ -224,36 +224,36 @@ public class ApplicationControllerTest extends AbstractControllerTest {
     	NotificationResource notificationResource = new NotificationResource();
 		notificationResource.setMessage(message);
 		notificationResource.setTitle(title);
-    	
+
 		MessageResource messageResource = new MessageResource(MessageType.INFO, "Messages are going to be sent");
     	// When
 		String request = getJson(notificationResource, true);
 		String response = getJson(messageResource, false);
-		
+
 		// Then
     	mockMvc.perform(post("/application/{appId}/notification", applicationId)
     			.contentType(MediaType.APPLICATION_JSON)
     			.content(request))
     		.andExpect(status().isOk())
     		.andExpect(content().string(response));
-    		
+
     	verify(applicationFacade).sendNotificationMessage(applicationId, notificationResource);
 	}
-    
+
     @Test
 	public void testCreateCertificate() throws Exception {
 		// Given
     	String applicationId = "applicationId";
     	String password = "password";
     	String path = "path";
-    	
+
     	CertificateResource certificateResource = new CertificateResource();
     	certificateResource.setApplicationId(applicationId);
 		certificateResource.setPassword(password);
 		certificateResource.setPath(path);
-    	
+
 		String request = getJson(certificateResource, true);
-		
+
 		// When
 
 		// Then
@@ -261,10 +261,10 @@ public class ApplicationControllerTest extends AbstractControllerTest {
     			.contentType(MediaType.APPLICATION_JSON)
     			.content(request))
     		.andExpect(status().isOk());
-    	
+
     	verify(applicationFacade).createCertificate(applicationId, certificateResource);
 	}
-    
+
     @Test
 	public void testUpdateCertificate() throws Exception {
 		// Given
@@ -272,7 +272,7 @@ public class ApplicationControllerTest extends AbstractControllerTest {
     	Long certificateId = 1L;
     	String password = "password";
     	String path = "path";
-    	
+
     	CertificateResource certificateResource = new CertificateResource();
     	certificateResource.setApplicationId(applicationId);
 		certificateResource.setPassword(password);
@@ -286,10 +286,10 @@ public class ApplicationControllerTest extends AbstractControllerTest {
     			.contentType(MediaType.APPLICATION_JSON)
     			.content(request))
     		.andExpect(status().isOk());
-    	
+
     	verify(applicationFacade).updateCertificate(applicationId, certificateId, certificateResource);
 	}
-    
+
     @Test
 	public void testGetCertificate() throws Exception {
 		// Given
@@ -303,9 +303,9 @@ public class ApplicationControllerTest extends AbstractControllerTest {
 		resource.setPath(path);
 		resource.setId(id);
 		resource.setApplicationId(applicationId);
-		
+
 		String response = getJson(resource, false);
-		
+
 		// When
     	when(applicationFacade.getCertificate(anyString())).thenReturn(resource);
 
@@ -314,7 +314,7 @@ public class ApplicationControllerTest extends AbstractControllerTest {
     		.andExpect(status().isOk())
     		.andExpect(content().string(response));
 	}
-    
+
     @Test
 	public void testDeleteCertificate() throws Exception {
 		// Given

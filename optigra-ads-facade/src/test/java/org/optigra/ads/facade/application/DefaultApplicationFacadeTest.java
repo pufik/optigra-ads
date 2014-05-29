@@ -29,6 +29,7 @@ import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.Resource;
 import org.optigra.ads.facade.resource.ResourceUri;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.application.ApplicationStatusResource;
 import org.optigra.ads.facade.resource.certificate.CertificateResource;
 import org.optigra.ads.facade.resource.notification.NotificationResource;
 import org.optigra.ads.model.application.Application;
@@ -65,42 +66,45 @@ public class DefaultApplicationFacadeTest {
 
     @Mock
     private Converter<PagedResult<?>, PagedResultResource<? extends org.optigra.ads.facade.resource.Resource>> pagedSearchConverter;
-    
+
     @Mock
     private Converter<CertificateResource, Certificate> certificateResourceConverter;
 
     @Mock
     private Converter<Certificate, CertificateResource> certificateConverter;
-    
+
     @Mock
     private Converter<ApplicationResource, Application> applicationResourceConverter;
-    
+
     @Mock
     private Converter<NotificationResource, Notification> notificationResourceConverter;
-    
+
     @Mock
     private CertificateService certificateService;
 
     @Mock
     private ApplicationService applicationService;
-    
+
+    @Mock
+    private ApplicationService anonymousAccessApplicationService;
+
     @Mock
     private SessionService sessionService;
 
     @Mock
-	private DeviceNotificationLookupService<ApnsNotifiableDevice> notificationLookupService;
-	
+    private DeviceNotificationLookupService<ApnsNotifiableDevice> notificationLookupService;
+
     @Mock
-	private ContentService contentService;
-    
+    private ContentService contentService;
+
     @Mock
-	private NotificationBatchExecutor notificationBatchExecutor;
+    private NotificationBatchExecutor notificationBatchExecutor;
 
     @InjectMocks
     private final DefaultApplicationFacade unit = new DefaultApplicationFacade();
 
     @Mock
-	private InputStream inputStream;
+    private InputStream inputStream;
 
     @Test
     public void testCreateApplication() {
@@ -162,15 +166,16 @@ public class DefaultApplicationFacadeTest {
     public void testGetApplicationStatus() {
         // Given
         String applicationId = "ds4324kj23k5j23bn5";
-        String expected = null;
+        ApplicationStatus status = ApplicationStatus.UNPAID;
+        ApplicationStatusResource expected = new ApplicationStatusResource(applicationId, status);
 
         // When
-        when(applicationService.getApplicationStatus(anyString())).thenReturn(expected);
+        when(anonymousAccessApplicationService.getApplicationStatus(anyString())).thenReturn(status);
 
-        String actual = unit.getApplicationStatus(applicationId);
+        ApplicationStatusResource actual = unit.getApplicationStatus(applicationId);
 
         // Then
-        verify(applicationService).getApplicationStatus(applicationId);
+        verify(anonymousAccessApplicationService).getApplicationStatus(applicationId);
 
         assertEquals(expected, actual);
     }
@@ -246,7 +251,7 @@ public class DefaultApplicationFacadeTest {
         application.setGroupName(groupName);
         application.setImageUrl(imageUrl);
         application.setName(name);
-        application.setUrl(url );
+        application.setUrl(url);
 
         // When
         when(applicationService.getApplication(anyString())).thenReturn(application);
@@ -258,127 +263,127 @@ public class DefaultApplicationFacadeTest {
         verify(applicationService).updateApplication(applicationCaptor.capture());
         assertEquals(application, applicationCaptor.getValue());
     }
-    
+
     @Test
-	public void testSendNotificationMessage() throws Exception {
-		// Given
-    	String applicationId = "appId";
-    	String message = "Message";
-    	String title = "title";
-    	
-    	NotificationResource notificationResource = new NotificationResource();
-		notificationResource.setMessage(message);
-		notificationResource.setTitle(title);
+    public void testSendNotificationMessage() throws Exception {
+        // Given
+        String applicationId = "appId";
+        String message = "Message";
+        String title = "title";
 
-		Notification notification = new Notification();
-		notification.setMessage(message);
-		notification.setTitle(title);
+        NotificationResource notificationResource = new NotificationResource();
+        notificationResource.setMessage(message);
+        notificationResource.setTitle(title);
 
-		Application application = new Application();
-		application.setApplicationId(applicationId);
-		
-		Certificate certificate = new Certificate();
-		certificate.setApplication(application);
-		
-		DeviceNotificationService<ApnsNotifiableDevice> deviceNotificationService = new ApnsDeviceNotificationService();
+        Notification notification = new Notification();
+        notification.setMessage(message);
+        notification.setTitle(title);
 
-		// When
-		when(notificationResourceConverter.convert(any(NotificationResource.class))).thenReturn(notification);
-		when(applicationService.getApplication(anyString())).thenReturn(application);
-		when(certificateService.getCertificateByApplication(anyString())).thenReturn(certificate);
-		when(contentService.getContentByPath(anyString())).thenReturn(inputStream);
-		when(notificationLookupService.lookup(any(InputStream.class), any(Certificate.class))).thenReturn(deviceNotificationService);
-		
-    	unit.sendNotificationMessage(applicationId, notificationResource);
+        Application application = new Application();
+        application.setApplicationId(applicationId);
 
-		// Then
-    	verify(applicationService).getApplication(applicationId);
-    	verify(notificationResourceConverter).convert(notificationResource);
-    	verify(notificationBatchExecutor).process(application, notification, deviceNotificationService);
-	}
-    
+        Certificate certificate = new Certificate();
+        certificate.setApplication(application);
+
+        DeviceNotificationService<ApnsNotifiableDevice> deviceNotificationService = new ApnsDeviceNotificationService();
+
+        // When
+        when(notificationResourceConverter.convert(any(NotificationResource.class))).thenReturn(notification);
+        when(applicationService.getApplication(anyString())).thenReturn(application);
+        when(certificateService.getCertificateByApplication(anyString())).thenReturn(certificate);
+        when(contentService.getContentByPath(anyString())).thenReturn(inputStream);
+        when(notificationLookupService.lookup(any(InputStream.class), any(Certificate.class))).thenReturn(deviceNotificationService);
+
+        unit.sendNotificationMessage(applicationId, notificationResource);
+
+        // Then
+        verify(applicationService).getApplication(applicationId);
+        verify(notificationResourceConverter).convert(notificationResource);
+        verify(notificationBatchExecutor).process(application, notification, deviceNotificationService);
+    }
+
     @Test
-	public void testCreateCertificate() throws Exception {
-		// Given
-    	String applicationId = "applicationId";
-    	String password = "password";
-    	CertificateResource resource = new CertificateResource();
-    	resource.setApplicationId(applicationId);
-		resource.setPassword(password);
+    public void testCreateCertificate() throws Exception {
+        // Given
+        String applicationId = "applicationId";
+        String password = "password";
+        CertificateResource resource = new CertificateResource();
+        resource.setApplicationId(applicationId);
+        resource.setPassword(password);
 
-		Certificate certificate = new Certificate();
-		certificate.setPassword(password);
-		User user = new User();
-		Session session = new Session(user);
-		
-		// When
-		when(sessionService.getCurrentSession()).thenReturn(session);
-		when(certificateResourceConverter.convert(any(CertificateResource.class))).thenReturn(certificate);
-		
-    	unit.createCertificate(applicationId, resource);
+        Certificate certificate = new Certificate();
+        certificate.setPassword(password);
+        User user = new User();
+        Session session = new Session(user);
 
-		// Then
-    	verify(certificateResourceConverter).convert(resource);
-    	verify(certificateService).createCertificate(applicationId, certificate);
-	}
-    
+        // When
+        when(sessionService.getCurrentSession()).thenReturn(session);
+        when(certificateResourceConverter.convert(any(CertificateResource.class))).thenReturn(certificate);
+
+        unit.createCertificate(applicationId, resource);
+
+        // Then
+        verify(certificateResourceConverter).convert(resource);
+        verify(certificateService).createCertificate(applicationId, certificate);
+    }
+
     @Test
-	public void testUpdateCertificate() throws Exception {
-		// Given
-    	String applicationId = "applicationId";
-    	Long certificateId = 1L;
-    	String path = "path";
-    	String password = "password";
+    public void testUpdateCertificate() throws Exception {
+        // Given
+        String applicationId = "applicationId";
+        Long certificateId = 1L;
+        String path = "path";
+        String password = "password";
 
-    	CertificateResource resource = new CertificateResource();
-		resource.setPath(path);
-		resource.setPassword(password);
+        CertificateResource resource = new CertificateResource();
+        resource.setPath(path);
+        resource.setPassword(password);
 
-		Certificate certificate = new Certificate();
-		certificate.setPath(path);
-		certificate.setPassword(password);
-		
-		// When
-		when(certificateService.getCertificate(anyLong())).thenReturn(certificate);
-		
-    	unit.updateCertificate(applicationId, certificateId, resource);
+        Certificate certificate = new Certificate();
+        certificate.setPath(path);
+        certificate.setPassword(password);
 
-		// Then
-    	verify(certificateService).getCertificate(certificateId);
-    	verify(certificateResourceConverter).convert(resource, certificate);
-    	verify(certificateService).updateCertificate(certificate);
-	}
-    
+        // When
+        when(certificateService.getCertificate(anyLong())).thenReturn(certificate);
+
+        unit.updateCertificate(applicationId, certificateId, resource);
+
+        // Then
+        verify(certificateService).getCertificate(certificateId);
+        verify(certificateResourceConverter).convert(resource, certificate);
+        verify(certificateService).updateCertificate(certificate);
+    }
+
     @Test
-	public void testGetCertificate() throws Exception {
-		// Given
-    	String applicationId = "appId";
-    	Long certificateId = 1L;
+    public void testGetCertificate() throws Exception {
+        // Given
+        String applicationId = "appId";
+        Long certificateId = 1L;
 
-    	CertificateResource expected = new CertificateResource();
-    	expected.setApplicationId(applicationId);
-    	
-		Certificate certificate = new Certificate();
-		certificate.setId(certificateId);
+        CertificateResource expected = new CertificateResource();
+        expected.setApplicationId(applicationId);
 
-		// When
-    	when(certificateService.getCertificateByApplication(anyString())).thenReturn(certificate);
-    	when(certificateConverter.convert(any(Certificate.class))).thenReturn(expected);
-    	CertificateResource actual = unit.getCertificate(applicationId);
+        Certificate certificate = new Certificate();
+        certificate.setId(certificateId);
 
-		// Then
-    	assertEquals(expected, actual);
-	}
-    
+        // When
+        when(certificateService.getCertificateByApplication(anyString())).thenReturn(certificate);
+        when(certificateConverter.convert(any(Certificate.class))).thenReturn(expected);
+        CertificateResource actual = unit.getCertificate(applicationId);
+
+        // Then
+        assertEquals(expected, actual);
+    }
+
     @Test
-	public void testDeleteCertificate() throws Exception {
-		// Given
-    	String applicationId = "appId";
+    public void testDeleteCertificate() throws Exception {
+        // Given
+        String applicationId = "appId";
 
-		// When
-    	unit.deleteCertificate(applicationId);
+        // When
+        unit.deleteCertificate(applicationId);
 
-		// Then
-    	verify(certificateService).deleteCertificate(applicationId);
-	}
+        // Then
+        verify(certificateService).deleteCertificate(applicationId);
+    }
 }

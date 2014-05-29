@@ -19,26 +19,26 @@ import org.springframework.stereotype.Component;
 @Component("apnsBatchExecutor")
 public class ApnsBatchExecutor implements NotificationBatchExecutor {
 	private static final Logger logger = LoggerFactory.getLogger(ApnsBatchExecutor.class);
-	
+
 	@Resource(name = "deviceItemReader")
 	private ItemReader<Application, Device> itemReader;
-	
+
 	@Resource(name = "itemProcessor")
 	private ItemProcessor itemProcessor;
-	
+
 	@Value("${batch.limit}")
 	private Integer limit;
-	
+
 	@Override
-	public void process(Application application, Notification notification, DeviceNotificationService<ApnsNotifiableDevice> apnsNotificationService) {
+	public void process(final Application application, final Notification notification, final DeviceNotificationService<ApnsNotifiableDevice> apnsNotificationService) {
 		logger.info("Starting batch work on sending apns messages");
 		long count = 1;
-		
+
 		PagedResult<Device> pagedResult = null;
 		BaseSearch search = null;
 		for(int start = 0; start < count; start += limit) {
 			search = new BaseSearch(start, limit);
-			
+
 			pagedResult = itemReader.getItems(application, search);
 			itemProcessor.process(apnsNotificationService, pagedResult.getEntities(), notification);
 
@@ -46,7 +46,7 @@ public class ApnsBatchExecutor implements NotificationBatchExecutor {
 		}
 	}
 
-	public void setLimit(Integer limit) {
+	public void setLimit(final Integer limit) {
 		this.limit = limit;
 	}
 

@@ -74,14 +74,13 @@ public class DefaultApplicationServiceTest {
         // Given
         String applicationId = "appId";
         Application application = new Application();
-        ApplicationStatus status = ApplicationStatus.PAID;
-        application.setStatus(status );
-        String expected = status.name();
+        ApplicationStatus expected = ApplicationStatus.PAID;
+        application.setStatus(expected);
 
         // When
         when(applicationDao.getApplicationById(anyString())).thenReturn(application);
 
-        String actual = unit.getApplicationStatus(applicationId);
+        ApplicationStatus actual = unit.getApplicationStatus(applicationId);
 
         // Then
         verify(applicationDao).getApplicationById(applicationId);
@@ -123,14 +122,14 @@ public class DefaultApplicationServiceTest {
 
         assertEquals(application, applicationCaptor.getValue());
     }
-    
+
     @Test
     public void testUpdateApplication() throws Exception {
         // Given
         String applicationId = "applicationId";
         Application application = new Application();
         application.setApplicationId(applicationId);
-        
+
         // When
         unit.updateApplication(application);
 

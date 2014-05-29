@@ -2,6 +2,7 @@ package org.optigra.ads.facade.application;
 
 import org.optigra.ads.facade.resource.PagedResultResource;
 import org.optigra.ads.facade.resource.application.ApplicationResource;
+import org.optigra.ads.facade.resource.application.ApplicationStatusResource;
 import org.optigra.ads.facade.resource.certificate.CertificateResource;
 import org.optigra.ads.facade.resource.notification.NotificationResource;
 
@@ -20,7 +21,7 @@ public interface ApplicationFacade {
      * @author ivanursul
      * @param applicationResource
      *            dto
-     * @return 
+     * @return
      */
     ApplicationResource createApplication(ApplicationResource applicationResource);
 
@@ -44,9 +45,9 @@ public interface ApplicationFacade {
      * @author ivanursul
      * @param applicationId
      *            App id
-     * @return String status.
+     * @return status {@link ApplicationStatusResource}.
      */
-    String getApplicationStatus(String applicationId);
+    ApplicationStatusResource getApplicationStatus(String applicationId);
 
     /**
      * @date Feb 14, 2014
@@ -75,40 +76,40 @@ public interface ApplicationFacade {
     void updateApplication(String applicationId, ApplicationResource applicationResource);
 
     /**
-     * 
      * @param applicationId
      * @param notificationResource
      */
-	void sendNotificationMessage(String applicationId, NotificationResource notificationResource);
+    void sendNotificationMessage(String applicationId, NotificationResource notificationResource);
 
-	/**
-	 * Method for creating apns certificate
-	 * @param applicationId
-	 * @param resource
-	 */
-	void createCertificate(String applicationId, CertificateResource resource);
+    /**
+     * Method for creating apns certificate
+     *
+     * @param applicationId
+     * @param resource
+     */
+    void createCertificate(String applicationId, CertificateResource resource);
 
-	/**
-	 * Update method for certificates
-	 * @param applicationId
-	 * @param certificateId
-	 * @param resource
-	 */
-	void updateCertificate(String applicationId, Long certificateId, CertificateResource resource);
+    /**
+     * Update method for certificates
+     *
+     * @param applicationId
+     * @param certificateId
+     * @param resource
+     */
+    void updateCertificate(String applicationId, Long certificateId, CertificateResource resource);
 
-	/**
-	 * Gets certificate for application
-	 * 
-	 * @param applicationId
-	 * @return
-	 */
-	CertificateResource getCertificate(String applicationId);
+    /**
+     * Gets certificate for application
+     *
+     * @param applicationId
+     * @return
+     */
+    CertificateResource getCertificate(String applicationId);
 
-	/**
-	 * 
-	 * Method for deleting certificate
-	 * 
-	 * @param applicationId
-	 */
-	void deleteCertificate(String applicationId);
+    /**
+     * Method for deleting certificate
+     *
+     * @param applicationId
+     */
+    void deleteCertificate(String applicationId);
 }

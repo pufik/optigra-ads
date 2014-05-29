@@ -20,6 +20,8 @@
 		<security:intercept-url pattern="/api/device/**" method="POST"  access="permitAll"/>
 		<security:intercept-url pattern="/api/device/**" method="PUT"  access="permitAll"/>
 		<security:intercept-url pattern="/api/device/**" method="DELETE"  access="permitAll"/>
+		<!-- Application's status check is not secured -->
+		<security:intercept-url pattern="/api/application/**/status" method="GET"  access="permitAll"/>
 		
 		<security:intercept-url pattern="/**"  access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
 	</security:http>

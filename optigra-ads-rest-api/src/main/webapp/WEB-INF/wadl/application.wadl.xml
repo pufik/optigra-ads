@@ -243,6 +243,31 @@
 	        	</wadl:method>
         </wadl:resource>
         
+        <wadl:resource path="application/{applicationId}/status">
+        <wadl:doc title="Description">Get status for Application</wadl:doc>
+	        <wadl:method name="GET" id="getApplicationStatus">
+	        	<wadl:doc>Get Application's status</wadl:doc>
+	        	        <wadl:request>
+		        	        <wadl:param name="applicationId" style="template" type="xs:string" required="true">
+	                            <wadl:doc>Application's unique identifier</wadl:doc>
+	                        </wadl:param>
+	                        <wadl:representation mediaType="application/json" />
+	                    </wadl:request>
+	                    <wadl:response status="200">
+	                        <wadl:doc title="OK" />
+	                        <wadl:representation mediaType="application/json">
+	                            <wadl:doc>
+									{
+									  "applicationId" : "75c68bf0-1f17-453e-bf28-1cc7a22177de",
+									  "status" : "UNPAID",
+									  "uri" : "/application/75c68bf0-1f17-453e-bf28-1cc7a22177de/status"
+									}
+	                            </wadl:doc>
+	                        </wadl:representation>
+	                    </wadl:response>
+	        	</wadl:method>
+        </wadl:resource>
+        
          <wadl:resource path="device/{deviceId}">
         <wadl:doc title="Description">Device management methods</wadl:doc>
         	<wadl:method name="GET" id="getDeviceById">

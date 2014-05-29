@@ -1,6 +1,7 @@
 package org.optigra.ads.service.application;
 
 import org.optigra.ads.model.application.Application;
+import org.optigra.ads.model.application.ApplicationStatus;
 import org.optigra.ads.model.pagination.PagedResult;
 
 /**
@@ -35,7 +36,7 @@ public interface ApplicationService {
      * @param applicationId Id of application, whose status we need.
      * @return Application status.
      */
-    String getApplicationStatus(String applicationId);
+    ApplicationStatus getApplicationStatus(String applicationId);
 
     /**
      *
