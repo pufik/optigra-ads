@@ -71,25 +71,36 @@
 			<table class="table table-bordered table-hover table-striped tablesorter">
 			  <thead>
 			    <tr>
-			      <th>Url</th>
-			      <th>Name</th>
-			      <th>Group Id</th>
-			      <th>Group Name</th>
-			      <th>Status</th>
-			      <th>Image</th>
-			      <th>Edit</th>
+			      <th >Name</th>
+			      <th style="width: 5%;">Group Id</th>
+			      <th style="width: 15%;">Group Name</th>
+			      <th style="width: 24px;">Status</th>
+			      <th style="width: 10%;">Image</th>
+			      <th style="width: 5%;">Action</th>
 			    </tr>
 			  </thead>
 			  <tbody>
 			    <% _.each(entities, function(entity) { %>
 			      <tr class="active">
-			        <td><%= entity.url %></td>
 			        <td><%= entity.name %></td>
 			        <td><%= entity.groupId %></td>
 			        <td><%= entity.groupName %></td>
-			        <td><%= entity.status %></td>
+			        <td><i 
+			        	<%= entity.status %>
+			        	<% if(entity.status == "PAID"){%>
+			        		class="fa fa-check-square-o" title="Paid"
+			        	<%} else if(entity.status == "UNPAID"){%>
+			        		class="fa fa-times-circle" title="Unpaid"
+			        	<%} else if(entity.status == "PENDING"){%>
+			        		class="fa fa-compress" title="Pending"
+			        	<%}%>
+			        	></i>
+			        </td>
 			        <td><img src="<%=entity.imageUrl%>" class="img-circle" width="60px" height="60px" ></td>
-			        <td><a class="btn" href="#/applications/edit/<%=entity.applicationId %>">Edit</a></td>
+			        <td>
+			        	<a href="<%= entity.url %>" class="fa fa-download fa-2" target="_blank"></a>
+			        	<a href="#/applications/edit/<%=entity.applicationId %>" class="fa fa-pencil-square-o"></a>
+			        </td>
 			      </tr>
 			    <% }); %>
 			  </tbody>

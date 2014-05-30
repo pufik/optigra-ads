@@ -11,7 +11,7 @@ public class Queries {
     public static final String FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT u FROM User u WHERE login = :login AND password = :password";
 
     public static final String FIND_APPLICATIONS_QUERY_NAME = "Application.findApplications";
-    public static final String FIND_APPLICATIONS_QUERY = "SELECT a FROM Application a";
+    public static final String FIND_APPLICATIONS_QUERY = "SELECT a FROM Application a ORDER BY a.name";
 
     public static final String FIND_APPLICATION_BY_ID_QUERY_NAME = "Application.findApplicationById";
     public static final String FIND_APPLICATION_BY_ID_QUERY = "SELECT a FROM Application a WHERE a.applicationId = :appId";
