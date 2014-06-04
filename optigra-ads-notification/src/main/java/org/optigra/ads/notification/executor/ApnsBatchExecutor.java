@@ -16,9 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component("apnsBatchExecutor")
 @Async
+@Transactional
 public class ApnsBatchExecutor implements NotificationBatchExecutor {
 	private static final Logger logger = LoggerFactory.getLogger(ApnsBatchExecutor.class);
 
