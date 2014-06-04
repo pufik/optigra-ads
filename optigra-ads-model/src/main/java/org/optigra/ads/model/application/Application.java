@@ -11,9 +11,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.optigra.ads.model.Model;
+import org.optigra.ads.model.certificate.Certificate;
 import org.optigra.ads.model.device.Device;
 import org.optigra.ads.model.device.DeviceAction;
 
@@ -49,12 +51,16 @@ public class Application extends Model {
 
     @Column(name = "image_url")
     private String imageUrl;
+    
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Certificate certificate;
 
     @ManyToMany(mappedBy = "applications", fetch = FetchType.LAZY)
     private List<Device> devices = new ArrayList<>();
 
     @OneToMany(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DeviceAction> actions = new ArrayList<>();
+    
 
     public String getApplicationId() {
         return applicationId;
@@ -128,7 +134,15 @@ public class Application extends Model {
         this.actions = actions;
     }
 
-    @Override
+    public Certificate getCertificate() {
+		return certificate;
+	}
+
+	public void setCertificate(Certificate certificate) {
+		this.certificate = certificate;
+	}
+
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
@@ -186,4 +200,13 @@ public class Application extends Model {
 
         return true;
     }
+
+	@Override
+	public String toString() {
+		return "Application [applicationId=" + applicationId + ", status="
+				+ status + ", url=" + url + ", name=" + name + ", groupId="
+				+ groupId + ", groupName=" + groupName + ", imageUrl="
+				+ imageUrl + "]";
+	}
+    
 }

@@ -130,7 +130,7 @@ public class DefaultApplicationFacade implements ApplicationFacade {
         Notification notification = notificationResourceConverter.convert(notificationResource);
         Application application = applicationService.getApplication(applicationId);
 
-        Certificate certificate = certificateService.getCertificateByApplication(applicationId);
+        Certificate certificate = application.getCertificate();
         InputStream inputStream = contentService.getContentByPath(certificate.getPath());
         DeviceNotificationService<ApnsNotifiableDevice> apnsNotificationService = notificationLookupService.lookup(inputStream, certificate);
 

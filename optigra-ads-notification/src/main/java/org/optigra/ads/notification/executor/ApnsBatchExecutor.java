@@ -14,9 +14,11 @@ import org.optigra.ads.notification.service.DeviceNotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component("apnsBatchExecutor")
+@Async
 public class ApnsBatchExecutor implements NotificationBatchExecutor {
 	private static final Logger logger = LoggerFactory.getLogger(ApnsBatchExecutor.class);
 

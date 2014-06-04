@@ -270,6 +270,7 @@ public class DefaultApplicationFacadeTest {
         String applicationId = "appId";
         String message = "Message";
         String title = "title";
+        String path = "/path";
 
         NotificationResource notificationResource = new NotificationResource();
         notificationResource.setMessage(message);
@@ -279,18 +280,18 @@ public class DefaultApplicationFacadeTest {
         notification.setMessage(message);
         notification.setTitle(title);
 
+        Certificate certificate = new Certificate();
+		certificate.setPath(path);
+
         Application application = new Application();
         application.setApplicationId(applicationId);
-
-        Certificate certificate = new Certificate();
-        certificate.setApplication(application);
+		application.setCertificate(certificate);
 
         DeviceNotificationService<ApnsNotifiableDevice> deviceNotificationService = new ApnsDeviceNotificationService();
 
         // When
         when(notificationResourceConverter.convert(any(NotificationResource.class))).thenReturn(notification);
         when(applicationService.getApplication(anyString())).thenReturn(application);
-        when(certificateService.getCertificateByApplication(anyString())).thenReturn(certificate);
         when(contentService.getContentByPath(anyString())).thenReturn(inputStream);
         when(notificationLookupService.lookup(any(InputStream.class), any(Certificate.class))).thenReturn(deviceNotificationService);
 
