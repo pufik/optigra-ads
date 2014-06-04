@@ -42,7 +42,7 @@
                         </wadl:param>
                         <wadl:representation mediaType="application/json">
                             <wadl:doc>
-								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/application?offset=10&amp;limit=20
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/application?offset=10&amp;limit=20
                             </wadl:doc>
                         </wadl:representation>
                     </wadl:request>
@@ -85,7 +85,7 @@
                         </wadl:param>
                         <wadl:representation mediaType="application/json">
                             <wadl:doc>
-								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/application/15931b82-8077-4bb9-a2b7-2810e4da00af
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/application/15931b82-8077-4bb9-a2b7-2810e4da00af
                             </wadl:doc>
                         </wadl:representation>
                     </wadl:request>
@@ -193,7 +193,7 @@
                         	</wadl:param>
 	                        <wadl:representation mediaType="application/json">
 	                            <wadl:doc>
-									 http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/application/c6d2fd8c-a06b-45b9-a802-ae9c9e0c8156
+									 http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/application/c6d2fd8c-a06b-45b9-a802-ae9c9e0c8156
 	                            </wadl:doc>
 	                        </wadl:representation>
 	                    </wadl:request>
@@ -278,7 +278,7 @@
                         </wadl:param>
                         <wadl:representation mediaType="application/json">
                             <wadl:doc>
-								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/device/mydevice1
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/device/mydevice1
                             </wadl:doc>
                         </wadl:representation>
                     </wadl:request>
@@ -357,7 +357,7 @@
                         	</wadl:param>
 	                        <wadl:representation mediaType="application/json">
 	                            <wadl:doc>
-									 http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/device/ddd-555
+									 http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/device/ddd-555
 	                            </wadl:doc>
 	                        </wadl:representation>
 	                    </wadl:request>
@@ -387,7 +387,7 @@
                        </wadl:param>
                        <wadl:representation mediaType="application/json">
                            <wadl:doc>
-							http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/device/ddd-5551/application/75c68bf0-1f17-453e-bf28-1cc7a22177de
+							http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/device/ddd-5551/application/75c68bf0-1f17-453e-bf28-1cc7a22177de
                            </wadl:doc>
                        </wadl:representation>
                    </wadl:request>
@@ -405,7 +405,7 @@
                        </wadl:representation>
                    </wadl:response>
        		</wadl:method>
-       		<wadl:method name="PUT" id="attachApplicationToDevice">
+       		<wadl:method name="POST" id="attachApplicationToDevice">
        			<wadl:doc>Attach application to device</wadl:doc>
        	        <wadl:request>
                        <wadl:param name="deviceId" style="template" type="xs:string" required="true">
@@ -416,7 +416,7 @@
                        </wadl:param>
                        <wadl:representation mediaType="application/json">
                            <wadl:doc>
-							http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/device/ddd-5551/application/75c68bf0-1f17-453e-bf28-1cc7a22177de
+							http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/device/ddd-5551/application/75c68bf0-1f17-453e-bf28-1cc7a22177de
                            </wadl:doc>
                        </wadl:representation>
                    </wadl:request>
@@ -451,7 +451,7 @@
                         </wadl:param>
                         <wadl:representation mediaType="application/json">
                             <wadl:doc>
-								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/user?offset=10&amp;limit=20
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/user?offset=10&amp;limit=20
                             </wadl:doc>
                         </wadl:representation>
                     </wadl:request>
@@ -524,7 +524,7 @@
                         </wadl:param>
                         <wadl:representation>
                             <wadl:doc>
-								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/api/content?contentPath=/common/myImage.png
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/content?contentPath=/common/myImage.png
                             </wadl:doc>
                         </wadl:representation>
                     </wadl:request>

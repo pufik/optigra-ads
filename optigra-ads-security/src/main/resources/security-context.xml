@@ -13,15 +13,15 @@
 	<security:http realm="Optigra Mobile Ad Network" use-expressions="true">
 		<security:http-basic />
 		<!--TODO: Should be changed when  security strategy will be approved -->
-		<security:intercept-url pattern="/api/user/**" method="POST"  access="permitAll"/>
-		<security:intercept-url pattern="/api/user/current" method="GET"  access="permitAll"/>
+		<security:intercept-url pattern="/v1/user/**" method="POST"  access="permitAll"/>
+		<security:intercept-url pattern="/v1/user/current" method="GET"  access="permitAll"/>
 		<!-- Device actions are not secured -->
-		<security:intercept-url pattern="/api/device/**" method="GET"  access="permitAll"/>
-		<security:intercept-url pattern="/api/device/**" method="POST"  access="permitAll"/>
-		<security:intercept-url pattern="/api/device/**" method="PUT"  access="permitAll"/>
-		<security:intercept-url pattern="/api/device/**" method="DELETE"  access="permitAll"/>
+		<security:intercept-url pattern="/v1/device/**" method="GET"  access="permitAll"/>
+		<security:intercept-url pattern="/v1/device/**" method="POST"  access="permitAll"/>
+		<security:intercept-url pattern="/v1/device/**" method="PUT"  access="permitAll"/>
+		<security:intercept-url pattern="/v1/device/**" method="DELETE"  access="permitAll"/>
 		<!-- Application's status check is not secured -->
-		<security:intercept-url pattern="/api/application/**/status" method="GET"  access="permitAll"/>
+		<security:intercept-url pattern="/v1/application/**/status" method="GET"  access="permitAll"/>
 		
 		<security:intercept-url pattern="/**"  access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
 	</security:http>

@@ -11,7 +11,7 @@ import com.excilys.ebi.gatling.core.structure.ScenarioBuilder.configureScenario
 class ApplicationFlowScenario extends Simulation {
 
   val httpConf = httpConfig
-    .baseURL("http://localhost:8080/optigra-ads-rest-api/api")
+    .baseURL("http://localhost:8080/optigra-ads-rest-api/v1")
     .acceptHeader("application/json")
 
   val applicationDetails = csv("application.csv").queue
