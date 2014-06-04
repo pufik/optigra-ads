@@ -19,8 +19,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component("apnsBatchExecutor")
-@Async
-@Transactional
 public class ApnsBatchExecutor implements NotificationBatchExecutor {
 	private static final Logger logger = LoggerFactory.getLogger(ApnsBatchExecutor.class);
 
