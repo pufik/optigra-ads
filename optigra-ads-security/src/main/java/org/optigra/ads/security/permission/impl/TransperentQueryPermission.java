@@ -22,6 +22,7 @@ public class TransperentQueryPermission implements Permission<PermissionContext<
         transperentQueries.add(Queries.FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY);
         transperentQueries.add(Queries.FIND_DEVICE_BY_UID_AND_APPLICATION_QUERY);
         transperentQueries.add(Queries.FIND_APPLICATION_BY_ID__FOR_DEVICE_QUERY);
+        transperentQueries.add(Queries.FIND_DEVICES_FROM_APPLICATION);
     }
 
     @Override
