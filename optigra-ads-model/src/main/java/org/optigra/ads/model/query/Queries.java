@@ -10,6 +10,9 @@ public class Queries {
     public static final String FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY_NAME = "User.findByLoginAndPassword";
     public static final String FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY = "SELECT u FROM User u WHERE login = :login AND password = :password";
 
+    public static final String FIND_USER_BY_LOGIN_QUERY_NAME = "User.findByLogin";
+    public static final String FIND_USER_BY_LOGIN_QUERY = "SELECT u FROM User u WHERE login = :login";
+
     public static final String FIND_APPLICATIONS_QUERY_NAME = "Application.findApplications";
     public static final String FIND_APPLICATIONS_QUERY = "SELECT a FROM Application a ORDER BY a.name";
 
@@ -33,6 +36,7 @@ public class Queries {
 
     // Queries
     public static final Queries FIND_USER_BY_LOGIN_AND_PASS = new Queries(FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY_NAME, FIND_USER_BY_LOGIN_AND_PASSWORD_QUERY);
+    public static final Queries FIND_USER_BY_LOGIN = new Queries(FIND_USER_BY_LOGIN_QUERY_NAME, FIND_USER_BY_LOGIN_QUERY);
     public static final Queries FIND_APPLICATIONS = new Queries(FIND_APPLICATIONS_QUERY_NAME, FIND_APPLICATIONS_QUERY);
     public static final Queries FIND_APPLICATION_BY_ID = new Queries(FIND_APPLICATION_BY_ID_QUERY_NAME, FIND_APPLICATION_BY_ID_QUERY);
     public static final Queries FIND_APPLICATION_BY_ID_FOR_DEVICE = new Queries(FIND_APPLICATION_BY_ID_FOR_DEVICE_QUERY_NAME, FIND_APPLICATION_BY_ID__FOR_DEVICE_QUERY);

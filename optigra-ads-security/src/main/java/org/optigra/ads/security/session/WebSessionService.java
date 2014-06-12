@@ -1,7 +1,13 @@
 package org.optigra.ads.security.session;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.optigra.ads.model.user.User;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -32,6 +38,31 @@ public class WebSessionService implements SessionService {
         }
 
         return principal;
+    }
+
+    @Override
+    public Session createSessionForUser(final User user) {
+        Authentication authentication = getAuthentication(user);
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return new Session(user);
+    }
+
+    private Authentication getAuthentication(final User user) {
+        Collection<GrantedAuthority> authorities = getAuthorities(user);
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword(), authorities);
+        token.setDetails(user);
+
+        return token;
+    }
+
+    private Collection<GrantedAuthority> getAuthorities(final User principal) {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(principal.getRole().getSecurityCode()));
+
+        return authorities;
     }
 
     public User getDefaultUser() {

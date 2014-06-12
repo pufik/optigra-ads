@@ -13,6 +13,7 @@
 	<security:http realm="Optigra Mobile Ad Network" use-expressions="true">
 		<security:http-basic />
 		<!--TODO: Should be changed when  security strategy will be approved -->
+		<security:intercept-url pattern="/v1/authorize/**" method="GET"  access="permitAll"/>
 		<security:intercept-url pattern="/v1/user/**" method="POST"  access="permitAll"/>
 		<security:intercept-url pattern="/v1/user/current" method="GET"  access="permitAll"/>
 		<!-- Device actions are not secured -->
@@ -24,6 +25,7 @@
 		<security:intercept-url pattern="/v1/application/**/status" method="GET"  access="permitAll"/>
 		
 		<security:intercept-url pattern="/**"  access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
+		<security:logout logout-url="/v1/logout" logout-success-url="/v1"/>
 	</security:http>
 	
 	<security:authentication-manager >

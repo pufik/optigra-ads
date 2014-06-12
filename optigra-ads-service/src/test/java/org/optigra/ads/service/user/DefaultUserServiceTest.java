@@ -23,12 +23,12 @@ import org.optigra.ads.model.user.UserRole;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultUserServiceTest {
-	
+
     @Mock
     private UserDao userDao;
-    
+
     @InjectMocks
-	private DefaultUserService unit = new DefaultUserService();
+	private final DefaultUserService unit = new DefaultUserService();
 
 	@Test
 	public void testGetUserById() {
@@ -36,7 +36,7 @@ public class DefaultUserServiceTest {
 	    long userId = BigDecimal.ONE.longValue();
 		User expectedUser = new User();
 		expectedUser.setId(userId);
-		
+
 		// When
         when(userDao.getUserById(anyLong())).thenReturn(expectedUser);
 		User actualUser = unit.getUserById(userId);
@@ -45,7 +45,7 @@ public class DefaultUserServiceTest {
 		verify(userDao).getUserById(userId);
 		assertEquals(expectedUser, actualUser);
 	}
-	
+
 	@Test
 	public void testGetUserByLoginAndPassword() {
 		// Given
@@ -65,6 +65,23 @@ public class DefaultUserServiceTest {
 	}
 
 	@Test
+    public void testGetUserByLogin() {
+        // Given
+        String login = "login";
+        User expectedUser = new User();
+        expectedUser.setId(BigDecimal.ONE.longValue());
+        expectedUser.setRole(UserRole.ADMIN);
+
+        // When
+        when(userDao.getUserByLogin(anyString())).thenReturn(expectedUser);
+        User actualUser = unit.getUserByLogin(login);
+
+        // Then
+        verify(userDao).getUserByLogin(login);
+        assertEquals(expectedUser, actualUser);
+    }
+
+	@Test
 	public void testGetUsers() {
 	    // Given
 	    int offset = 1;
@@ -73,17 +90,17 @@ public class DefaultUserServiceTest {
         User user1 = new User();
         List<User> entities = Arrays.asList(user1);
         PagedResult<User> expected = new PagedResult<User>(offset, limit, count, entities);
-	    
+
         // When
         when(userDao.getUsers(anyInt(), anyInt())).thenReturn(expected);
-        
+
 	    PagedResult<User> actual = unit.getUsers(offset, limit);
-	    
+
 	    // Then
 	    verify(userDao).getUsers(offset, limit);
 	    assertEquals(expected, actual);
 	}
-	
+
 	@Test
 	public void testUpdateUser() throws Exception {
 		// Given
@@ -97,7 +114,7 @@ public class DefaultUserServiceTest {
 		// Then
 		verify(userDao).update(user);
 	}
-	
+
 	@Test
 	public void testDeleteUser() throws Exception {
 		// Given

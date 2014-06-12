@@ -18,6 +18,8 @@ public abstract class BaseController {
 
     private static final Logger LOG = LoggerFactory.getLogger(BaseController.class);
 
+    protected static final String REDIRECT = "redirect:";
+
     /**
      * @date Jan 24, 2014
      * @author Iurii Parfeniuk

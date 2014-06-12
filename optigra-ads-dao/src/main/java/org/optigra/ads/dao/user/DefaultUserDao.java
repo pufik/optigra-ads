@@ -55,4 +55,11 @@ public class DefaultUserDao extends AbstractDao<User, Long> implements UserDao {
         return search(search);
     }
 
+    @Override
+    public User getUserByLogin(final String login) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("login", login);
+
+        return executeSingleResultQuery(Queries.FIND_USER_BY_LOGIN.getQuery(), parameters);
+    }
 }

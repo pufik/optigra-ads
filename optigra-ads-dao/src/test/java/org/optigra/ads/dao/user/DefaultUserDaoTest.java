@@ -143,6 +143,29 @@ public class DefaultUserDaoTest {
     }
 
     @Test
+    public void testGetUserByLogin() {
+        // Given
+        long userId = 1;
+        String login = "login";
+        User expected = new User();
+        expected.setId(userId);
+        expected.setLogin(login);
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("login", login);
+        Query<User> query = new Query<User>(User.class, Queries.FIND_USER_BY_LOGIN.getQuery(), parameters);
+
+        when(persistenceManager.executeQuerySingleResult(query)).thenReturn(expected);
+
+        // When
+        User actual = unit.getUserByLogin(login);
+
+        // Then
+        verify(persistenceManager).executeQuerySingleResult(query);
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void testCreateUser() {
         // Given
         Long id = 1L;

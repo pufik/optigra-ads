@@ -5,16 +5,16 @@ import org.optigra.ads.model.user.User;
 
 /**
  * User details service.
- * 
+ *
  * @date Feb 4, 2014
  * @author Iurii Parfeniuk
- * 
+ *
  */
 public interface UserService {
 
 	/**
 	 * Method provides user by his identifier.
-	 * 
+	 *
 	 * @date Feb 4, 2014
 	 * @author Iurii Parfeniuk
 	 * @param userId
@@ -25,7 +25,7 @@ public interface UserService {
 
 	/**
 	 * Method provides user by his login and password.
-	 * 
+	 *
 	 * @date Feb 4, 2014
 	 * @author Iurii Parfeniuk
 	 * @param login
@@ -36,10 +36,18 @@ public interface UserService {
 	 */
 	User getUserByLoginAndPassword(String login, String password);
 
-    /**
-     * 
+	/**
+	 * Method provides user by his login.
+	 * @date Jun 11, 2014
+	 * @param login - user's login
+	 * @return {@link User}
+	 */
+	User getUserByLogin(final String login);
+
+	/**
+     *
      * Method for creating user.
-     * 
+     *
      * @date Feb 13, 2014
      * @author ivanursul
      * @param user User to be saved
