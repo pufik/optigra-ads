@@ -26,6 +26,60 @@
                     </wadl:response>
           </wadl:method>
         </wadl:resource>
+        <wadl:resource path="/authorize/vkontakte/{oauthToken}">
+          <wadl:doc title="Description">VK API authentication</wadl:doc>
+          <wadl:method name="GET" id="vkAuthentication">
+        	<wadl:doc>VK API authentication</wadl:doc>
+        	        <wadl:request>
+                        <wadl:param name="oauthToken" style="template" type="xs:string" required="true">
+                            <wadl:doc>VK OAuth Provider token</wadl:doc>
+                        </wadl:param>
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/authorize/vkontakte/15931b8280774bb9a2b72810e4da00af
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:request>
+        	        <wadl:response status="200">
+                        <wadl:doc title="OK" />
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								{
+								  "id" : 28,
+								  "login" : "12554525691",
+								  "email" : "12525454691",
+								  "fullName" : "Ivanko Ivankiv",
+								  "role" : "USER",
+								  "imageUrl" : null,
+								  "uri" : "/user/28"
+								}
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:response>
+          </wadl:method>
+        </wadl:resource>
+         <wadl:resource path="/authorize/vkontakte">
+          <wadl:doc title="Description">VK API authentication</wadl:doc>
+          <wadl:method name="GET" id="vkAuthenticationFlow">
+        	<wadl:doc>VK API authentication by code</wadl:doc>
+        	        <wadl:request>
+                        <wadl:param name="code" style="query" type="xs:string" required="true">
+                            <wadl:doc>VK OAuth Provider token</wadl:doc>
+                        </wadl:param>
+                        <wadl:representation mediaType="application/json">
+                            <wadl:doc>
+								http://optigra-ads.dev.optigra.org/optigra-ads-rest-api/v1/authorize/vkontakte?code=15931b8280774bb9a2b72810e4da00af
+                            </wadl:doc>
+                        </wadl:representation>
+                    </wadl:request>
+        	        <wadl:response status="302">
+                        <wadl:doc title="Moved Temporarily">
+                        Header value:
+						Location: http://optigra-ads.dev.optigra.org/pablici-my-console
+                        </wadl:doc>
+                    </wadl:response>
+          </wadl:method>
+        </wadl:resource>
         <wadl:resource path="application/{applicationId}">
         <wadl:doc title="Description">Application management methods</wadl:doc>
         	<wadl:method name="GET" id="getApplications">
