@@ -1,5 +1,28 @@
 apply plugin: 'java'
+apply plugin: "environments"
 apply plugin: 'war'
+
+
+buildscript {
+    repositories {
+        flatDir {
+            dirs "${rootProject.projectDir}/gradle/plugins" // Do not forget to fix the path!
+        }
+    }
+    
+    dependencies {
+        classpath group: 'org.gradle.plugins', name: 'gradle-environments-plugin', version: '1.0'
+    }
+}
+
+environments {
+        Main {
+            sourceDir = "../environments/"
+            destinationDir = "./src/main/resources/"
+        	defaultEnvironment = "localhost"
+            dependentTasks = ["eclipse", "processResources"]
+        }
+ }
 
 war {
   archiveName "${baseName}.${extension}" 
