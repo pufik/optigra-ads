@@ -10,7 +10,7 @@
 		http://www.springframework.org/schema/security/spring-security-3.2.xsd
 	">
 	
-	<security:http realm="Optigra Mobile Ad Network" use-expressions="true">
+	<security:http realm="Pablici API" use-expressions="true">
 		<security:http-basic />
 		<!--TODO: Should be changed when  security strategy will be approved -->
 		<security:intercept-url pattern="/v1/authorize/**" method="GET"  access="permitAll"/>

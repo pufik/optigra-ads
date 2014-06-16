@@ -86,5 +86,27 @@
 		<servlet-name>dispatcherServlet</servlet-name>
 		<url-pattern>/v1/*</url-pattern>
 	</servlet-mapping>
+	
+	<!-- Error handling -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/v1/error/404</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>401</error-code>
+		<location>/v1/error/401</location>
+	</error-page>
 
+	<error-page>
+		<error-code>500</error-code>
+		<location>/v1/error/500</location>
+	</error-page>
+	
+	<!-- Default exception handler -->
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/v1/error/500</location>
+	</error-page>
+	
 </web-app>

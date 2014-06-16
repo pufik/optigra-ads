@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 public abstract class BaseController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BaseController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseController.class);
 
     protected static final String REDIRECT = "redirect:";
 
@@ -32,7 +32,7 @@ public abstract class BaseController {
     @ResponseBody
     public MessageResource handleException(final Exception exception) {
 
-        LOG.error("Error during request processing", exception);
+        logger.error("Error during request processing", exception);
 
         MessageResource message = new MessageResource(MessageType.ERROR, exception.getMessage());
 
