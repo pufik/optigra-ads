@@ -33,6 +33,13 @@ apply plugin: 'liquibase'
             username = "postgres"
             password = "postgres"
         }
+        
+        production {
+            url = "jdbc:postgresql://localhost:5432/pablicidb"
+            username = "pabliciuser"
+            password = "pB7g4r!jk~"
+        }
+        
     }
     
     if(project.ext.has('serverName')){
