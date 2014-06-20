@@ -342,4 +342,33 @@ public class DefaultUserFacadeTest {
         // Then
         // Expected exception
     }
+
+    @Test
+    public void testAuthorizeUserByLoginAndPassword() {
+        // Given
+        SocialUser socialUser = new SocialUser();
+        socialUser.setId("1234");
+        socialUser.setName("Cafe BABE");
+        User user = new User();
+        user.setFullName("MUser");
+        UserResource expectedUserResource = new UserResource();
+        expectedUserResource.setFullName("TUser");
+
+        // When
+        String login = "loginValue";
+        String password = "passwordValue";
+        when(userService.getUserByLoginAndPassword(login, password)).thenReturn(user);
+        when(sessionService.createSessionForUser(user)).thenReturn(session);
+
+        when(userConverter.convert(user)).thenReturn(expectedUserResource);
+
+        UserResource actualUserResource = unit.authorizeUserByLoginAndPassword(login, password);
+
+        // Then
+        verify(userService).getUserByLoginAndPassword(login, password);
+        verify(sessionService).createSessionForUser(user);
+        verify(userConverter).convert(user);
+
+        assertEquals(expectedUserResource, actualUserResource);
+    }
 }

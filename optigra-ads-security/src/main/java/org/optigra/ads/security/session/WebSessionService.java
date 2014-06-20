@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.optigra.ads.model.user.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @author Iurii Parfeniuk
  */
 public class WebSessionService implements SessionService {
+
+    private static final Logger logger = LoggerFactory.getLogger(WebSessionService.class);
 
     private User defaultUser;
 
@@ -42,6 +46,8 @@ public class WebSessionService implements SessionService {
 
     @Override
     public Session createSessionForUser(final User user) {
+        logger.info("Create session for user: {}", user);
+
         Authentication authentication = getAuthentication(user);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);

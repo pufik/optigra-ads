@@ -2,6 +2,7 @@ package org.optigra.ads.rest.web.controller;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -67,6 +68,26 @@ public class AuthControllerTest extends AbstractControllerTest {
 
         // Then
         mockMvc.perform(get("/authorize/vkontakte/{token}", token))
+            .andExpect(status().isOk())
+            .andExpect(content().string(response));
+    }
+
+    @Test
+    public void testAuthorizeByLoginAndPassword() throws Exception {
+        // Given
+        UserResource userResource = new UserResource();
+        userResource.setFullName("user mmm");
+        String login = "loginValue";
+        String password = "passwordValue";
+        String response = getJson(userResource, false);
+
+        // When
+        when(userFacade.authorizeUserByLoginAndPassword(login, password)).thenReturn(userResource);
+
+        // Then
+        mockMvc.perform(post("/authorize")
+                .param("login", login)
+                .param("password", password))
             .andExpect(status().isOk())
             .andExpect(content().string(response));
     }

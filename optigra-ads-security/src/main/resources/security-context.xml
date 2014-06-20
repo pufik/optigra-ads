@@ -14,6 +14,7 @@
 		<security:http-basic />
 		<!--TODO: Should be changed when  security strategy will be approved -->
 		<security:intercept-url pattern="/v1/authorize/**" method="GET"  access="permitAll"/>
+		<security:intercept-url pattern="/v1/authorize/**" method="POST"  access="permitAll"/>
 		<security:intercept-url pattern="/v1/user/**" method="POST"  access="permitAll"/>
 		<!-- Device actions are not secured -->
 		<security:intercept-url pattern="/v1/device/**" method="GET"  access="permitAll"/>
@@ -77,4 +78,8 @@
 		<property name="password" value="" />
 		<property name="role" value="ANONYMOUS" />
 	</bean>
+	
+	<!-- Filters -->
+	<bean id="corsFilter" name="corsFilter" class="org.optigra.ads.rest.web.filter.CorsFilter" />
+	
 </beans>

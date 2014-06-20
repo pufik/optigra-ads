@@ -109,6 +109,15 @@ public class DefaultUserFacade implements UserFacade {
     }
 
     @Override
+    public UserResource authorizeUserByLoginAndPassword(final String login, final String password) {
+        User user = userService.getUserByLoginAndPassword(login, password);
+
+        sessionService.createSessionForUser(user);
+
+        return userConverter.convert(user);
+    }
+
+    @Override
     public UserResource authorizeSocialUserByCode(final String accessCode) {
         SocialUser socialUser = socialUserService.getUserByOAuthCode(accessCode);
 
@@ -147,4 +156,5 @@ public class DefaultUserFacade implements UserFacade {
 
         return user;
     }
+
 }

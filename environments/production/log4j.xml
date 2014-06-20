@@ -37,7 +37,7 @@
 	</logger>
 
 	<logger name="org.hibernate">
-		<level value="ERROR" />
+		<level value="INFO" />
 		<appender-ref ref="hibernateFileAppender" />
 	</logger>
 

@@ -62,6 +62,18 @@ public interface UserFacade {
     void deleteUser(Long userId);
 
     /**
+     * Authorize user by login and password
+     *
+     * @date Jun 19, 2014
+     * @param login
+     *            - user's login
+     * @param password
+     *            - user's password
+     * @return {@link UserResource}
+     */
+    UserResource authorizeUserByLoginAndPassword(String login, String password);
+
+    /**
      * Authorize social user by access code
      *
      * @date Jun 11, 2014

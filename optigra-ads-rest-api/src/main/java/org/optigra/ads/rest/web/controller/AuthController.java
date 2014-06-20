@@ -30,6 +30,15 @@ public class AuthController extends BaseController{
     @Resource(name = "configurationService")
     private ConfigurationService configurationService;
 
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public UserResource authorizeByLoginAndPassword(@RequestParam(value = "login") final String login, @RequestParam(value = "password") final String password ) throws IOException {
+
+        logger.info("Authorize user : {}", login);
+
+        return userFacade.authorizeUserByLoginAndPassword(login, password);
+    }
+
     @RequestMapping(value = "/vkontakte", method = RequestMethod.GET)
     public String vkAuthorizeByCode(@RequestParam(value = "code") final String code) throws IOException {
 
